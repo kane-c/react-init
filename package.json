@@ -3,8 +3,22 @@
   "version": "1.0.0",
   "description": "Minimal setup for a React project",
   "scripts": {
+    "start": "babel-node --presets es2015 .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "kane-c",
-  "license": "MIT"
+  "license": "MIT",
+  "babel": {
+    "presets": [
+      "es2015-webpack"
+    ]
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "react": "^15.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-preset-es2015-webpack": "^6.4.2"
+  }
 }
