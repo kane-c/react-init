@@ -10,15 +10,20 @@
   "license": "MIT",
   "babel": {
     "presets": [
-      "es2015-webpack"
+      "es2015-webpack",
+      "react"
     ]
   },
   "dependencies": {
     "express": "^4.14.0",
-    "react": "^15.3.0"
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
-    "babel-preset-es2015-webpack": "^6.4.2"
+    "babel-preset-es2015-webpack": "^6.4.2",
+    "babel-preset-react": "^6.11.1"
   }
 }
