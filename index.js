@@ -7,14 +7,35 @@ import { createStore } from 'redux';
 import createReducer from './reducers';
 import getRoot, { routes } from './common';
 
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 const app = express();
+
+// 8080 is officially assigned as an alternative HTTP port
+// https://www.iana.org/assignments/service-names-port-numbers/
+// service-names-port-numbers.xhtml
 const port = 8080;
 
 app.listen(port, () => {
   console.log(`Server ready: http://localhost:${port}`);
 });
 
-app.use('/static', express.static('build/static'));
+if (process.env.NODE_ENV === 'development') {
+  const config = require('./webpack.config.babel');
+  const webpack = require('webpack');
+  const compiler = webpack(config);
+
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath,
+  }));
+
+  const webpackHotMiddlware = require('webpack-hot-middleware');
+  app.use(webpackHotMiddlware(compiler));
+} else {
+  app.use('/static', express.static('build/static'));
+}
 
 function renderFullPage(html, initialState) {
   return `<!doctype html>
@@ -54,8 +75,7 @@ function handleRender(req, res) {
     } else {
       res.status(404).send('Not found');
     }
-  })
-
+  });
 }
 
 app.use(handleRender);
