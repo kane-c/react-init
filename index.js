@@ -1,4 +1,4 @@
-import Express from 'express';
+import express from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
@@ -7,12 +7,14 @@ import { createStore } from 'redux';
 import createReducer from './reducers';
 import getRoot, { routes } from './common';
 
-const app = Express();
+const app = express();
 const port = 8080;
 
 app.listen(port, () => {
   console.log(`Server ready: http://localhost:${port}`);
 });
+
+app.use('/static', express.static('build/static'));
 
 function renderFullPage(html, initialState) {
   return `<!doctype html>
@@ -24,6 +26,7 @@ function renderFullPage(html, initialState) {
   <body>
     <div id="root">${html}</div>
     <script>window.__INITIAL_STATE__=${JSON.stringify(initialState)}</script>
+    <script src="/static/client.js"></script>
   </body>
 </html>
 `;
