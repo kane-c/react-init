@@ -60,6 +60,15 @@ if (process.env.NODE_ENV === 'development') {
   );
 
   config.plugins.unshift(new webpack.HotModuleReplacementPlugin());
+} else if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
+  config.plugins.push(new webpack.optimize.DedupePlugin());
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin({
+    output: {
+      comments: false
+    },
+    sourceMap: false
+  }));
 }
 
 module.exports = config;
