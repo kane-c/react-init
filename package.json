@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Minimal setup for a React project",
   "scripts": {
-    "build": "npm run clean; webpack",
+    "build": "npm run clean; NODE_ENV=production webpack --progress",
     "clean": "rm -rf build",
     "start": "babel-node .",
     "test": "echo \"Error: no test specified\" && exit 1"
