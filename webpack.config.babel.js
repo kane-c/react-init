@@ -1,6 +1,6 @@
-import path from 'path';
+const path = require('path');
 
-import webpack from 'webpack';
+const webpack = require('webpack');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
