@@ -7,6 +7,7 @@
     "clean": "rm -rf build",
     "lint:eslint": "eslint --ignore-path .gitignore",
     "lint": "npm run eslint -- .",
+    "lint:staged": "lint-staged",
     "start": "babel-node --presets es2015 .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -67,6 +68,10 @@
       ]
     }
   },
+  "lint-staged": {
+    "*.@(js|jsx)": "lint:eslint"
+  },
+  "pre-commit": "lint:staged",
   "dependencies": {
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-react-constant-elements": "^6.9.1",
@@ -94,6 +99,8 @@
     "eslint-plugin-jsx-a11y": "^2.0.1",
     "eslint-plugin-react": "^6.0.0",
     "eventsource-polyfill": "^0.9.6",
+    "lint-staged": "^2.0.3",
+    "pre-commit": "^1.1.3",
     "react-transform-hmr": "^1.0.4",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.2"
