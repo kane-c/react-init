@@ -1,13 +1,13 @@
-import React from 'react';
 import { render } from 'react-dom';
-import { browserHistory, Router } from 'react-router';
 import { createStore } from 'redux';
+import { browserHistory, Router } from 'react-router';
+import React from 'react';
 
 import createReducer from './reducers';
 import getRoot, { routes } from './common';
 
-const initialState = window.__INITIAL_STATE__;
-delete window.__INITIAL_STATE__;
+const initialState = window.INITIAL_STATE;
+delete window.INITIAL_STATE;
 
 const store = createStore(createReducer(), initialState);
 
