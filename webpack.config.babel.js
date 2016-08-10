@@ -7,32 +7,31 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const config = {
   entry: [
     'babel-polyfill',
-    './client.js',
+    './client.jsx',
   ],
   module: {
     loaders: [{
-      test: /\.js$/,
+      test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'babel',
       query: {
-        "env": {
-          "development": {
-            "presets": [
-              "react-hmre",
+        env: {
+          development: {
+            presets: [
+              'react-hmre',
             ],
-            "plugins": [
+            plugins: [
               [
-                "react-transform", {
-                  "transforms": [{
-                      "transform": "react-transform-hmr",
-                      "imports": [
-                        "react",
-                      ],
-                      "locals": [
-                        "module",
-                      ],
-                    },
-                  ],
+                'react-transform', {
+                  transforms: [{
+                    transform: 'react-transform-hmr',
+                    imports: [
+                      'react',
+                    ],
+                    locals: [
+                      'module',
+                    ],
+                  }],
                 },
               ],
             ],
@@ -52,6 +51,9 @@ const config = {
     }),
     new webpack.NoErrorsPlugin(),
   ],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
 };
 
 if (process.env.NODE_ENV === 'development') {
@@ -66,9 +68,9 @@ if (process.env.NODE_ENV === 'development') {
   config.plugins.push(new webpack.optimize.DedupePlugin());
   config.plugins.push(new webpack.optimize.UglifyJsPlugin({
     output: {
-      comments: false
+      comments: false,
     },
-    sourceMap: false
+    sourceMap: false,
   }));
 }
 

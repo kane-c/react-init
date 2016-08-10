@@ -17,26 +17,32 @@ const app = express();
 const port = 8080;
 
 app.listen(port, () => {
-  console.log(`Server ready: http://localhost:${port}`);
+  process.stdout.write(`Server ready: http://localhost:${port}\n`);
 });
 
 if (process.env.NODE_ENV === 'development') {
-  const config = require('./webpack.config.babel');
+  /* eslint-disable global-require, import/no-extraneous-dependencies */
   const webpack = require('webpack');
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  const webpackHotMiddlware = require('webpack-hot-middleware');
+
+  const config = require('./webpack.config.babel');
+  /* eslint-enable global-require, import/no-extraneous-dependencies */
   const compiler = webpack(config);
 
-  const webpackDevMiddleware = require('webpack-dev-middleware');
   app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath,
   }));
 
-  const webpackHotMiddlware = require('webpack-hot-middleware');
   app.use(webpackHotMiddlware(compiler));
 } else {
   app.use('/static', express.static('build/static'));
 }
 
+/**
+ * Render the full HTML for a page, initialising the Redux state.
+ */
 function renderFullPage(html, initialState) {
   return `<!doctype html>
 <html>
@@ -46,15 +52,21 @@ function renderFullPage(html, initialState) {
   </head>
   <body>
     <div id="root">${html}</div>
-    <script>window.__INITIAL_STATE__=${JSON.stringify(initialState)}</script>
+    <script>window.INITIAL_STATE=${JSON.stringify(initialState)}</script>
     <script src="/static/client.js"></script>
   </body>
 </html>
 `;
 }
 
+/**
+ * Render a response.
+ */
 function handleRender(req, res) {
-  match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+  match({
+    location: req.url,
+    routes,
+  }, (error, redirectLocation, renderProps) => {
     if (error) {
       res.status(500).send(error.message);
     } else if (redirectLocation) {
