@@ -5,16 +5,21 @@
   "scripts": {
     "build": "npm run clean; NODE_ENV=production webpack --progress",
     "clean": "rm -rf build",
-    "start": "babel-node .",
     "lint:eslint": "eslint --ignore-path .gitignore",
     "lint": "npm run eslint -- .",
+    "start": "babel-node --presets es2015 .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "kane-c",
   "license": "MIT",
   "babel": {
     "presets": [
-      "es2015",
+      [
+        "es2015",
+        {
+          "modules": false
+        }
+      ],
       "react"
     ],
     "env": {
