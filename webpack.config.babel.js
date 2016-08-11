@@ -1,5 +1,8 @@
 const path = require('path');
 
+const cssnext = require('postcss-cssnext');
+const postcssFocus = require('postcss-focus');
+const postcssReporter = require('postcss-reporter');
 const webpack = require('webpack');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -10,35 +13,46 @@ const config = {
     './client.jsx',
   ],
   module: {
-    loaders: [{
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        env: {
-          development: {
-            presets: [
-              'react-hmre',
-            ],
-            plugins: [
-              [
-                'react-transform', {
-                  transforms: [{
-                    transform: 'react-transform-hmr',
-                    imports: [
-                      'react',
-                    ],
-                    locals: [
-                      'module',
-                    ],
-                  }],
-                },
+    loaders: [
+      {
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          env: {
+            development: {
+              presets: [
+                'react-hmre',
               ],
-            ],
+              plugins: [
+                [
+                  'react-transform', {
+                    transforms: [{
+                      transform: 'react-transform-hmr',
+                      imports: [
+                        'react',
+                      ],
+                      locals: [
+                        'module',
+                      ],
+                    }],
+                  },
+                ],
+              ],
+            },
           },
         },
+        test: /\.jsx?$/,
       },
-    }],
+      {
+        exclude: /node_modules/,
+        test: /\.css$/,
+      },
+      {
+        include: /node_modules/,
+        loaders: ['style', 'css'],
+        test: /\.css$/,
+      },
+    ],
   },
   output: {
     filename: 'client.js',
@@ -51,6 +65,15 @@ const config = {
     }),
     new webpack.NoErrorsPlugin(),
   ],
+  postcss: [
+    postcssFocus(),
+    cssnext({
+      browsers: ['last 2 versions', 'IE > 8'],
+    }),
+    postcssReporter({
+      clearMessages: true,
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -61,9 +84,14 @@ if (process.env.NODE_ENV === 'development') {
     'eventsource-polyfill', // IE polyfill
     'webpack-hot-middleware/client'
   );
+  // loaders[1] = our app's css
+  config.module.loaders[1].loader = 'style-loader!css-loader?' +
+    'localIdentName=[local]__[path][name]__[hash:base64:5]&modules&' +
+    'importLoaders=1&sourceMap!postcss-loader';
 
   config.plugins.unshift(new webpack.HotModuleReplacementPlugin());
 } else if (process.env.NODE_ENV === 'production') {
+  // Production performance optimizations
   config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
   config.plugins.push(new webpack.optimize.DedupePlugin());
   config.plugins.push(new webpack.optimize.UglifyJsPlugin({
@@ -72,6 +100,17 @@ if (process.env.NODE_ENV === 'development') {
     },
     sourceMap: false,
   }));
+
+  // CSS
+  /* eslint-disable global-require */
+  const ExtractTextPlugin = require('extract-text-webpack-plugin');
+  /* eslint-enable global-require */
+
+  config.module.loaders[1].loader = ExtractTextPlugin.extract({
+    fallbackLoader: 'style',
+    loader: 'css?modules&-autoprefixer&importLoaders=1!postcss',
+  });
+  config.plugins.push(new ExtractTextPlugin('[name].css'));
 }
 
 module.exports = config;
