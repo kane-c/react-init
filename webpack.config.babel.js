@@ -5,7 +5,11 @@ const postcssFocus = require('postcss-focus');
 const postcssReporter = require('postcss-reporter');
 const webpack = require('webpack');
 
+const manifest = process.env.BUILDING_DLL
+  ? [] : require('./build/manifest.json');
+
 const config = {
+  cache: process.env.NODE_ENV === 'development',
   entry: [
     'babel-polyfill',
     './client.jsx',
@@ -16,6 +20,7 @@ const config = {
         exclude: /node_modules/,
         loader: 'babel',
         query: {
+          cacheDirectory: process.env.NODE_ENV === 'development',
           env: {
             development: {
               presets: [
@@ -49,6 +54,10 @@ const config = {
         include: /node_modules/,
         loaders: ['style', 'css'],
         test: /\.css$/,
+      },
+      {
+        test: /\.json$/,
+        loader: 'json',
       },
     ],
   },
@@ -101,19 +110,27 @@ if (process.env.NODE_ENV === 'development') {
 
     // loaders[1] = our app's css
     config.module.loaders[1].loader = `style!${cssLoader}`;
+
+    config.plugins.push(new webpack.DllReferencePlugin({
+      context: '.',
+      manifest,
+    }));
+    config.profile = true;
   }
 
   config.plugins.unshift(new webpack.HotModuleReplacementPlugin());
 } else if (process.env.NODE_ENV === 'production') {
   // Production performance optimizations
-  config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
-  config.plugins.push(new webpack.optimize.DedupePlugin());
-  config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    output: {
-      comments: false,
-    },
-    sourceMap: false,
-  }));
+  config.plugins.push(
+    new webpack.optimize.OccurrenceOrderPlugin(true),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      output: {
+        comments: false,
+      },
+      sourceMap: false,
+    })
+  );
 
   // CSS
   /* eslint-disable global-require */
