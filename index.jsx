@@ -48,6 +48,9 @@ function renderFullPage(html, initialState) {
   const css = `<link href="/static/main.css" rel="stylesheet"${
     process.env.NODE_ENV === 'development' ? ' id="main-css"' : ''} />`;
 
+  const dll = process.env.NODE_ENV === 'development' ?
+    '<script src="/static/dll.js"></script>' : '';
+
   return `<!doctype html>
 <html>
   <head>
@@ -58,6 +61,7 @@ function renderFullPage(html, initialState) {
   <body>
     <div id="root">${html}</div>
     <script>window.INITIAL_STATE=${JSON.stringify(initialState)}</script>
+    ${dll}
     <script src="/static/client.js"></script>
   </body>
 </html>
