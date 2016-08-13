@@ -7,8 +7,6 @@ import { createStore } from 'redux';
 import createReducer from './reducers';
 import getRoot, { routes } from './common';
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
 const app = express();
 
 // 8080 is officially assigned as an alternative HTTP port
@@ -36,19 +34,26 @@ if (process.env.NODE_ENV === 'development') {
   }));
 
   app.use(webpackHotMiddlware(compiler));
-} else {
-  app.use('/static', express.static('build/static'));
 }
+
+app.use('/static', express.static('build/static'));
 
 /**
  * Render the full HTML for a page, initialising the Redux state.
  */
 function renderFullPage(html, initialState) {
+  // Add an ID attribute in development mode so it can be deleted on page load.
+  // The ensures CSS is present on the page for users without JS, but allows
+  // reloading and dynamic styles for those with JS enabled
+  const css = `<link href="/static/main.css" rel="stylesheet"${
+    process.env.NODE_ENV === 'development' ? ' id="main-css"' : ''} />`;
+
   return `<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
     <title>Redux Universal Example</title>
+    ${css}
   </head>
   <body>
     <div id="root">${html}</div>
