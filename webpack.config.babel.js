@@ -5,8 +5,6 @@ const postcssFocus = require('postcss-focus');
 const postcssReporter = require('postcss-reporter');
 const webpack = require('webpack');
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
 const config = {
   entry: [
     'babel-polyfill',
@@ -80,14 +78,28 @@ const config = {
 };
 
 if (process.env.NODE_ENV === 'development') {
-  config.entry.unshift(
-    'eventsource-polyfill', // IE polyfill
-    'webpack-hot-middleware/client'
-  );
-  // loaders[1] = our app's css
-  config.module.loaders[1].loader = 'style-loader!css-loader?' +
-    'localIdentName=[local]__[path][name]__[hash:base64:5]&modules&' +
-    'importLoaders=1&sourceMap!postcss-loader';
+  const cssLoader = 'css?modules&importLoaders=1&sourceMap&' +
+    'localIdentName=[local]__[path][name]__[hash:base64:5]!postcss';
+
+  if (process.env.APP_ENV === 'server') {
+    /* eslint-disable global-require */
+    const ExtractTextPlugin = require('extract-text-webpack-plugin');
+    /* eslint-enable global-require */
+
+    config.module.loaders[1].loader = ExtractTextPlugin.extract({
+      fallbackLoader: 'style',
+      loader: cssLoader,
+    });
+    config.plugins.push(new ExtractTextPlugin('static/[name].css'));
+  } else {
+    config.entry.unshift(
+      'eventsource-polyfill', // IE polyfill
+      'webpack-hot-middleware/client'
+    );
+
+    // loaders[1] = our app's css
+    config.module.loaders[1].loader = `style!${cssLoader}`;
+  }
 
   config.plugins.unshift(new webpack.HotModuleReplacementPlugin());
 } else if (process.env.NODE_ENV === 'production') {

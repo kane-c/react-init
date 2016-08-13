@@ -9,6 +9,11 @@ import getRoot, { routes } from './common';
 const initialState = window.INITIAL_STATE;
 delete window.INITIAL_STATE;
 
+// Prefer using JS generated CSS during development
+if (process.env.NODE_ENV === 'development') {
+  document.getElementById('main-css').remove();
+}
+
 const store = createStore(createReducer(), initialState);
 
 const router = (
