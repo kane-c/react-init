@@ -78,6 +78,8 @@ const config = {
 };
 
 if (process.env.NODE_ENV === 'development') {
+  config.devtool = 'eval-source-map';
+
   const cssLoader = 'css?modules&importLoaders=1&sourceMap&' +
     'localIdentName=[local]__[path][name]__[hash:base64:5]!postcss';
 
