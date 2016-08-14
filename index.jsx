@@ -33,6 +33,13 @@ if (process.env.NODE_ENV === 'development') {
   }));
 
   app.use(webpackHotMiddlware(compiler));
+} else {
+  // Gzip in production
+  /* eslint-disable global-require */
+  const compression = require('compression');
+  /* eslint-enable global-require */
+
+  app.use(compression());
 }
 
 app.use('/static', express.static('build/static'));
