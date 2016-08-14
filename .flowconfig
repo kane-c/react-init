@@ -1,0 +1,4 @@
+[ignore]
+.*/node_modules/batchflow/.*
+.*/node_modules/fbjs/.*
+.*/node_modules/react-side-effect/.*
