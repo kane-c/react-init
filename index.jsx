@@ -1,4 +1,5 @@
 import express from 'express';
+import Helmet from 'react-helmet';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
@@ -41,7 +42,7 @@ app.use('/static', express.static('build/static'));
 /**
  * Render the full HTML for a page, initialising the Redux state.
  */
-function renderFullPage(html, initialState) {
+function renderFullPage(html, initialState, head) {
   // Add an ID attribute in development mode so it can be deleted on page load.
   // The ensures CSS is present on the page for users without JS, but allows
   // reloading and dynamic styles for those with JS enabled
@@ -55,8 +56,10 @@ function renderFullPage(html, initialState) {
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Redux Universal Example</title>
+    ${head.title.toString()}
+    ${head.meta.toString()}
     ${css}
+    ${head.link.toString()}
   </head>
   <body>
     <div id="root">${html}</div>
@@ -89,10 +92,10 @@ function handleRender(req, res) {
       const routerContext = <RouterContext {...renderProps} />;
 
       const html = renderToString(getRoot(store, routerContext));
-
+      const head = Helmet.rewind();
       const initialState = store.getState();
 
-      res.status(200).send(renderFullPage(html, initialState));
+      res.status(200).send(renderFullPage(html, initialState, head));
     } else {
       res.status(404).send('Not found');
     }
