@@ -1,3 +1,4 @@
+import { routerReducer } from 'react-router-redux';
 import { combineReducers } from 'redux';
 
 import globalReducer from './containers/App/reducer';
@@ -8,5 +9,6 @@ import globalReducer from './containers/App/reducer';
 export default function createReducer() {
   return combineReducers({
     global: globalReducer,
+    routing: routerReducer,
   });
 }

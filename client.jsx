@@ -1,10 +1,9 @@
 import { render } from 'react-dom';
-import { createStore } from 'redux';
 import { browserHistory, Router } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 import React from 'react';
 
-import createReducer from './reducers';
-import getRoot, { routes } from './common';
+import { getRoot, getStore, routes } from './common';
 
 const initialState = window.INITIAL_STATE;
 delete window.INITIAL_STATE;
@@ -18,10 +17,11 @@ if (process.env.NODE_ENV === 'development') {
   devTools = window.devToolsExtension && window.devToolsExtension();
 }
 
-const store = createStore(createReducer(), initialState, devTools);
+const store = getStore(initialState, devTools);
+const history = syncHistoryWithStore(browserHistory, store);
 
 const router = (
-  <Router history={browserHistory}>
+  <Router history={history}>
     {routes}
   </Router>
 );
