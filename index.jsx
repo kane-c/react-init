@@ -3,10 +3,8 @@ import Helmet from 'react-helmet';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
-import { createStore } from 'redux';
 
-import createReducer from './reducers';
-import getRoot, { routes } from './common';
+import { getRoot, getStore, routes } from './common';
 
 const app = express();
 
@@ -87,7 +85,7 @@ function handleRender(req, res) {
       // You can also check renderProps.components or renderProps.routes for
       // your "not found" component or route respectively, and send a 404 as
       // below, if you're using a catch-all route.
-      const store = createStore(createReducer());
+      const store = getStore();
 
       const routerContext = <RouterContext {...renderProps} />;
 
