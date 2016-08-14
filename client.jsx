@@ -9,12 +9,16 @@ import getRoot, { routes } from './common';
 const initialState = window.INITIAL_STATE;
 delete window.INITIAL_STATE;
 
-// Prefer using JS generated CSS during development
+let devTools;
+
 if (process.env.NODE_ENV === 'development') {
+  // Prefer using JS generated CSS during development
   document.getElementById('main-css').remove();
+
+  devTools = window.devToolsExtension && window.devToolsExtension();
 }
 
-const store = createStore(createReducer(), initialState);
+const store = createStore(createReducer(), initialState, devTools);
 
 const router = (
   <Router history={browserHistory}>
