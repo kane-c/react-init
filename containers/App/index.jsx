@@ -1,3 +1,4 @@
+import Helmet from 'react-helmet';
 import React from 'react';
 import { Link } from 'react-router';
 
@@ -7,6 +8,7 @@ import { Link } from 'react-router';
 export default function App({ children }) {
   return (
     <div className="container">
+      <Helmet titleTemplate="%s - My Title" />
       {children}
       <Link to="/">Home</Link>
       <Link to="/about">About</Link>

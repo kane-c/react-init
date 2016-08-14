@@ -11,6 +11,7 @@ config.entry = [
   'lodash', // Not used directly but keeps the bundle lean
   'react',
   'react-dom',
+  'react-helmet',
   'react-proxy', // Not used directly but keeps the bundle lean
   'react-redux',
   'react-router',
