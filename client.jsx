@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable';
 import { render } from 'react-dom';
 import { browserHistory, Router } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -5,7 +6,7 @@ import React from 'react';
 
 import { getRoot, getStore, routes } from './common';
 
-const initialState = window.INITIAL_STATE;
+const initialState = fromJS(window.INITIAL_STATE);
 delete window.INITIAL_STATE;
 
 let devTools;
@@ -18,7 +19,11 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const store = getStore(initialState, devTools);
-const history = syncHistoryWithStore(browserHistory, store);
+const history = syncHistoryWithStore(browserHistory, store, {
+  selectLocationState(state) {
+    return state.get('routing').toJS();
+  },
+});
 
 const router = (
   <Router history={history}>

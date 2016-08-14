@@ -16,6 +16,8 @@ config.entry = [
   'react-redux',
   'react-router',
   'redux',
+  'react-router-redux',
+  'redux-immutable',
 ];
 
 config.output.filename = 'dll.js';
