@@ -5,8 +5,13 @@ const postcssFocus = require('postcss-focus');
 const postcssReporter = require('postcss-reporter');
 const webpack = require('webpack');
 
-const manifest = process.env.BUILDING_DLL
-  ? [] : require('./build/manifest.json');
+let manifest;
+
+if (process.env.BUILDING_DLL || process.env.NODE_ENV !== 'development') {
+  manifest = [];
+} else {
+  manifest = require('./build/manifest.json'); // eslint-disable-line max-len, global-require
+}
 
 const config = {
   cache: process.env.NODE_ENV === 'development',
