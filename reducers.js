@@ -2,8 +2,6 @@ import { fromJS } from 'immutable';
 import { combineReducers } from 'redux-immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-import globalReducer from './containers/App/reducer';
-
 const routingInitialState = fromJS({
   locationBeforeTransitions: null,
 });
@@ -26,9 +24,9 @@ function routingReducer(state = routingInitialState, action) {
 /**
  * Root reducer function.
  */
-export default function createReducer() {
+export default function createReducer(asyncReducers) {
   return combineReducers({
     routing: routingReducer,
-    global: globalReducer,
+    ...asyncReducers,
   });
 }

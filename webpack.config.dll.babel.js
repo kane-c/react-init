@@ -15,9 +15,11 @@ config.entry = [
   'react-proxy', // Not used directly but keeps the bundle lean
   'react-redux',
   'react-router',
-  'redux',
   'react-router-redux',
+  'redux',
+  'redux-saga',
   'redux-immutable',
+  'reselect',
 ];
 
 config.output.filename = 'dll.js';

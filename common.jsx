@@ -1,19 +1,37 @@
 import { IndexRoute, Route } from 'react-router';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import React from 'react';
+import createSagaMiddleware from 'redux-saga';
 
 import createReducer from './reducers';
 import About from './components/About';
 import App from './containers/App';
-import Home from './components/Home';
+import Home from './containers/Home';
+import HomeSagas from './containers/Home/sagas';
+import homeReducer from './containers/Home/reducer';
 
-export const routes = (
-  <Route component={App} path="/">
-    <IndexRoute component={Home} />
-    <Route component={About} path="about" />
-  </Route>
-);
+const sagas = [
+  ...HomeSagas,
+];
+
+const reducers = {
+  home: homeReducer,
+};
+
+/**
+ * Get the routes for the app.
+ */
+export function getRoutes() {
+  return (
+    <Route component={App} path="/">
+      <IndexRoute component={Home} />
+      <Route component={About} path="about" />
+    </Route>
+  );
+}
+
+const sagaMiddleware = createSagaMiddleware();
 
 /**
  * Get a store instance.
@@ -21,8 +39,37 @@ export const routes = (
  * @param {object} [initialState]
  * @param {object} [devTools]
  */
-export function getStore(initialState, devTools) {
-  return createStore(createReducer(), initialState, devTools);
+export function getStore(initialState, routerMiddleware, devTools) {
+  let middleware = [sagaMiddleware];
+  if (routerMiddleware) {
+    middleware.push(routerMiddleware);
+  }
+
+  middleware = applyMiddleware(...middleware);
+
+  if (devTools) {
+    middleware = compose(middleware, devTools);
+  }
+
+  const store = createStore(createReducer(reducers), initialState,
+    middleware);
+
+  sagas.map(sagaMiddleware.run);
+
+  // Make reducers hot reloadable
+  /* istanbul ignore next */
+  if (module.hot) {
+    module.hot.accept('./reducers', () => {
+      System.import('./reducers').then((reducerModule) => {
+        const createReducers = reducerModule.default;
+        const nextReducers = createReducers(reducers);
+
+        store.replaceReducer(nextReducers);
+      });
+    });
+  }
+
+  return store;
 }
 
 /**
