@@ -6,16 +6,17 @@
     "build": "npm run clean; npm run build:client:prod && npm run build:server:prod",
     "build:client:prod": "NODE_ENV=production webpack -p --progress",
     "build:dll": "BUILDING_DLL=true NODE_ENV=developement webpack --progress --config webpack.config.dll.babel.js",
-    "build:server": "NODE_ENV=development webpack --progress --config webpack.config.server.babel.js",
-    "build:server:prod": "NODE_ENV=production webpack -p --progress --config webpack.config.server.babel.js",
+    "build:server": "APP_ENV=server NODE_ENV=development webpack --progress --config webpack.config.server.babel.js",
+    "build:server:prod": "APP_ENV=server NODE_ENV=production webpack -p --progress --config webpack.config.server.babel.js",
     "clean": "rm -rf build",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "lint": "npm run lint:css && npm run lint:js",
     "lint:css": "stylelint --ignore-path .gitignore **/*.css",
-    "lint:eslint": "eslint --ignore-path .gitignore",
-    "lint:js": "npm run eslint -- .",
+    "lint:eslint": "eslint --ext=js --ext=jsx --ignore-path .gitignore",
+    "lint:js": "npm run lint:eslint -- .",
     "lint:staged": "lint-staged",
-    "start": "APP_ENV=server npm run build:server && node build/server",
+    "start": "npm run build:server && node build/server",
+    "start:prod": "npn run build:client:prod && npm run build:server:prod && node build/server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "kane-c",
@@ -79,7 +80,7 @@
     }
   },
   "lint-staged": {
-    "*.css": "stylint",
+    "*.css": "stylelint",
     "*.@(js|jsx)": "lint:eslint"
   },
   "pre-commit": "lint:staged",
