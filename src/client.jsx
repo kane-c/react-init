@@ -6,8 +6,8 @@ import React from 'react';
 
 import { getRoot, getRoutes, getStore } from './common';
 
-const initialState = fromJS(window.INITIAL_STATE);
-delete window.INITIAL_STATE;
+const preloadedState = fromJS(window.PRELOADED_STATE);
+delete window.PRELOADED_STATE;
 
 let devTools;
 
@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'development') {
   devTools = window.devToolsExtension && window.devToolsExtension();
 }
 
-const store = getStore(initialState, routerMiddleware(browserHistory),
+const store = getStore(preloadedState, routerMiddleware(browserHistory),
   devTools);
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState(state) {

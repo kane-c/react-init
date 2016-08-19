@@ -47,7 +47,7 @@ app.use('/static', express.static('build/static'));
 /**
  * Render the full HTML for a page, initialising the Redux state.
  */
-function renderFullPage(html, initialState, head) {
+function renderFullPage(html, preloadedState, head) {
   // Add an ID attribute in development mode so it can be deleted on page load.
   // The ensures CSS is present on the page for users without JS, but allows
   // reloading and dynamic styles for those with JS enabled
@@ -68,7 +68,7 @@ function renderFullPage(html, initialState, head) {
   </head>
   <body>
     <div id="root">${html}</div>
-    <script>window.INITIAL_STATE=${JSON.stringify(initialState)}</script>
+    <script>window.PRELOADED_STATE=${JSON.stringify(preloadedState)}</script>
     ${dll}
     <script src="/static/client.js"></script>
   </body>
@@ -98,9 +98,9 @@ function handleRender(req, res) {
 
       const html = renderToString(getRoot(store, routerContext));
       const head = Helmet.rewind();
-      const initialState = store.getState();
+      const preloadedState = store.getState();
 
-      res.status(200).send(renderFullPage(html, initialState, head));
+      res.status(200).send(renderFullPage(html, preloadedState, head));
     } else {
       res.status(404).send('Not found');
     }
