@@ -17,7 +17,7 @@ const config = {
   cache: process.env.NODE_ENV === 'development',
   entry: [
     'babel-polyfill',
-    './client.jsx',
+    './src/client.jsx',
   ],
   module: {
     loaders: [
@@ -124,6 +124,22 @@ if (process.env.NODE_ENV === 'development') {
   }
 
   config.plugins.unshift(new webpack.HotModuleReplacementPlugin());
+} else if (process.env.NODE_ENV === 'test') {
+  config.externals = {
+    'react/addons': true,
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': 'window',
+  };
+  // Null CSS loader
+  config.module.loaders[1].loader = 'null-loader';
+
+  config.node = {
+    fs: 'empty',
+    net: 'empty',
+  };
+
+  // `.json` is required for `chai-enzyme`
+  config.resolve.extensions.push('.json');
 } else if (process.env.NODE_ENV === 'production') {
   // Production performance optimizations
   config.plugins.push(
