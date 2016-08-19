@@ -10,7 +10,13 @@ let manifest;
 if (process.env.BUILDING_DLL || process.env.NODE_ENV !== 'development') {
   manifest = [];
 } else {
-  manifest = require('./build/manifest.json'); // eslint-disable-line max-len, global-require
+  try {
+    manifest = require('./build/manifest.json'); // eslint-disable-line max-len, global-require, import/no-unresolved
+  } catch (ex) {
+    process.stderr.write('Could not load DLL manifest. ' +
+                         'Did you `npm run build:dll`?\n');
+    process.exit(1);
+  }
 }
 
 const config = {
@@ -69,7 +75,7 @@ const config = {
   output: {
     filename: 'client.js',
     path: path.resolve('./build/static'),
-    publicPath: '/static',
+    publicPath: '/static/',
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -120,7 +126,6 @@ if (process.env.NODE_ENV === 'development') {
       context: '.',
       manifest,
     }));
-    config.profile = true;
   }
 
   config.plugins.unshift(new webpack.HotModuleReplacementPlugin());

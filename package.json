@@ -16,7 +16,7 @@
     "lint:js": "npm run lint:eslint -- .",
     "lint:staged": "lint-staged",
     "start": "npm run build:server && node build/server",
-    "start:prod": "npn run build:client:prod && npm run build:server:prod && node build/server",
+    "start:prod": "npm run build:client:prod && npm run build:server:prod && node build/server",
     "test": "rm -rf coverage; NODE_ENV=test karma start"
   },
   "author": "kane-c",
@@ -45,7 +45,7 @@
       },
       "test": {
         "plugins": [
-           "istanbul"
+          "istanbul"
         ]
       }
     }
