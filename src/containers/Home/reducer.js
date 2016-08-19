@@ -14,7 +14,7 @@ const initialState = fromJS({
 export default function homeReducer(state = initialState, action) {
   switch (action.type) {
     case REPOS_LOADED:
-      return state.set('repos', action.repos);
+      return state.set('repos', fromJS(action.repos));
     default:
       return state;
   }

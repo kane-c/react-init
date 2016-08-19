@@ -1,6 +1,7 @@
 import Helmet from 'react-helmet';
 import React from 'react';
 import { connect } from 'react-redux';
+import { List } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 
 import { loadRepos } from './actions';
@@ -12,7 +13,7 @@ import { selectRepos } from './selectors';
 export class Home extends React.Component { // eslint-disable-line max-len, react/prefer-stateless-function
   static propTypes = {
     onSubmit: React.PropTypes.func,
-    repos: React.PropTypes.array.isRequired,
+    repos: React.PropTypes.instanceOf(List).isRequired,
   };
 
   /**
