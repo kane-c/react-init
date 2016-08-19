@@ -18,13 +18,13 @@ app.listen(port, () => {
 });
 
 if (process.env.NODE_ENV === 'development') {
-  /* eslint-disable global-require, import/no-extraneous-dependencies */
+  /* eslint-disable global-require */
   const webpack = require('webpack');
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddlware = require('webpack-hot-middleware');
 
-  const config = require('./webpack.config.babel');
-  /* eslint-enable global-require, import/no-extraneous-dependencies */
+  const config = require('../webpack.config.babel');
+  /* eslint-enable global-require */
   const compiler = webpack(config);
 
   app.use(webpackDevMiddleware(compiler, {
