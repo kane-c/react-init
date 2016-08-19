@@ -63,12 +63,15 @@ const config = {
       },
       {
         include: /node_modules/,
-        loaders: ['style', 'css'],
         test: /\.css$/,
       },
       {
         test: /\.json$/,
         loader: 'json',
+      },
+      {
+        test: /\.(?:eot|gif|jpe?g|otf|png|svg|ttf|woff2?)(\?[a-z0-9=#&.]+)?$/,
+        loader: 'file?name=[name].[ext]',
       },
     ],
   },
@@ -112,7 +115,11 @@ if (process.env.NODE_ENV === 'development') {
       fallbackLoader: 'style',
       loader: cssLoader,
     });
-    config.plugins.push(new ExtractTextPlugin('static/[name].css'));
+    config.module.loaders[2].loader = ExtractTextPlugin.extract({
+      fallbackLoader: 'style',
+      loader: 'css',
+    });
+    config.plugins.push(new ExtractTextPlugin('[name].css'));
   } else {
     config.entry.unshift(
       'eventsource-polyfill', // IE polyfill
@@ -121,6 +128,7 @@ if (process.env.NODE_ENV === 'development') {
 
     // loaders[1] = our app's css
     config.module.loaders[1].loader = `style!${cssLoader}`;
+    config.module.loaders[2].loader = 'style!css';
 
     config.plugins.push(new webpack.DllReferencePlugin({
       context: '.',
@@ -166,6 +174,10 @@ if (process.env.NODE_ENV === 'development') {
   config.module.loaders[1].loader = ExtractTextPlugin.extract({
     fallbackLoader: 'style',
     loader: 'css?modules&-autoprefixer&importLoaders=1!postcss',
+  });
+  config.module.loaders[2].loader = ExtractTextPlugin.extract({
+    fallbackLoader: 'style',
+    loader: `css?${JSON.stringify({ discardComments: { removeAll: true } })}`,
   });
   config.plugins.push(new ExtractTextPlugin('[name].css'));
 }
