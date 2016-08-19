@@ -1,4 +1,5 @@
 import Helmet from 'react-helmet';
+import Icon from 'react-fontawesome';
 import React from 'react';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
@@ -24,6 +25,7 @@ export class Home extends React.Component { // eslint-disable-line max-len, reac
       <form onSubmit={this.props.onSubmit}>
         <Helmet title="Home" />
         <h1>Home</h1>
+        <Icon name="home" />&nbsp;
         <input name="username" />
         <ul>
           {this.props.repos.map((repo, i) => <li key={i}>{repo}</li>)}

@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, createStore, compose } from 'redux';
 import React from 'react';
 import createSagaMiddleware from 'redux-saga';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'font-awesome/css/font-awesome.css';
 
 import createReducer from './reducers';
 import About from './components/About';
