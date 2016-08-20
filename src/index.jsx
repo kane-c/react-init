@@ -19,6 +19,7 @@ app.listen(port, () => {
 
 if (process.env.NODE_ENV === 'development') {
   /* eslint-disable global-require */
+  const DashboardPlugin = require('webpack-dashboard/plugin');
   const webpack = require('webpack');
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddlware = require('webpack-hot-middleware');
@@ -26,6 +27,8 @@ if (process.env.NODE_ENV === 'development') {
   const config = require('../webpack.config.babel');
   /* eslint-enable global-require */
   const compiler = webpack(config);
+
+  compiler.apply(new DashboardPlugin());
 
   app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
