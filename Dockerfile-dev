@@ -1,0 +1,20 @@
+FROM node:7-slim
+
+CMD ["npm", "start"]
+EXPOSE 8080
+WORKDIR /app
+
+ENV \
+  # The official Docker image sets this to `info` which is far too verbose
+  NPM_CONFIG_LOGLEVEL=warn \
+  NODE_ENV=production \
+  PATH="/app/node_modules/.bin:${PATH}"
+
+# git is required for the pre-commit hook
+RUN set -ex \
+  && apt-get update && apt-get install -y --no-install-recommends git \
+  && rm -rf /var/lib/apt/lists/*
+
+# Need to run as non-root to be able to `npm install` without error with
+# mounted volumes
+USER node

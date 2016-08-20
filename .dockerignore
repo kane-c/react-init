@@ -1,0 +1,13 @@
+*.md
+.dockerignore
+.editorconfig
+.git
+.gitignore
+build
+coverage
+Dockerfile
+Dockerfile-dev
+docker-compose.yml
+generators
+node_modules
+webpack.config.dll.babel.js
