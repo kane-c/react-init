@@ -1,0 +1,13 @@
+.DS_Store
+.dockerignore
+.editorconfig
+.gitignore
+.idea
+build
+coverage
+Dockerfile
+docker-compose.yml
+README.md
+node_modules
+npm-debug.log
+webpack.config.dll.babel.js
