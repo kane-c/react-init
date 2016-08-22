@@ -17,6 +17,7 @@
     "lint:staged": "lint-staged",
     "start": "[ -f build/static/dll.js ] || npm run build:dll; npm run build:server && webpack-dashboard -- node build/server",
     "start:prod": "npm run build:client:prod && npm run build:server:prod && node build/server",
+    "storybook": "start-storybook -p 8081",
     "test": "rm -rf coverage; NODE_ENV=test karma start"
   },
   "author": "kane-c",
@@ -151,6 +152,7 @@
     "webpack": "^2.1.0-beta.20"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.3.0",
     "babel-cli": "^6.11.4",
     "babel-eslint": "^6.1.2",
     "babel-plugin-istanbul": "^2.0.0",
