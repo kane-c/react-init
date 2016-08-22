@@ -15,7 +15,7 @@
     "lint:eslint": "eslint --ext=js --ext=jsx --ignore-path .gitignore",
     "lint:js": "npm run lint:eslint -- .",
     "lint:staged": "lint-staged",
-    "start": "npm run build:server && webpack-dashboard -- node build/server",
+    "start": "[ -f build/static/dll.js ] || npm run build:dll; npm run build:server && webpack-dashboard -- node build/server",
     "start:prod": "npm run build:client:prod && npm run build:server:prod && node build/server",
     "test": "rm -rf coverage; NODE_ENV=test karma start"
   },
@@ -112,6 +112,7 @@
     }
   },
   "dependencies": {
+    "assets-webpack-plugin": "^3.4.0",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-flow-strip-types": "^6.8.0",
     "babel-plugin-transform-react-constant-elements": "^6.9.1",

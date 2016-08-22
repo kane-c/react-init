@@ -104,7 +104,7 @@ if (process.env.NODE_ENV === 'development') {
   config.devtool = 'eval-source-map';
 
   const cssLoader = 'css?modules&importLoaders=1&sourceMap&' +
-    'localIdentName=[local]__[path][name]__[hash:base64:5]!postcss';
+    'localIdentName=[local]--[path][name]--[sha256:hash:hex:7]!postcss';
 
   if (process.env.APP_ENV === 'server') {
     /* eslint-disable global-require */
@@ -173,13 +173,33 @@ if (process.env.NODE_ENV === 'development') {
 
   config.module.loaders[1].loader = ExtractTextPlugin.extract({
     fallbackLoader: 'style',
-    loader: 'css?modules&-autoprefixer&importLoaders=1!postcss',
+    loader: 'css?modules&-autoprefixer&importLoaders=1&' +
+      'localIdentName=[sha256:hash:hex:7]!postcss',
   });
   config.module.loaders[2].loader = ExtractTextPlugin.extract({
     fallbackLoader: 'style',
     loader: `css?${JSON.stringify({ discardComments: { removeAll: true } })}`,
   });
-  config.plugins.push(new ExtractTextPlugin('[name].css'));
+  config.module.loaders[4].loader =
+    'file?name=[name].[sha256:hash:hex:7].[ext]';
+  config.plugins.push(
+    new ExtractTextPlugin('[name].[sha256:contenthash:hex:7].css')
+  );
+
+  config.output.filename = 'client.[chunkhash:7].js';
+
+  if (process.env.APP_ENV !== 'server') {
+    /* eslint-disable global-require */
+    const AssetsPlugin = require('assets-webpack-plugin');
+    /* eslint-enable global-require */
+
+    // Don't emit static files during the client build; only during the server
+    // build. This prevents writing the assets twice
+    config.module.loaders[4].loader += '&emitFile=false';
+    config.plugins.push(new AssetsPlugin({
+      filename: 'build/assets.json',
+    }));
+  }
 }
 
 module.exports = config;

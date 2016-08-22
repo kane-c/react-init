@@ -47,14 +47,29 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/static', express.static('build/static'));
 
+let assets;
+
+if (process.env.NODE_ENV === 'production') {
+  const fs = require('fs'); // eslint-disable-line global-require
+  // Can't simply use `require` here, as we need the file to not be bundled by
+  // webpack
+  assets = JSON.parse(fs.readFileSync('build/assets.json', 'utf8'));
+} else {
+  assets = {
+    main: {},
+  };
+}
+
 /**
  * Render the full HTML for a page, initialising the Redux state.
  */
 function renderFullPage(html, preloadedState, head) {
+  const cssUrl = assets.main.css || '/static/main.css';
+  const jsUrl = assets.main.js || '/static/client.js';
   // Add an ID attribute in development mode so it can be deleted on page load.
   // The ensures CSS is present on the page for users without JS, but allows
   // reloading and dynamic styles for those with JS enabled
-  const css = `<link href="/static/main.css" rel="stylesheet"${
+  const css = `<link href="${cssUrl}" rel="stylesheet"${
     process.env.NODE_ENV === 'development' ? ' id="main-css"' : ''} />`;
 
   const dll = process.env.NODE_ENV === 'development' ?
@@ -73,7 +88,7 @@ function renderFullPage(html, preloadedState, head) {
     <div id="root">${html}</div>
     <script>window.PRELOADED_STATE=${JSON.stringify(preloadedState)}</script>
     ${dll}
-    <script src="/static/client.js"></script>
+    <script src="${jsUrl}"></script>
   </body>
 </html>
 `;
