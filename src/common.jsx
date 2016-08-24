@@ -23,6 +23,7 @@ const reducers = {
 
 /**
  * Get the routes for the app.
+ * @return {Object} React node
  */
 export function getRoutes() {
   return (
@@ -79,9 +80,9 @@ export function getStore(preloadedState, routerMiddleware, devTools) {
 
 /**
  * Get the root React component.
- *
- * @param {object} store Redux store
- * @param {object} router Router JSX component
+ * @param {Object} store Redux store
+ * @param {Object} router Router JSX component
+ * @return {Object} React node
  */
 export function getRoot(store, router) {
   return (

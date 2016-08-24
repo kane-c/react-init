@@ -62,6 +62,10 @@ if (process.env.NODE_ENV === 'production') {
 
 /**
  * Render the full HTML for a page, initialising the Redux state.
+ * @param {string} html Inner HTML rendered by React
+ * @param {Object} preloadedState Initial Redux store state
+ * @param {Object} head Helmet instance
+ * @return {string} Full page HTML
  */
 function renderFullPage(html, preloadedState, head) {
   const cssUrl = assets.main.css || '/static/main.css';

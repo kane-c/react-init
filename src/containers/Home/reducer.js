@@ -10,6 +10,9 @@ const initialState = fromJS({
 
 /**
  * Home reducer.
+ * @param {Object} [state] Current or initial state
+ * @param {Object} action Redux action
+ * @return {Object} Updated state instance
  */
 export default function homeReducer(state = initialState, action) {
   switch (action.type) {

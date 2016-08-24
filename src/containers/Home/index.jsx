@@ -32,6 +32,7 @@ export class Home extends React.Component { // eslint-disable-line max-len, reac
 
   /**
    * Render the repo list.
+   * @return {Object} React node
    */
   render() {
     return (
@@ -54,6 +55,8 @@ const mapStateToProps = createStructuredSelector({
 
 /**
  * Dispatch the load repos action on submit.
+ * @param {function} dispatch Redux store dispatch function
+ * @return {Object} Map of props
  */
 function mapDispatchToProps(dispatch) {
   return {

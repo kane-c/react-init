@@ -2,6 +2,8 @@ import { LOAD_REPOS, REPOS_LOADED } from './constants';
 
 /**
  * Load repos.
+ * @param {string} username Username to fetch
+ * @return {Object} Redux action
  */
 export function loadRepos(username) {
   return {
@@ -12,6 +14,7 @@ export function loadRepos(username) {
 
 /**
  * Repos are loaded.
+ * @return {Object} Redux action
  */
 export function reposLoaded() {
   return {
@@ -24,6 +27,7 @@ export function reposLoaded() {
 
 /**
  * Error loading repos.
+ * @return {Object} Redux action
  */
 export function repoLoadingError() {
   return {
