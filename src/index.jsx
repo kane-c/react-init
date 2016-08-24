@@ -96,6 +96,9 @@ function renderFullPage(html, preloadedState, head) {
 
 /**
  * Render a response.
+ * @param {Object} req Request
+ * @param {Object} res Response
+ * @return {void}
  */
 function handleRender(req, res) {
   const store = getStore();
@@ -114,11 +117,26 @@ function handleRender(req, res) {
       // below, if you're using a catch-all route.
       const routerContext = <RouterContext {...renderProps} />;
 
-      const html = renderToString(getRoot(store, routerContext));
-      const head = Helmet.rewind();
-      const preloadedState = store.getState();
+      // Find all the sagas required by the pages's components and run them,
+      // rendering the result after they all complete
+      Promise.all(renderProps.components.reduce((sagas, component) => (
+        component.preloadSagas || []
+      ).concat(sagas), []).map((saga) => store.runSaga(saga).done))
+        .then(() => {
+          const html = renderToString(getRoot(store, routerContext));
+          const head = Helmet.rewind();
+          const preloadedState = store.getState();
 
-      res.status(200).send(renderFullPage(html, preloadedState, head));
+          // TODO Find a way to 404 if an Ajax call hits a 404
+          res.status(200).send(renderFullPage(html, preloadedState, head));
+        })
+        .catch((exception) => {
+          res.status(500).send(exception.message);
+        });
+
+      // Need to render once so that the Saga actions get dispatched
+      renderToString(getRoot(store, routerContext));
+      store.close();
     } else {
       res.status(404).send('Not found');
     }

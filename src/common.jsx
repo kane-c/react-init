@@ -2,7 +2,7 @@ import { IndexRoute, Route } from 'react-router';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore, compose } from 'redux';
 import React from 'react';
-import createSagaMiddleware from 'redux-saga';
+import createSagaMiddleware, { END } from 'redux-saga';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 
@@ -37,11 +37,12 @@ const sagaMiddleware = createSagaMiddleware();
 
 /**
  * Get a store instance.
- *
- * @param {object} [initialState]
- * @param {object} [devTools]
+ * @param {Object} [preloadedState] Initial store state
+ * @param {Object} routerMiddleware React Router middleware instance
+ * @param {Object} [devTools] Redux Dev Tools instance
+ * @return {Object} Redux store instance
  */
-export function getStore(initialState, routerMiddleware, devTools) {
+export function getStore(preloadedState, routerMiddleware, devTools) {
   let middleware = [sagaMiddleware];
   if (routerMiddleware) {
     middleware.push(routerMiddleware);
@@ -53,9 +54,11 @@ export function getStore(initialState, routerMiddleware, devTools) {
     middleware = compose(middleware, devTools);
   }
 
-  const store = createStore(createReducer(reducers), initialState,
+  const store = createStore(createReducer(reducers), preloadedState,
     middleware);
 
+  store.runSaga = sagaMiddleware.run;
+  store.close = () => store.dispatch(END);
   sagas.map(sagaMiddleware.run);
 
   // Make reducers hot reloadable

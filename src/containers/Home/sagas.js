@@ -10,6 +10,7 @@ import { selectUsername } from './selectors';
 
 /**
  * Github repos request/response handler
+ * @return {generator} Redux saga
  */
 export function* getRepos() {
   // Select username from store
@@ -29,6 +30,7 @@ export function* getRepos() {
 
 /**
  * Watches for LOAD_REPOS action and calls handler
+ * @return {generator} Redux saga
  */
 export function* getReposWatcher() {
   while (yield take(LOAD_REPOS)) {
@@ -38,6 +40,7 @@ export function* getReposWatcher() {
 
 /**
  * Root saga manages watcher lifecycle
+ * @return {generator} Redux saga
  */
 export function* githubData() {
   // Fork watcher so we can continue execution
@@ -49,7 +52,6 @@ export function* githubData() {
   yield cancel(watcher);
 }
 
-// Bootstrap sagas
 export default [
   githubData,
 ];

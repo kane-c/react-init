@@ -7,6 +7,7 @@ import { createStructuredSelector } from 'reselect';
 
 import { loadRepos } from './actions';
 import { selectRepos } from './selectors';
+import { githubData } from './sagas';
 
 /**
  * Home page component.
@@ -16,6 +17,18 @@ export class Home extends React.Component { // eslint-disable-line max-len, reac
     onSubmit: React.PropTypes.func,
     repos: React.PropTypes.instanceOf(List).isRequired,
   };
+
+  static preloadSagas = [
+    githubData,
+  ];
+
+  /**
+   * Dispatch the initial data fetch.
+   * @return {void}
+   */
+  componentWillMount() {
+    this.props.onSubmit();
+  }
 
   /**
    * Render the repo list.
