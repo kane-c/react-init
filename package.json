@@ -52,15 +52,15 @@
     }
   },
   "eslintConfig": {
+    "env": {
+      "browser": true,
+      "mocha": true
+    },
     "extends": [
       "airbnb",
       "plugin:import/errors",
       "plugin:import/warnings"
     ],
-    "env": {
-      "browser": true,
-      "mocha": true
-    },
     "parser": "babel-eslint",
     "rules": {
       "max-len": [
@@ -74,6 +74,17 @@
             "FunctionDeclaration": true,
             "MethodDefinition": true,
             "ClassDeclaration": true
+          }
+        }
+      ],
+      "valid-jsdoc": [
+        "error",
+        {
+          "preferType": {
+            "Boolean": "Boolean",
+            "Number": "Number",
+            "object": "Object",
+            "String": "String"
           }
         }
       ],

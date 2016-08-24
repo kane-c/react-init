@@ -6,6 +6,8 @@ import styles from './styles.css';
 
 /**
  * Main component that contains all other components.
+ * @param {Object} props React props
+ * @return {Object} React node
  */
 export default function App({ children }) {
   return (

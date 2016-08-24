@@ -3,6 +3,7 @@ import React from 'react';
 
 /**
  * About page component.
+ * @return {Object} React node
  */
 export default function About() {
   return (
