@@ -8,6 +8,9 @@ import { getRoot, getRoutes, getStore } from './common';
 
 const app = express();
 
+// More mystery, less advertising
+app.disable('x-powered-by');
+
 // 8080 is officially assigned as an alternative HTTP port
 // https://www.iana.org/assignments/service-names-port-numbers/
 // service-names-port-numbers.xhtml
