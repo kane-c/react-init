@@ -8,6 +8,7 @@ const config = require('./webpack.config.babel');
 config.entry = [
   'babel-polyfill',
   'eventsource-polyfill', // IE polyfill
+  'axios',
   'lodash', // Not used directly but keeps the bundle lean
   'react',
   'react-dom',
@@ -17,8 +18,8 @@ config.entry = [
   'react-router',
   'react-router-redux',
   'redux',
-  'redux-saga',
   'redux-immutable',
+  'redux-saga',
   'reselect',
 ];
 
