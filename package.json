@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Minimal setup for a React project",
   "scripts": {
-    "build": "npm run clean; npm run build:client:prod && npm run build:server:prod",
+    "prebuild": "npm run clean",
+    "build": "npm run build:client:prod && npm run build:server:prod",
     "build:client:prod": "NODE_ENV=production webpack -p --progress",
     "build:dll": "BUILDING_DLL=true NODE_ENV=developement webpack --progress --config webpack.config.dll.babel.js",
     "build:server": "APP_ENV=server NODE_ENV=development webpack --progress --config webpack.config.server.babel.js",
@@ -15,7 +16,8 @@
     "lint:eslint": "eslint --ext=js --ext=jsx --ignore-path .gitignore",
     "lint:js": "npm run lint:eslint -- .",
     "lint:staged": "lint-staged",
-    "start": "[ -f build/static/dll.js ] || npm run build:dll; npm run build:server && webpack-dashboard -- node build/server",
+    "prestart": "[ -f build/static/dll.js ] || npm run build:dll; npm run build:server",
+    "start": "webpack-dashboard -- node build/server",
     "start:prod": "npm run build:client:prod && npm run build:server:prod && node build/server",
     "storybook": "start-storybook -p 8081",
     "test": "rm -rf coverage; NODE_ENV=test karma start"
