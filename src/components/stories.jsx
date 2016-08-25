@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
-import About from './About';
+import About from 'components/About';
 
 /**
  * Shortcut to add a basic story.

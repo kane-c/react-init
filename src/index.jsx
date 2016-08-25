@@ -4,7 +4,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 
-import { getRoot, getRoutes, getStore } from './common';
+import { getRoot, getRoutes, getStore } from 'common';
 
 const app = express();
 
