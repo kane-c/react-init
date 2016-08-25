@@ -1,10 +1,10 @@
+import React from 'react';
 import { fromJS } from 'immutable';
 import { render } from 'react-dom';
 import { browserHistory, Router } from 'react-router';
 import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
-import React from 'react';
 
-import { getRoot, getRoutes, getStore } from './common';
+import { getRoot, getRoutes, getStore } from 'common';
 
 const preloadedState = fromJS(window.PRELOADED_STATE);
 delete window.PRELOADED_STATE;
