@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 
-import { loadRepos } from './actions';
+import { repos } from './actions';
 import { selectRepos } from './selectors';
 import { githubData } from './sagas';
 
@@ -65,7 +65,7 @@ function mapDispatchToProps(dispatch) {
         evt.preventDefault();
       }
 
-      dispatch(loadRepos());
+      dispatch(repos.request());
     },
   };
 }

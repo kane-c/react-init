@@ -1,3 +1,3 @@
-// app/Home/XYZ
-export const LOAD_REPOS = 'LOAD_REPOS';
-export const REPOS_LOADED = 'REPOS_LOADED';
+import { createRequestTypes } from 'containers/App/actions';
+
+export const REPOS = createRequestTypes('app/Home/REPOS');

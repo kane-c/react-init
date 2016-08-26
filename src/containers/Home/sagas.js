@@ -4,8 +4,8 @@
 import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-import { reposLoaded, repoLoadingError } from './actions';
-import { LOAD_REPOS } from './constants';
+import { repos } from './actions';
+import { REPOS } from './constants';
 import { selectUsername } from './selectors';
 
 /**
@@ -17,14 +17,14 @@ export function* getRepos() {
   const username = yield select(selectUsername());
   // const requestURL = `https://api.github.com/users/${username}/repos`;
 
-  const repos = {
+  const result = {
     data: username,
   }; // yield call(request, requestURL);
 
-  if (!repos.err) {
-    yield put(reposLoaded(repos.data, username));
+  if (!result.err) {
+    yield put(repos.success(result.data, username));
   } else {
-    yield put(repoLoadingError(repos.err));
+    yield put(repos.failure(result.err));
   }
 }
 
@@ -33,7 +33,7 @@ export function* getRepos() {
  * @return {generator} Redux saga
  */
 export function* getReposWatcher() {
-  while (yield take(LOAD_REPOS)) {
+  while (yield take(REPOS.REQUEST)) {
     yield call(getRepos);
   }
 }
