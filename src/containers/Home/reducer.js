@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 
-import { REPOS_LOADED } from './constants';
+import { REPOS } from './constants';
 
 const initialState = fromJS({
   page: 'home',
@@ -16,7 +16,7 @@ const initialState = fromJS({
  */
 export default function homeReducer(state = initialState, action) {
   switch (action.type) {
-    case REPOS_LOADED:
+    case REPOS.SUCCESS:
       return state.set('repos', fromJS(action.repos));
     default:
       return state;

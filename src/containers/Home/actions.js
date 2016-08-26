@@ -1,36 +1,9 @@
-import { LOAD_REPOS, REPOS_LOADED } from './constants';
+import { action } from 'containers/App/actions';
 
-/**
- * Load repos.
- * @param {string} username Username to fetch
- * @return {Object} Redux action
- */
-export function loadRepos(username) {
-  return {
-    type: LOAD_REPOS,
-    username,
-  };
-}
+import { REPOS } from './constants';
 
-/**
- * Repos are loaded.
- * @return {Object} Redux action
- */
-export function reposLoaded() {
-  return {
-    type: REPOS_LOADED,
-    repos: [
-      'a', 'b', 'c',
-    ],
-  };
-}
-
-/**
- * Error loading repos.
- * @return {Object} Redux action
- */
-export function repoLoadingError() {
-  return {
-    type: '',
-  };
-}
+export const repos = {
+  request: (username) => action(REPOS.REQUEST, { username }),
+  success: (repos) => action(REPOS.SUCCESS, { repos }),
+  failure: (error) => action(REPOS.FAILURE, { error }),
+};
