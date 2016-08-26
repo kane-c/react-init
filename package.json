@@ -20,7 +20,8 @@
     "start": "webpack-dashboard -- node build/server",
     "start:prod": "npm run build:client:prod && npm run build:server:prod && node build/server",
     "storybook": "start-storybook -p 8081",
-    "test": "rm -rf coverage; NODE_ENV=test karma start"
+    "pretest": "rm -rf coverage",
+    "test": "NODE_ENV=test karma start"
   },
   "author": "kane-c",
   "license": "MIT",
@@ -92,7 +93,12 @@
       ],
       "react/jsx-sort-props": "error",
       "react/sort-prop-types": "error",
-      "import/no-extraneous-dependencies": 0,
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true
+        }
+      ],
       "import/no-named-as-default": 0,
       "import/order": [
         "error",
@@ -183,6 +189,8 @@
     "babel-preset-react-hmre": "^1.1.1",
     "chai": "^3.5.0",
     "chai-enzyme": "^0.5.0",
+    "chai-immutable": "^1.6.0",
+    "dirty-chai": "^1.2.2",
     "enzyme": "^2.4.1",
     "eslint": "^3.2.2",
     "eslint-config-airbnb": "^10.0.0",
