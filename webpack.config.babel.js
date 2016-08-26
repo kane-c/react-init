@@ -145,7 +145,8 @@ if (process.env.NODE_ENV === 'development') {
     'react/lib/ReactContext': 'window',
   };
   // Null CSS loader
-  config.module.loaders[1].loader = 'null-loader';
+  config.module.loaders[1].loader = config.module.loaders[2].loader =
+    'null-loader';
 
   config.node = {
     fs: 'empty',
