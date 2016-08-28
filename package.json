@@ -99,13 +99,7 @@
           "devDependencies": true
         }
       ],
-      "import/no-named-as-default": 0,
-      "import/order": [
-        "error",
-        {
-          "newlines-between": "always"
-        }
-      ]
+      "import/no-named-as-default": 0
     },
     "settings": {
       "import/resolver": {
@@ -208,6 +202,7 @@
     "karma-mocha-reporter": "^2.1.0",
     "karma-webpack": "^1.8.0",
     "lint-staged": "^2.0.3",
+    "minimist": "^1.2.0",
     "mocha": "^3.0.2",
     "null-loader": "^0.1.1",
     "pre-commit": "^1.1.3",
