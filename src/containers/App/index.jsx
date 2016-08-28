@@ -1,5 +1,6 @@
 import Helmet from 'react-helmet';
 import React from 'react';
+import { Grid } from 'react-bootstrap';
 import { Link } from 'react-router';
 
 import styles from './styles.css';
@@ -11,12 +12,12 @@ import styles from './styles.css';
  */
 export default function App({ children }) {
   return (
-    <div className="container">
+    <Grid>
       <Helmet titleTemplate="%s - My Title" />
       {children}
       <Link className={styles.test} to="/">Home</Link>
       <Link to="/about">About</Link>
-    </div>
+    </Grid>
   );
 }
 

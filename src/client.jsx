@@ -32,8 +32,22 @@ if (process.env.NODE_ENV === 'development' && window.devToolsExtension) {
 
 const routes = getRoutes(store);
 
+/**
+ * Run the route's component's sagas.
+ * Assumes sagas fork but watch for route change and cancel themselves,
+ * otherwise you could end up with multiple instances of the saga running.
+ * @param {function} Component React component to render
+ * @param {Object} props Properties to render
+ * @return {Object} React node
+ */
+function createElement(Component, props) {
+  (Component.preloadSagas || []).map(store.runSaga);
+
+  return <Component {...props} />;
+}
+
 const router = (
-  <Router history={history}>
+  <Router createElement={createElement} history={history}>
     {routes}
   </Router>
 );

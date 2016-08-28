@@ -3,6 +3,7 @@ import { fromJS } from 'immutable';
 import { REPOS } from './constants';
 
 const initialState = fromJS({
+  isLoading: false,
   page: 'home',
   repos: [],
   username: 'kane-c',
@@ -16,8 +17,14 @@ const initialState = fromJS({
  */
 export default function homeReducer(state = initialState, action) {
   switch (action.type) {
+    case REPOS.FAILURE:
+      return state.set('error', action.payload.error)
+        .set('isLoading', false);
+    case REPOS.REQUEST:
+      return state.set('isLoading', true);
     case REPOS.SUCCESS:
-      return state.set('repos', fromJS(action.repos));
+      return state.set('repos', fromJS(action.payload.repos))
+        .set('isLoading', false);
     default:
       return state;
   }
