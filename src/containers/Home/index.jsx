@@ -1,12 +1,20 @@
 import Helmet from 'react-helmet';
 import Icon from 'react-fontawesome';
 import React from 'react';
+import {
+  ControlLabel,
+  FormControl,
+  FormGroup,
+  InputGroup,
+} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 
+import LoadingIndicator from 'components/LoadingIndicator';
+
 import { repos } from './actions';
-import { selectRepos } from './selectors';
+import { selectIsLoading, selectRepos } from './selectors';
 import { githubData } from './sagas';
 
 /**
@@ -14,6 +22,7 @@ import { githubData } from './sagas';
  */
 export class Home extends React.Component { // eslint-disable-line max-len, react/prefer-stateless-function
   static propTypes = {
+    isLoading: React.PropTypes.bool,
     onSubmit: React.PropTypes.func,
     repos: React.PropTypes.instanceOf(List).isRequired,
   };
@@ -27,7 +36,10 @@ export class Home extends React.Component { // eslint-disable-line max-len, reac
    * @return {void}
    */
   componentWillMount() {
-    this.props.onSubmit();
+    // Don't re-request if we already have the data (i.e. preloaded by server)
+    if (!this.props.repos.size) {
+      this.props.onSubmit();
+    }
   }
 
   /**
@@ -35,21 +47,33 @@ export class Home extends React.Component { // eslint-disable-line max-len, reac
    * @return {Object} React node
    */
   render() {
+    const result = this.props.isLoading ? <LoadingIndicator /> : (
+      <ul>
+        {this.props.repos.map((repo, i) => <li key={i}>{repo}</li>)}
+      </ul>
+    );
+
     return (
       <form onSubmit={this.props.onSubmit}>
         <Helmet title="Home" />
         <h1>Home</h1>
-        <Icon name="home" />&nbsp;
-        <input name="username" />
-        <ul>
-          {this.props.repos.map((repo, i) => <li key={i}>{repo}</li>)}
-        </ul>
+        <FormGroup controlId="username">
+          <ControlLabel>Username</ControlLabel>
+          <InputGroup>
+            <InputGroup.Addon>
+              <Icon fixedWidth name="user" />
+            </InputGroup.Addon>
+            <FormControl name="username" type="text" />
+          </InputGroup>
+        </FormGroup>
+        {result}
       </form>
     );
   }
 }
 
 const mapStateToProps = createStructuredSelector({
+  isLoading: selectIsLoading(),
   repos: selectRepos(),
 });
 

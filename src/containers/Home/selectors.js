@@ -16,8 +16,14 @@ const selectRepos = () => createSelector(
   (homeState) => homeState.get('repos')
 );
 
+const selectIsLoading = () => createSelector(
+  selectHome(),
+  (homeState) => homeState.get('isLoading')
+);
+
 export {
   selectHome,
+  selectIsLoading,
   selectUsername,
   selectRepos,
 };

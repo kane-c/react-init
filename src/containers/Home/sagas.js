@@ -1,6 +1,7 @@
 /**
  * Gets the repositories of the user from Github
  */
+import { delay } from 'redux-saga';
 import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
@@ -17,12 +18,14 @@ export function* getRepos() {
   const username = yield select(selectUsername());
   // const requestURL = `https://api.github.com/users/${username}/repos`;
 
+  yield delay(500);
+
   const result = {
-    data: username,
+    data: [username, 'b', 'c'],
   }; // yield call(request, requestURL);
 
   if (!result.err) {
-    yield put(repos.success(result.data, username));
+    yield put(repos.success(result.data, result));
   } else {
     yield put(repos.failure(result.err));
   }
