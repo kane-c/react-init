@@ -19,7 +19,7 @@
     "prestart": "[ -f build/static/dll.js ] || npm run build:dll; npm run build:server",
     "start": "webpack-dashboard -- node build/server",
     "start:prod": "npm run build:client:prod && npm run build:server:prod && node build/server",
-    "storybook": "start-storybook -p 8081",
+    "storybook": "start-storybook --dont-track -p 8081",
     "pretest": "rm -rf coverage",
     "test": "NODE_ENV=test karma start"
   },

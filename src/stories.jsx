@@ -1,7 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
-import About from 'components/About';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'font-awesome/css/font-awesome.css';
+
+import About from './components/About';
+import LoadingIndicator from './components/LoadingIndicator';
 
 /**
  * Shortcut to add a basic story.
@@ -11,8 +15,9 @@ import About from 'components/About';
  * @return {void}
  */
 function addStory(name, Component, props = {}) {
-  storiesOf(name, module)
-    .add(name, () => <Component {...props} />);
+  return storiesOf(name, module)
+    .add('Default appearance', () => <Component {...props} />);
 }
 
 addStory('About', About);
+addStory('LoadingIndicator', LoadingIndicator);
