@@ -86,6 +86,8 @@ function renderFullPage(html, preloadedState, head) {
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta content="ie=edge" http-equiv="x-ua-compatible" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     ${head.title.toString()}
     ${head.meta.toString()}
     ${css}
