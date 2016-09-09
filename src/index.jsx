@@ -129,7 +129,7 @@ function handleRender(req, res) {
       // Find all the sagas required by the pages's components and run them,
       // rendering the result after they all complete
       Promise.all(renderProps.components.reduce((sagas, component) => (
-        component.preloadSagas || []
+        component.sagas || []
       ).concat(sagas), []).map((saga) => store.runSaga(saga).done))
         .then(() => {
           const html = renderToString(getRoot(store, routerContext));

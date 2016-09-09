@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { browserHistory, Router } from 'react-router';
 import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
 
-import { getRoot, getRoutes, getStore } from 'common';
+import { getRoot, getRoutes, getStore, sagas } from 'common';
 
 const preloadedState = fromJS(window.PRELOADED_STATE);
 delete window.PRELOADED_STATE;
@@ -32,24 +32,13 @@ if (process.env.NODE_ENV === 'development' && window.devToolsExtension) {
 
 const routes = getRoutes(store);
 
-/**
- * Run the route's component's sagas.
- * Assumes sagas fork but watch for route change and cancel themselves,
- * otherwise you could end up with multiple instances of the saga running.
- * @param {function} Component React component to render
- * @param {Object} props Properties to render
- * @return {Object} React node
- */
-function createElement(Component, props) {
-  (Component.preloadSagas || []).map(store.runSaga);
-
-  return <Component {...props} />;
-}
-
 const router = (
-  <Router createElement={createElement} history={history}>
+  <Router history={history}>
     {routes}
   </Router>
 );
+
+// Start ALL the sagas (warning: may cause performance issues?)
+sagas.map(store.runSaga);
 
 render(getRoot(store, router), document.getElementById('root'));
