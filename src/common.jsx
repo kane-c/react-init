@@ -13,7 +13,7 @@ import Home from 'containers/Home';
 import HomeSagas from 'containers/Home/sagas';
 import homeReducer from 'containers/Home/reducer';
 
-const sagas = [
+export const sagas = [
   ...HomeSagas,
 ];
 
