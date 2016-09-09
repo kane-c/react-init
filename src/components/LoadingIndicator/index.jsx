@@ -7,9 +7,9 @@ import React from 'react';
  */
 export default function LoadingIndicator() {
   return (
-    <div>
+    <span>
       <Icon fixedWidth name="spinner" pulse />
       <span className="sr-only">Loading...</span>
-    </div>
+    </span>
   );
 }
