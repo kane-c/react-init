@@ -19,7 +19,7 @@ export default function Card(props) {
   }
 
   if (props.variant) {
-    className.push(`card-${props.outline ? 'outline-' : ''}-${props.variant}`);
+    className.push(`card-${props.outline ? 'outline-' : ''}${props.variant}`);
   }
 
   if (props.className) {
