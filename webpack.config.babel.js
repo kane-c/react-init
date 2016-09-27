@@ -26,11 +26,11 @@ const config = {
     './src/client.jsx',
   ],
   module: {
-    loaders: [
+    rules: [
       {
         exclude: /node_modules/,
         loader: 'babel',
-        query: {
+        options: {
           cacheDirectory: process.env.NODE_ENV === 'development',
           env: {
             development: {
@@ -85,14 +85,19 @@ const config = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
     new webpack.NoErrorsPlugin(),
-  ],
-  postcss: [
-    postcssFocus(),
-    cssnext({
-      browsers: ['last 2 versions', 'IE > 8'],
-    }),
-    postcssReporter({
-      clearMessages: true,
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        context: '/', // For `css-loader`
+        postcss: [
+          postcssFocus(),
+          cssnext({
+            browsers: ['last 2 versions', 'IE > 8'],
+          }),
+          postcssReporter({
+            clearMessages: true,
+          }),
+        ],
+      },
     }),
   ],
   resolve: {
@@ -104,7 +109,7 @@ const config = {
 if (process.env.NODE_ENV === 'development') {
   config.devtool = 'eval-source-map';
 
-  const cssLoader = 'css?modules&importLoaders=1&sourceMap&' +
+  const cssLoader = 'css?modules&importrules=1&sourceMap&' +
     'localIdentName=[local]--[path][name]--[sha256:hash:hex:7]!postcss';
 
   if (process.env.APP_ENV === 'server') {
@@ -112,11 +117,11 @@ if (process.env.NODE_ENV === 'development') {
     const ExtractTextPlugin = require('extract-text-webpack-plugin');
     /* eslint-enable global-require */
 
-    config.module.loaders[1].loader = ExtractTextPlugin.extract({
+    config.module.rules[1].loader = ExtractTextPlugin.extract({
       fallbackLoader: 'style',
       loader: cssLoader,
     });
-    config.module.loaders[2].loader = ExtractTextPlugin.extract({
+    config.module.rules[2].loader = ExtractTextPlugin.extract({
       fallbackLoader: 'style',
       loader: 'css',
     });
@@ -127,9 +132,9 @@ if (process.env.NODE_ENV === 'development') {
       'webpack-hot-middleware/client'
     );
 
-    // loaders[1] = our app's css
-    config.module.loaders[1].loader = `style!${cssLoader}`;
-    config.module.loaders[2].loader = 'style!css';
+    // rules[1] = our app's css
+    config.module.rules[1].loader = `style!${cssLoader}`;
+    config.module.rules[2].loader = 'style!css';
 
     config.plugins.push(new webpack.DllReferencePlugin({
       context: '.',
@@ -144,9 +149,8 @@ if (process.env.NODE_ENV === 'development') {
     'react/lib/ExecutionEnvironment': true,
     'react/lib/ReactContext': 'window',
   };
-  // Null CSS loader
-  config.module.loaders[1].loader = config.module.loaders[2].loader =
-    'null-loader';
+  // Null CSS loader - we don't need CSS files during tests
+  config.module.rules[1].loader = config.module.rules[2].loader = 'null';
 
   config.node = {
     fs: 'empty',
@@ -173,16 +177,16 @@ if (process.env.NODE_ENV === 'development') {
   const ExtractTextPlugin = require('extract-text-webpack-plugin');
   /* eslint-enable global-require */
 
-  config.module.loaders[1].loader = ExtractTextPlugin.extract({
+  config.module.rules[1].loader = ExtractTextPlugin.extract({
     fallbackLoader: 'style',
-    loader: 'css?modules&-autoprefixer&importLoaders=1&' +
+    loader: 'css?modules&-autoprefixer&importrules=1&' +
       'localIdentName=[sha256:hash:hex:7]!postcss',
   });
-  config.module.loaders[2].loader = ExtractTextPlugin.extract({
+  config.module.rules[2].loader = ExtractTextPlugin.extract({
     fallbackLoader: 'style',
     loader: `css?${JSON.stringify({ discardComments: { removeAll: true } })}`,
   });
-  config.module.loaders[4].loader =
+  config.module.rules[4].loader =
     'file?name=[name].[sha256:hash:hex:7].[ext]';
   config.plugins.push(
     new ExtractTextPlugin('[name].[sha256:contenthash:hex:7].css')
@@ -197,7 +201,7 @@ if (process.env.NODE_ENV === 'development') {
 
     // Don't emit static files during the client build; only during the server
     // build. This prevents writing the assets twice
-    config.module.loaders[4].loader += '&emitFile=false';
+    config.module.rules[4].loader += '&emitFile=false';
     config.plugins.push(new AssetsPlugin({
       filename: 'build/assets.json',
     }));

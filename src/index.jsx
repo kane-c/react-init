@@ -130,7 +130,7 @@ function handleRender(req, res) {
       // rendering the result after they all complete
       Promise.all(renderProps.components.reduce((sagas, component) => (
         component.sagas || []
-      ).concat(sagas), []).map((saga) => store.runSaga(saga).done))
+      ).concat(sagas), []).map(saga => store.runSaga(saga).done))
         .then(() => {
           const html = renderToString(getRoot(store, routerContext));
           const head = Helmet.rewind();
