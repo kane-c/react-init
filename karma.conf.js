@@ -10,7 +10,6 @@ module.exports = (config) => {
     browsers: ['jsdom'],
     client: {
       mocha: {
-        bail: true,
         grep: argv.grep,
       },
     },
