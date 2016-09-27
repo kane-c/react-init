@@ -1,6 +1,51 @@
 # react-init
 Minimal setup for a universal React app.
 
+## Setup
+```sh
+git clone https://github.com/kane-c/react-init.git
+cd react-init
+npm install
+npm start
+open http://localhost:8080
+```
+
+### Running tests
+```sh
+npm test
+```
+
+Coverage reports are placed in `coverage`.
+
+### Running in production
+```sh
+NODE_ENV=production npm start
+```
+
+Alternatively, just ensure your app's environment has `NODE_ENV=production` and run `npm start`.
+
+### Other stuff
+#### Docker
+```sh
+docker-compose up
+docker-compose run --rm app npm run lint
+docker-compose run --rm app npm test
+docker-compose run --rm app npm run lint:staged && git commit -n
+```
+
+#### Storybook (tracking is disabled)
+```sh
+npm run storybook
+open http://localhost:8081
+```
+
+#### Lint the whole project
+```sh
+npm run lint
+```
+
+Use `lint:js`, `lint:css` or `lint:staged` to only lint those files.
+
 ## Dependencies
 This is a list of dependencies and what they do, or why they are included.
 It's useful to have these later in a project to be able to know whether dependencies can be safely removed, or just know why they were included in the first place.
