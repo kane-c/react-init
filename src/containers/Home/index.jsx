@@ -53,6 +53,8 @@ export class Home extends React.Component { // eslint-disable-line max-len, reac
       </ul>
     );
 
+    const { Addon } = InputGroup;
+
     return (
       <form onSubmit={this.props.onSubmit}>
         <Helmet title="Home" />
@@ -60,9 +62,9 @@ export class Home extends React.Component { // eslint-disable-line max-len, reac
         <FormGroup controlId="username">
           <ControlLabel>Username</ControlLabel>
           <InputGroup>
-            <InputGroup.Addon>
+            <Addon>
               <Icon fixedWidth name="user" />
-            </InputGroup.Addon>
+            </Addon>
             <FormControl name="username" type="text" />
           </InputGroup>
         </FormGroup>

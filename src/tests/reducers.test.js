@@ -27,7 +27,7 @@ describe('Root reducer', () => {
 
   it('should merge additional reducers', () => {
     const reducer = createReducer({
-      test: (state) => state.set('tested', true),
+      test: state => state.set('tested', true),
     });
 
     let state = fromJS({
