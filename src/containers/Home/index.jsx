@@ -84,7 +84,7 @@ const mapStateToProps = createStructuredSelector({
  * @param {function} dispatch Redux store dispatch function
  * @return {Object} Map of props
  */
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     onSubmit: (evt) => {
       if (evt !== undefined && evt.preventDefault) {
