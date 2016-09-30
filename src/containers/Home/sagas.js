@@ -1,9 +1,9 @@
 /**
  * Gets the repositories of the user from Github
  */
+import { LOCATION_CHANGE } from 'react-router-redux';
 import { delay } from 'redux-saga';
 import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
-import { LOCATION_CHANGE } from 'react-router-redux';
 
 import { repos } from './actions';
 import { REPOS } from './constants';
@@ -32,7 +32,7 @@ export function* getRepos() {
 }
 
 /**
- * Watches for LOAD_REPOS action and calls handler
+ * Watch for the action and call the handler
  * @return {generator} Redux saga
  */
 export function* getReposWatcher() {
@@ -50,7 +50,6 @@ export function* githubData() {
   const watcher = yield fork(getReposWatcher);
 
   // Suspend execution until location changes
-  yield take(LOCATION_CHANGE);
   yield take(LOCATION_CHANGE);
   yield cancel(watcher);
 }
