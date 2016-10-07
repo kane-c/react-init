@@ -1,38 +1,21 @@
 import React from 'react';
 import createSagaMiddleware, { END } from 'redux-saga';
-import { IndexRoute, Route } from 'react-router';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore, compose } from 'redux';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 
 import createReducer from 'reducers';
-import About from 'components/About';
-import App from 'containers/App';
-import Home from 'containers/Home';
-import HomeSagas from 'containers/Home/sagas';
+import homeSagas from 'containers/Home/sagas';
 import homeReducer from 'containers/Home/reducer';
 
 export const sagas = [
-  ...HomeSagas,
+  ...homeSagas,
 ];
 
 const reducers = {
   home: homeReducer,
 };
-
-/**
- * Get the routes for the app.
- * @return {Object} React node
- */
-export function getRoutes() {
-  return (
-    <Route component={App} path="/">
-      <IndexRoute component={Home} />
-      <Route component={About} path="about" />
-    </Route>
-  );
-}
 
 const sagaMiddleware = createSagaMiddleware();
 
