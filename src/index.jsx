@@ -4,7 +4,8 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 
-import { getRoot, getRoutes, getStore } from 'common';
+import getRoutes from 'Routes';
+import { getRoot, getStore } from 'common';
 
 const app = express();
 
@@ -103,6 +104,8 @@ function renderFullPage(html, preloadedState, head) {
 `;
 }
 
+const routes = getRoutes();
+
 /**
  * Render a response.
  * @param {Object} req Request
@@ -114,7 +117,7 @@ function handleRender(req, res) {
 
   match({
     location: req.url,
-    routes: getRoutes(store),
+    routes,
   }, (error, redirectLocation, renderProps) => {
     if (error) {
       res.status(500).send(error.message);
