@@ -32,7 +32,7 @@ module.exports = (config) => {
     frameworks: ['mocha'],
     logLevel: config.LOG_WARN,
     preprocessors: {
-      'tests.js': ['webpack'],
+      'tests.js': ['webpack', 'sourcemap'],
     },
     reporters: ['coverage', 'mocha'],
     singleRun: true,
