@@ -144,6 +144,9 @@ if (process.env.NODE_ENV === 'development') {
 
   config.plugins.unshift(new webpack.HotModuleReplacementPlugin());
 } else if (process.env.NODE_ENV === 'test') {
+  // Get a better traceback
+  config.devtool = 'inline-source-map';
+
   config.externals = {
     'react/addons': true,
     'react/lib/ExecutionEnvironment': true,
