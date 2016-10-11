@@ -147,6 +147,9 @@ if (process.env.NODE_ENV === 'development') {
   // Get a better traceback
   config.devtool = 'inline-source-map';
 
+  // We don't need the bundle
+  delete config.entry;
+
   config.externals = {
     'react/addons': true,
     'react/lib/ExecutionEnvironment': true,
