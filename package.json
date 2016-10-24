@@ -9,7 +9,7 @@
     "build:dll": "BUILDING_DLL=true NODE_ENV=development webpack --progress --config webpack.config.dll.babel.js",
     "build:server": "APP_ENV=server NODE_ENV=development webpack --progress --config webpack.config.server.babel.js",
     "build:server:prod": "APP_ENV=server NODE_ENV=production webpack -p --progress --config webpack.config.server.babel.js",
-    "clean": "find build -not -name dll.js -and not -name manifest.json -exec rm -rf {} \\; 2> /dev/null || true",
+    "clean": "find build -type f -and -not -name dll.js -and -not -name manifest.json -exec rm -rf {} \\; 2> /dev/null || true",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "lint": "npm run lint:css --silent && npm run lint:js --silent",
     "lint:css": "stylelint --ignore-path .gitignore **/*.css",
