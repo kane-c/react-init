@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   module: {
     loaders: [
@@ -23,5 +25,8 @@ module.exports = {
   resolve: {
     // Allow importing JSX
     extensions: ['', '.js', '.jsx'],
+    root: [
+      path.resolve(__dirname, '../src'),
+    ],
   },
 };
