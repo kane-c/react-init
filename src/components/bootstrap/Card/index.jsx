@@ -2,33 +2,43 @@ import React from 'react';
 
 import basicComponent from 'components/basicComponent';
 
+export const variants = [
+  'primary', 'secondary', 'success', 'info', 'warning', 'danger',
+];
+
 /**
  * Bootstrap 4 card component
  * @param {Object} props React props
  * @return {Object} React node
  */
 export default function Card(props) {
-  const Component = props.component || 'div';
+  const {
+    block, children, className, component, inverse, outline, variant,
+    ...otherProps,
+  } = props;
+  const Component = component || 'div';
 
-  const className = ['card'];
+  const classNames = ['card'];
 
-  if (props.block) {
-    className.push('card-block');
-  } else if (props.inverse) {
-    className.push('card-inverse');
+  if (block) {
+    classNames.push('card-block');
   }
 
-  if (props.variant) {
-    className.push(`card-${props.outline ? 'outline-' : ''}${props.variant}`);
+  if (inverse) {
+    classNames.push('card-inverse');
   }
 
-  if (props.className) {
-    className.push(props.className);
+  if (variant) {
+    classNames.push(`card-${outline ? 'outline-' : ''}${variant}`);
+  }
+
+  if (className) {
+    classNames.push(className);
   }
 
   return (
-    <Component className={className.join(' ')}>
-      {props.children}
+    <Component className={classNames.join(' ')} {...otherProps}>
+      {children}
     </Component>
   );
 }
@@ -40,9 +50,7 @@ Card.propTypes = {
   component: React.PropTypes.string,
   inverse: React.PropTypes.bool,
   outline: React.PropTypes.bool,
-  variant: React.PropTypes.oneOf([
-    'primary', 'secondary', 'success', 'info', 'warning', 'danger',
-  ]),
+  variant: React.PropTypes.oneOf(variants),
 };
 
 export const CardBlock = basicComponent('card-block');
@@ -55,8 +63,9 @@ export const CardLink = basicComponent('card-link', 'a');
 CardLink.propTypes.href = React.PropTypes.string.isRequired;
 export const CardQuote = basicComponent('card-blockquote', 'blockquote');
 export const CardTitle = basicComponent('card-title', 'h3');
-export const CardSubtitle = basicComponent('card-subtitle', 'p');
+export const CardSubtitle = basicComponent('card-subtitle', 'h6');
 export const CardText = basicComponent('card-text', 'p');
-// TODO CardDeck
+export { default as CardDeck } from 'components/bootstrap/CardDeck';
+export { default as CardImage } from 'components/bootstrap/CardImage';
+
 // TODO card-header-tabs/pills
-// TODO CardImage

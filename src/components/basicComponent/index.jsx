@@ -11,17 +11,18 @@ import React from 'react';
 export default function basicComponent(fixedClassName,
                                        defaultComponent = 'div') {
   const component = function SubComponent(props) {
-    const Component = props.component || defaultComponent;
+    const { children, className, component, ...otherProps } = props;
+    const Component = component || defaultComponent;
 
-    const className = [fixedClassName];
+    const classNames = [fixedClassName];
 
-    if (props.className) {
-      className.push(props.className);
+    if (className) {
+      classNames.push(className);
     }
 
     return (
-      <Component className={className.join(' ')}>
-        {props.children}
+      <Component className={classNames.join(' ')} {...otherProps}>
+        {children}
       </Component>
     );
   };
