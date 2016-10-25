@@ -136,7 +136,7 @@
     }
   },
   "dependencies": {
-    "assets-webpack-plugin": "^3.4.0",
+    "assets-webpack-plugin": "https://github.com/kossnocorp/assets-webpack-plugin/archive/5fa841198aa7461944cdac6e255006517506ca07.tar.gz",
     "axios": "^0.14.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-transform-react-constant-elements": "^6.9.1",
