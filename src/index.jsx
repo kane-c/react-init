@@ -4,6 +4,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 
+import { browserConfig, getFaviconHtml, manifest } from 'favicons';
 import getRoutes from 'Routes';
 import { getRoot, getStore } from 'common';
 
@@ -52,8 +53,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(compression());
 }
 
-app.use('/static', express.static('build/static'));
-
 let assets;
 
 if (process.env.NODE_ENV === 'production') {
@@ -63,9 +62,59 @@ if (process.env.NODE_ENV === 'production') {
   assets = JSON.parse(fs.readFileSync('build/assets.json', 'utf8'));
 } else {
   assets = {
-    main: {},
+    assets: [],
+    entries: {
+      main: {},
+    },
   };
 }
+
+/**
+ * Escape a string for use in a regular expression.
+ *
+ * @param {String} str String to escape.
+ * @return {String} Escaped string.
+ */
+function escapeRegExp(str) {
+  return str.replace(/[.?*+^$[\]\\(){}|-]/g, '\\$&');
+}
+
+/**
+ * Generate a regexp to test for a cache busted version of a given file name.
+ * The expression is `^basename.hash.ext$`
+ *
+ * @param {String} name File name.
+ * @return {RegExp} Regular expression instance.
+ */
+function getCacheBustRegex(name) {
+  let ext = name.split('.').pop();
+  const baseName = escapeRegExp(name.substr(0, name.length - ext.length));
+  ext = escapeRegExp(ext);
+
+  return new RegExp(`^${baseName}[a-f0-9]{7}\\.${ext}$`);
+}
+
+/**
+ * Loop through the assets array to find a match for the given name.
+ * Names in the manifest are hashed; this function encapsulates that. If no
+ * cache busted file is found, the given path is returned.
+ *
+ * @param {String} name Asset file name/path.
+ * @return {String} Path to cache busted asset.
+ */
+assets.get = (name) => {
+  for (const asset of assets.assets) {
+    if (asset.path === name || getCacheBustRegex(name).test(asset.path)) {
+      return asset.path;
+    }
+  }
+
+  return name;
+};
+
+app.use(express.static('build/static'));
+app.use('/browserconfig.xml', browserConfig(assets));
+app.use('/manifest.json', manifest(assets));
 
 /**
  * Render the full HTML for a page, initialising the Redux state.
@@ -75,8 +124,8 @@ if (process.env.NODE_ENV === 'production') {
  * @return {string} Full page HTML
  */
 function renderFullPage(html, preloadedState, head) {
-  const cssUrl = assets.main.css || '/static/main.css';
-  const jsUrl = assets.main.js || '/static/client.js';
+  const cssUrl = assets.entries.main.css || '/main.css';
+  const jsUrl = assets.entries.main.js || '/client.js';
   // Add an ID attribute in development mode so it can be deleted on page load.
   // The ensures CSS is present on the page for users without JS, but allows
   // reloading and dynamic styles for those with JS enabled
@@ -84,7 +133,7 @@ function renderFullPage(html, preloadedState, head) {
     process.env.NODE_ENV === 'development' ? ' id="main-css"' : ''} />`;
 
   const dll = process.env.NODE_ENV === 'development' ?
-    '<script src="/static/dll.js"></script>' : '';
+    '<script src="/dll.js"></script>' : '';
 
   return `<!doctype html>
 <html>
@@ -96,6 +145,7 @@ function renderFullPage(html, preloadedState, head) {
     ${head.meta.toString()}
     ${css}
     ${head.link.toString()}
+    ${getFaviconHtml(assets)}
   </head>
   <body>
     <div id="root">${html}</div>

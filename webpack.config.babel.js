@@ -19,6 +19,8 @@ if (process.env.BUILDING_DLL || process.env.NODE_ENV !== 'development') {
   }
 }
 
+const publicPath = '/';
+
 const config = {
   cache: process.env.NODE_ENV === 'development',
   entry: [
@@ -70,7 +72,8 @@ const config = {
         loader: 'json',
       },
       {
-        test: /\.(?:eot|gif|jpe?g|otf|png|svg|ttf|woff2?)(\?[a-z0-9=#&.]+)?$/,
+        test: new RegExp('\\.(?:eot|gif|ico|jpe?g|otf|png|svg|ttf|woff2?)' +
+                         '(\\?[a-z0-9=#&.]+)?$'),
         loader: 'file?name=[name].[ext]',
       },
     ],
@@ -78,7 +81,7 @@ const config = {
   output: {
     filename: 'client.js',
     path: path.resolve('./build/static'),
-    publicPath: '/static/',
+    publicPath,
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -205,9 +208,6 @@ if (process.env.NODE_ENV === 'development') {
     const AssetsPlugin = require('assets-webpack-plugin');
     /* eslint-enable global-require */
 
-    // Don't emit static files during the client build; only during the server
-    // build. This prevents writing the assets twice
-    config.module.rules[4].loader += '&emitFile=false';
     config.plugins.push(new AssetsPlugin({
       filename: 'build/assets.json',
     }));

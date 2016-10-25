@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { browserHistory, Router } from 'react-router';
 import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
 
+import 'favicons';
 import getRoutes from 'Routes';
 import { getRoot, getStore, sagas } from 'common';
 
