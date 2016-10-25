@@ -223,10 +223,29 @@ if (process.env.NODE_ENV === 'development') {
   if (process.env.APP_ENV !== 'server') {
     /* eslint-disable global-require */
     const AssetsPlugin = require('assets-webpack-plugin');
+    const OfflinePlugin = require('offline-plugin');
     /* eslint-enable global-require */
 
     config.plugins.push(new AssetsPlugin({
       filename: 'build/assets.json',
+    }));
+
+    config.plugins.push(new OfflinePlugin({
+      caches: 'all',
+      externals: [
+        '/',
+      ],
+      AppCache: {
+        events: true,
+        FALLBACK: {
+          '/': '/',
+        },
+      },
+      ServiceWorker: {
+        events: true,
+        navigateFallbackURL: '/',
+      },
+      publicPath,
     }));
   }
 }
