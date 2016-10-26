@@ -28,10 +28,6 @@ const history = syncHistoryWithStore(browserHistory, store, {
   },
 });
 
-if (process.env.NODE_ENV === 'development' && window.devToolsExtension) {
-  window.devToolsExtension.updateStore(store);
-}
-
 const router = (
   <Router history={history}>
     {getRoutes()}
