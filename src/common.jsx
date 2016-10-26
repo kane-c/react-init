@@ -1,7 +1,7 @@
 import React from 'react';
 import createSagaMiddleware, { END } from 'redux-saga';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore, compose } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 
@@ -22,11 +22,11 @@ const sagaMiddleware = createSagaMiddleware();
 /**
  * Get a store instance.
  * @param {Object} [preloadedState] Initial store state
- * @param {Object} routerMiddleware React Router middleware instance
+ * @param {Object} [routerMiddleware] React Router middleware instance
  * @param {Object} [devTools] Redux Dev Tools instance
  * @return {Object} Redux store instance
  */
-export function getStore(preloadedState, routerMiddleware, devTools) {
+export function getStore(preloadedState, routerMiddleware) {
   let middleware = [sagaMiddleware];
   if (routerMiddleware) {
     middleware.push(routerMiddleware);
@@ -34,9 +34,12 @@ export function getStore(preloadedState, routerMiddleware, devTools) {
 
   middleware = applyMiddleware(...middleware);
 
-  if (devTools) {
-    middleware = compose(middleware, devTools);
+  /* eslint-disable no-underscore-dangle */
+  if (typeof window !== 'undefined' &&
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+    middleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(middleware);
   }
+  /* eslint-enable no-underscore-dangle */
 
   const store = createStore(createReducer(reducers), preloadedState,
     middleware);
