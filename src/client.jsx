@@ -1,3 +1,4 @@
+// @flow
 import OfflinePluginRuntime from 'offline-plugin/runtime';
 import React from 'react';
 import { fromJS } from 'immutable';
@@ -24,7 +25,7 @@ if (process.env.NODE_ENV === 'development') {
 const store = getStore(preloadedState, routerMiddleware(browserHistory),
   devTools);
 const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState(state) {
+  selectLocationState(state: Object): Object {
     return state.get('routing').toJS();
   },
 });

@@ -1,3 +1,4 @@
+// @flow
 import { fromJS } from 'immutable';
 
 import { repos } from 'containers/Home/actions';
@@ -11,7 +12,8 @@ import reducer from 'containers/Home/reducer';
  * @param {Object} [initialState] Optional initial state object.
  * @return {void}
  */
-function testReducer(action, expectedState, initialState = {}) {
+function testReducer(action: Object, expectedState: Object,
+  initialState: ?Object = {}) {
   const actual = reducer(fromJS(initialState), action).toJS();
 
   expect(actual).toEqual(expectedState);

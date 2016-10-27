@@ -1,6 +1,4 @@
-/**
- * Gets the repositories of the user from Github
- */
+// @flow
 import { delay } from 'redux-saga';
 import { put, select, takeLatest } from 'redux-saga/effects';
 
@@ -12,7 +10,7 @@ import { makeSelectUsername } from './selectors';
  * Github repos request/response handler
  * @return {generator} Redux saga
  */
-export function* getRepos() {
+export function* getRepos(): Generator<Object, void, void> {
   // Select username from store
   const username = yield select(makeSelectUsername());
   // const requestURL = `https://api.github.com/users/${username}/repos`;
@@ -32,7 +30,7 @@ export function* getRepos() {
  * Root saga manages watcher lifecycle
  * @return {generator} Redux saga
  */
-export function* githubData() {
+export function* githubData(): Generator<Object> {
   yield takeLatest(REPOS.REQUEST, getRepos);
 }
 

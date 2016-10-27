@@ -1,3 +1,4 @@
+// @flow
 import { fromJS } from 'immutable';
 
 import { REPOS } from './constants';
@@ -14,7 +15,8 @@ const initialState = fromJS({
  * @param {Object} action Redux action
  * @return {Object} Updated state instance
  */
-export default function homeReducer(state = initialState, action) {
+export default function homeReducer(state: Object = initialState,
+  action: Object): Object {
   switch (action.type) {
     case REPOS.FAILURE:
       return state.set('error', action.payload.error)

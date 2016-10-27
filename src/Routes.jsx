@@ -9,7 +9,7 @@ import Home from 'containers/Home';
  * Get the React Router routes for the app.
  * @return {Object} Route hierarchy
  */
-export default function Routes() {
+export default function Routes(): Object {
   return (
     <Route component={App} path="/">
       <IndexRoute component={Home} />

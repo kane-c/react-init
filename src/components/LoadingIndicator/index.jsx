@@ -1,3 +1,4 @@
+// @flow
 import Icon from 'react-fontawesome';
 import React from 'react';
 
@@ -5,7 +6,7 @@ import React from 'react';
  * React component to indicate loading with a spinning icon.
  * @return {Object} React node
  */
-export default function LoadingIndicator() {
+export default function LoadingIndicator(): Object {
   return (
     <span>
       <Icon fixedWidth name="spinner" pulse />

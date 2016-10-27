@@ -1,3 +1,4 @@
+// @flow
 import { fromJS } from 'immutable';
 import { combineReducers } from 'redux-immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
@@ -13,7 +14,8 @@ const routingInitialState = fromJS({
  * @param {Object} action Redux action
  * @return {Object} new state
  */
-function routingReducer(state = routingInitialState, action) {
+function routingReducer(state?: Object = routingInitialState,
+  action: Object): Object {
   switch (action.type) {
     case LOCATION_CHANGE:
       return state.merge({
@@ -26,10 +28,10 @@ function routingReducer(state = routingInitialState, action) {
 
 /**
  * Root reducer function.
- * @param {array} [asyncReducers] Additional reducers
+ * @param {Object} [asyncReducers] Additional reducers
  * @return {function} Combined reducers
  */
-export default function createReducer(asyncReducers) {
+export default function createReducer(asyncReducers?: Object): Function {
   return combineReducers({
     routing: routingReducer,
     ...asyncReducers,

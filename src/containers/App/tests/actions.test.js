@@ -1,3 +1,4 @@
+// @flow
 import { action } from 'containers/App/actions';
 
 describe('action()', () => {

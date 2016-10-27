@@ -1,20 +1,23 @@
+// @flow
 import { createSelector } from 'reselect';
 
-const selectHome = () => state => state.get('home');
-
-const makeSelectUsername = () => createSelector(
-  selectHome(),
-  homeState => homeState.get('username'),
+const selectHome = (): Function => (state: Object): Object => (
+  state.get('home')
 );
 
-const makeSelectRepos = () => createSelector(
+const makeSelectUsername = (): Function => createSelector(
   selectHome(),
-  homeState => homeState.get('repos'),
+  (homeState: Object): string => homeState.get('username'),
 );
 
-const makeSelectIsLoading = () => createSelector(
+const makeSelectRepos = (): Function => createSelector(
   selectHome(),
-  homeState => homeState.get('isLoading'),
+  (homeState: Object): string[] => homeState.get('repos'),
+);
+
+const makeSelectIsLoading = (): Function => createSelector(
+  selectHome(),
+  (homeState: Object): Boolean => homeState.get('isLoading'),
 );
 
 export {

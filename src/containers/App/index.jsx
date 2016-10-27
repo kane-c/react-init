@@ -1,3 +1,4 @@
+// @flow
 import Helmet from 'react-helmet';
 import React from 'react';
 import { Grid } from 'react-bootstrap';
@@ -10,11 +11,11 @@ import styles from './styles.css';
  * @param {Object} props React props
  * @return {Object} React node
  */
-export default function App({ children }) {
+export default function App(props: Object): Object {
   return (
     <Grid>
       <Helmet titleTemplate="%s - My Title" />
-      {children}
+      {props.children}
       <Link className={styles.test} to="/">Home</Link>
       <Link to="/about">About</Link>
     </Grid>

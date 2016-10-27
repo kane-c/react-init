@@ -1,3 +1,4 @@
+// @flow
 import express from 'express';
 import Helmet from 'react-helmet';
 import React from 'react';
@@ -121,7 +122,8 @@ app.use('/manifest.json', manifest(assets));
  * @param {Object} head Helmet instance
  * @return {string} Full page HTML
  */
-function renderFullPage(html, preloadedState, head) {
+function renderFullPage(html: string, preloadedState: Object,
+  head: Object): string {
   const cssUrl = assets.entries.main.css || '/main.css';
   const jsUrl = assets.entries.main.js || '/client.js';
   // Add an ID attribute in development mode so it can be deleted on page load.
@@ -163,13 +165,13 @@ const routes = getRoutes();
  * @param {Object} res Response
  * @return {void}
  */
-function handleRender(req, res) {
+function handleRender(req: Object, res: Object) {
   const store = getStore();
 
   match({
     location: req.url,
     routes,
-  }, (error, redirectLocation, renderProps) => {
+  }, (error: ?Object, redirectLocation: Object, renderProps: Object) => {
     if (error) {
       res.status(500).send(error.message);
     } else if (redirectLocation) {
@@ -182,9 +184,13 @@ function handleRender(req, res) {
 
       // Find all the sagas required by the pages's components and run them,
       // rendering the result after they all complete
-      Promise.all(renderProps.components.reduce((sagas, component) => (
+      Promise.all(renderProps.components.reduce(
+          (sagas: ?Generator[], component: Object): Generator[] => (
         component.preloadSagas || []
-      ).concat(sagas), []).map(saga => store.runSaga(saga).done))
+          ).concat(sagas), [],
+        ).map(
+          (saga: Generator): Function => store.runSaga(saga).done),
+        )
         .then(() => {
           const html = renderToString(getRoot(store, routerContext));
           const head = Helmet.rewind();
@@ -193,7 +199,7 @@ function handleRender(req, res) {
           // TODO Find a way to 404 if an Ajax call hits a 404
           res.status(200).send(renderFullPage(html, preloadedState, head));
         })
-        .catch((exception) => {
+        .catch((exception: Object) => {
           res.status(500).send(exception.message);
           throw exception;
         });

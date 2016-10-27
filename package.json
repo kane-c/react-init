@@ -14,10 +14,10 @@
     "generate": "plop --plopfile generators/index.js",
     "lint": "npm run lint:css --silent && npm run lint:js --silent",
     "lint:css": "stylelint --ignore-path .gitignore **/*.css",
-    "lint:eslint": "eslint --ext=js --ext=jsx --ignore-path .gitignore",
+    "lint:eslint": "eslint --ext=js --ext=jsx --ignore-path .gitignore --ignore-pattern 'flow-typed/*'",
     "lint:js": "npm run lint:eslint --silent -- .",
     "lint:staged": "lint-staged",
-    "postinstall": "if [ \"$NODE_ENV\" != \"production\" ]; then echo 'Building DLL'; npm run build:dll --silent; fi",
+    "postinstall": "if [ \"$NODE_ENV\" != \"production\" ]; then echo 'Building DLL'; npm run build:dll --silent && flow-typed install --overwrite; fi",
     "prestart": "([ \"$NODE_ENV\" = \"production\" ] || [ -f build/static/dll.js ]) || npm run build:dll --silent",
     "start": "npm run build --silent && if [ \"$NODE_ENV\" = \"production\" ]; then node build/server; else webpack-dashboard -- node build/server; fi",
     "start:simple": "npm run build --silent && node build/server",
@@ -68,6 +68,9 @@
       "plugin:import/warnings"
     ],
     "parser": "babel-eslint",
+    "plugins": [
+      "flowtype"
+    ],
     "rules": {
       "max-len": [
         "error",
@@ -103,7 +106,30 @@
           "devDependencies": true
         }
       ],
-      "import/no-named-as-default": 0
+      "import/no-named-as-default": 0,
+      "flowtype/boolean-style": "error",
+      "flowtype/define-flow-type": "error",
+      "flowtype/delimiter-dangle": [
+        "error",
+        "only-multiline"
+      ],
+      "flowtype/generic-spacing": "error",
+      "flowtype/no-dupe-keys": "error",
+      "flowtype/no-primitive-constructor-types": "error",
+      "flowtype/no-weak-types": "error",
+      "flowtype/object-type-delimiter": "error",
+      "flowtype/require-parameter-type": "error",
+      "flowtype/require-return-type": "error",
+      "flowtype/require-valid-file-annotation": "error",
+      "flowtype/require-variable-type": "error",
+      "flowtype/semi": "error",
+      "flowtype/sort-keys": "error",
+      "flowtype/space-after-type-colon": "error",
+      "flowtype/space-before-generic-bracket": "error",
+      "flowtype/space-before-type-colon": "error",
+      "flowtype/type-id-match": "error",
+      "flowtype/union-intersection-spacing": "error",
+      "flowtype/use-flow-type": "error"
     },
     "settings": {
       "import/resolver": {
@@ -202,6 +228,7 @@
     "eslint-plugin-react": "^6.10.0",
     "eventsource-polyfill": "^0.9.6",
     "flow-bin": "^0.40.0",
+    "flow-typed": "^2.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^19.0.2",
     "lint-staged": "^3.3.1",

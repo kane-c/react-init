@@ -1,3 +1,4 @@
+// @flow
 import Helmet from 'react-helmet';
 import Icon from 'react-fontawesome';
 import React from 'react';
@@ -53,7 +54,7 @@ export class Home extends React.Component { // eslint-disable-line max-len, reac
   render() {
     const result = this.props.isLoading ? <LoadingIndicator /> : (
       <ul>
-        {this.props.repos.map(repo => <li key={repo}>{repo}</li>)}
+        {this.props.repos.map((repo: string): Object => <li key={repo}>{repo}</li>)}
       </ul>
     );
 
@@ -88,7 +89,7 @@ const mapStateToProps = createStructuredSelector({
  * @param {function} dispatch Redux store dispatch function
  * @return {Object} Map of props
  */
-export function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch: Function): Object {
   return {
     onSubmit: (evt) => {
       if (evt !== undefined && evt.preventDefault) {

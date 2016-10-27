@@ -1,3 +1,4 @@
+// @flow
 import Helmet from 'react-helmet';
 import React from 'react';
 
@@ -5,7 +6,7 @@ import React from 'react';
  * About page component.
  * @return {Object} React node
  */
-export default function About() {
+export default function About(): Object {
   return (
     <div>
       <Helmet title="About" />
