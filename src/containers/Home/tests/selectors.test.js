@@ -18,7 +18,7 @@ describe('Home page selectors', () => {
     [selectors.selectIsLoading, true],
   ];
 
-  for (const test of tests) {
+  tests.forEach((test) => {
     const [selector, expected] = test;
     let actual = selector()(state);
 
@@ -28,5 +28,5 @@ describe('Home page selectors', () => {
     }
 
     expect(actual).to.deep.equal(expected);
-  }
+  });
 });

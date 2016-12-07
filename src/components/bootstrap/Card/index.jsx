@@ -14,7 +14,7 @@ export const variants = [
 export default function Card(props) {
   const {
     block, children, className, component, inverse, outline, variant,
-    ...otherProps,
+    ...otherProps
   } = props;
   const Component = component || 'div';
 

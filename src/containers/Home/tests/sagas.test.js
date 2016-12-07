@@ -40,14 +40,14 @@ describe('getRepos Saga', () => {
 
     const selectDescriptor = getReposGenerator.next().value;
     expect(testableSaga(selectDescriptor)).to.deep.equal(
-      testableSaga(select(selectUsername()))
+      testableSaga(select(selectUsername())),
     );
 
     const callDescriptor = getReposGenerator.next(username).value;
     // const requestURL = `https://api.github.com/users/${username}/repos`;
     // expect(callDescriptor).to.deep.equal(call(request, requestURL));
     expect(testableSaga(callDescriptor)).to.deep.equal(
-      testableSaga(delay(500))
+      testableSaga(delay(500)),
     );
   });
 
@@ -85,7 +85,7 @@ describe('getReposWatcher Saga', () => {
 
   it('should invoke getRepos saga on actions', () => {
     const callDescriptor = getReposWatcherGenerator.next(
-      put(REPOS.REQUEST)
+      put(REPOS.REQUEST),
     ).value;
     expect(callDescriptor).to.deep.equal(call(getRepos));
   });
@@ -111,6 +111,6 @@ describe('githubDataSaga saga', () => {
       // reuse open fork for more integrated approach
       forkDescriptor = githubDataSaga.next(put(LOCATION_CHANGE));
       expect(forkDescriptor.value).to.deep.equal(cancel(forkDescriptor));
-    }
+    },
   );
 });

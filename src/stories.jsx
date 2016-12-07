@@ -62,16 +62,16 @@ const cardStory = addSimpleStory('Card', Card, { block: true }, 'Card')
     </Card>
   ));
 
-for (const variant of variants) {
+variants.forEach((variant) => {
   cardStory.add(`Variant: ${variant}`, () => (
     <Card block inverse={variant !== 'secondary'} variant={variant}>
       <CardText>Card</CardText>
     </Card>
   ))
     .add(`Outline variant: ${variant}`,
-      () => <Card block outline variant={variant}>Card</Card>
+      () => <Card block outline variant={variant}>Card</Card>,
     );
-}
+});
 
 cardStory.add('Complete example', () => (
   <Card>

@@ -9,7 +9,7 @@ describe('<App />', () => {
     const component = shallow(
       <App>
         <p>Child here</p>
-      </App>
+      </App>,
     );
 
     expect(component.find('p')).to.include.text('Child here');

@@ -11,7 +11,7 @@ describe('<Home />', () => {
   it('should show a loading indicator when loading', () => {
     const repos = fromJS(['a']);
     const component = shallow(
-      <Home isLoading repos={repos} />
+      <Home isLoading repos={repos} />,
     );
 
     expect(component.find('LoadingIndicator')).to.be.present();
@@ -21,7 +21,7 @@ describe('<Home />', () => {
     const repos = fromJS(['a', 'b', 'c']);
 
     const component = shallow(
-      <Home repos={repos} />
+      <Home repos={repos} />,
     );
 
     expect(component.find('li')).to.have.lengthOf(3);
@@ -31,7 +31,7 @@ describe('<Home />', () => {
     const repos = fromJS(['a']);
     const onSubmit = spy();
     const component = shallow(
-      <Home onSubmit={onSubmit} repos={repos} />
+      <Home onSubmit={onSubmit} repos={repos} />,
     );
 
     component.find('form').simulate('submit');
@@ -43,7 +43,7 @@ describe('<Home />', () => {
     const onSubmit = spy();
 
     shallow(
-      <Home onSubmit={onSubmit} repos={repos} />
+      <Home onSubmit={onSubmit} repos={repos} />,
     );
 
     expect(onSubmit.called).to.be.true();
