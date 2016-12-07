@@ -103,13 +103,11 @@ function getCacheBustRegex(name) {
  * @return {String} Path to cache busted asset.
  */
 assets.get = (name) => {
-  for (const asset of assets.assets) {
-    if (asset.path === name || getCacheBustRegex(name).test(asset.path)) {
-      return asset.path;
-    }
-  }
+  const asset = assets.assets.find(
+    asset => asset.path === name || getCacheBustRegex(name).test(asset.path),
+  );
 
-  return name;
+  return asset ? asset.path : name;
 };
 
 app.use(express.static('build/static'));

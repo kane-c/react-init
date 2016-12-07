@@ -31,7 +31,7 @@ const config = {
     rules: [
       {
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         options: {
           cacheDirectory: process.env.NODE_ENV === 'development',
           env: {
@@ -69,12 +69,12 @@ const config = {
       },
       {
         test: /\.json$/,
-        loader: 'json',
+        loader: 'json-loader',
       },
       {
         test: new RegExp('\\.(?:eot|gif|ico|jpe?g|otf|png|svg|ttf|woff2?)' +
                          '(\\?[a-z0-9=#&.]+)?$'),
-        loader: 'file?name=[name].[ext]',
+        loader: 'file-loader?name=[name].[ext]',
       },
     ],
   },
@@ -112,8 +112,9 @@ const config = {
 if (process.env.NODE_ENV === 'development') {
   config.devtool = 'eval-source-map';
 
-  const cssLoader = 'css?modules&importrules=1&sourceMap&' +
-    'localIdentName=[local]--[path][name]--[sha256:hash:hex:7]!postcss';
+  const cssLoader = 'css-loader?modules&importrules=1&sourceMap&' +
+    'localIdentName=[local]--[path][name]--[sha256:hash:hex:7]' +
+    '!postcss-loader';
 
   if (process.env.APP_ENV === 'server') {
     /* eslint-disable global-require */
@@ -121,23 +122,23 @@ if (process.env.NODE_ENV === 'development') {
     /* eslint-enable global-require */
 
     config.module.rules[1].loader = ExtractTextPlugin.extract({
-      fallbackLoader: 'style',
+      fallbackLoader: 'style-loader',
       loader: cssLoader,
     });
     config.module.rules[2].loader = ExtractTextPlugin.extract({
-      fallbackLoader: 'style',
-      loader: 'css',
+      fallbackLoader: 'style-loader',
+      loader: 'css-loader',
     });
     config.plugins.push(new ExtractTextPlugin('[name].css'));
   } else {
     config.entry.unshift(
       'eventsource-polyfill', // IE polyfill
-      'webpack-hot-middleware/client'
+      'webpack-hot-middleware/client' // eslint-disable-line comma-dangle
     );
 
     // rules[1] = our app's css
-    config.module.rules[1].loader = `style!${cssLoader}`;
-    config.module.rules[2].loader = 'style!css';
+    config.module.rules[1].loader = `style-loader!${cssLoader}`;
+    config.module.rules[2].loader = 'style-loader!css-loader';
 
     config.plugins.push(new webpack.DllReferencePlugin({
       context: '.',
@@ -159,7 +160,8 @@ if (process.env.NODE_ENV === 'development') {
     'react/lib/ReactContext': 'window',
   };
   // Null CSS loader - we don't need CSS files during tests
-  config.module.rules[1].loader = config.module.rules[2].loader = 'null';
+  config.module.rules[1].loader = config.module.rules[2].loader =
+    'null-loader';
 
   config.node = {
     fs: 'empty',
@@ -178,7 +180,7 @@ if (process.env.NODE_ENV === 'development') {
         comments: false,
       },
       sourceMap: false,
-    })
+    }) // eslint-disable-line comma-dangle
   );
 
   // CSS
@@ -187,18 +189,22 @@ if (process.env.NODE_ENV === 'development') {
   /* eslint-enable global-require */
 
   config.module.rules[1].loader = ExtractTextPlugin.extract({
-    fallbackLoader: 'style',
-    loader: 'css?modules&-autoprefixer&importrules=1&' +
-      'localIdentName=[sha256:hash:hex:7]!postcss',
+    fallbackLoader: 'style-loader',
+    loader: 'css-loader?modules&-autoprefixer&importrules=1&' +
+      'localIdentName=[sha256:hash:hex:7]!postcss-loader',
   });
   config.module.rules[2].loader = ExtractTextPlugin.extract({
-    fallbackLoader: 'style',
-    loader: `css?${JSON.stringify({ discardComments: { removeAll: true } })}`,
+    fallbackLoader: 'style-loader',
+    loader: `css-loader?${JSON.stringify({
+      discardComments: {
+        removeAll: true,
+      },
+    })}`,
   });
   config.module.rules[4].loader =
-    'file?name=[name].[sha256:hash:hex:7].[ext]';
+    'file-loader?name=[name].[sha256:hash:hex:7].[ext]';
   config.plugins.push(
-    new ExtractTextPlugin('[name].[sha256:contenthash:hex:7].css')
+    new ExtractTextPlugin('[name].[sha256:contenthash:hex:7].css') // eslint-disable-line max-len, comma-dangle
   );
 
   config.output.filename = 'client.[chunkhash:7].js';

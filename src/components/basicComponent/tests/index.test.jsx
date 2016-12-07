@@ -17,7 +17,7 @@ describe('basicComponent()', () => {
     const component = shallow(
       <MyComponent className="test" component="foo">
         <p>Child here</p>
-      </MyComponent>
+      </MyComponent>,
     );
 
     expect(component).to.have.prop('className', 'my-class test');

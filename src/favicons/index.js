@@ -61,15 +61,13 @@ const msTileSizes = [
  */
 export function browserConfig(assets) {
   return (req, res) => {
-    const tiles = [];
-
-    for (const [width, height] of msTileSizes) {
+    const tiles = msTileSizes.map(([width, height]) => {
       const shape = width === height ? 'square' : 'wide';
       let path = `/mstile-${width}x${height}.png`;
       path = assets.get(path);
 
-      tiles.push(`<${shape}${width}x${height}logo src="${path}" />`);
-    }
+      return `<${shape}${width}x${height}logo src="${path}" />`;
+    });
 
     res.set('Content-Type', 'application/xml; charset=utf-8');
     res.send(`<?xml version="1.0" encoding="utf-8"?>
@@ -93,19 +91,17 @@ export function browserConfig(assets) {
  */
 export function manifest(assets) {
   return (req, res) => {
-    const icons = [];
-
-    for (const size of chromeIconSizes) {
+    const icons = chromeIconSizes.map((size) => {
       const sizes = `${size}x${size}`;
       let src = `/android-chrome-${sizes}.png`;
       src = assets.get(src);
 
-      icons.push({
+      return {
         src,
         sizes,
         type: 'image/png',
-      });
-    }
+      };
+    });
 
     const manifest = {
       name: title,
@@ -130,7 +126,7 @@ export function manifest(assets) {
 export function getFaviconHtml(assets) {
   const appleIcons = appleIconSizes.map(size =>
     `    <link rel="apple-touch-icon" sizes="${size}x${size}"` +
-    ` href="${assets.get(`/apple-touch-icon-${size}x${size}.png`)}">`
+    ` href="${assets.get(`/apple-touch-icon-${size}x${size}.png`)}">`,
   ).join('\n    ');
 
   return `${appleIcons}

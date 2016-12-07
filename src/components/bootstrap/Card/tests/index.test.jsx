@@ -45,7 +45,7 @@ describe('<Card />', () => {
     const component = shallow(
       <Card>
         <p>Child here</p>
-      </Card>
+      </Card>,
     );
 
     expect(component.find('p')).to.include.text('Child here');

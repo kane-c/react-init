@@ -7,7 +7,7 @@ import About from '..';
 describe('<About />', () => {
   it('should render', () => {
     const component = shallow(
-      <About />
+      <About />,
     );
 
     expect(component).to.contain.text('About');

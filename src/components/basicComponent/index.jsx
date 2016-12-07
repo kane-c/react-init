@@ -9,7 +9,7 @@ import React from 'react';
  * @return {Function} New component
  */
 export default function basicComponent(fixedClassName,
-                                       defaultComponent = 'div') {
+  defaultComponent = 'div') {
   const component = function SubComponent(props) {
     const { children, className, component, ...otherProps } = props;
     const Component = component || defaultComponent;
