@@ -9,8 +9,10 @@ config.entry = [
   'babel-polyfill',
   'eventsource-polyfill', // IE polyfill
   'axios',
+  'immutable',
   'lodash', // Not used directly but keeps the bundle lean
   'react',
+  'react-bootstrap',
   'react-dom',
   'react-helmet',
   'react-proxy', // Not used directly but keeps the bundle lean
