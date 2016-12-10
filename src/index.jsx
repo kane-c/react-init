@@ -195,6 +195,7 @@ function handleRender(req, res) {
         })
         .catch((exception) => {
           res.status(500).send(exception.message);
+          throw exception;
         });
 
       // Need to render once so that the Saga actions get dispatched
