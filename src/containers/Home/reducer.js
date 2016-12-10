@@ -4,7 +4,6 @@ import { REPOS } from './constants';
 
 const initialState = fromJS({
   isLoading: false,
-  page: 'home',
   repos: [],
   username: 'kane-c',
 });
