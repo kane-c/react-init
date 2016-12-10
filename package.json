@@ -19,6 +19,7 @@
     "postinstall": "if [ \"$NODE_ENV\" != \"production\" ]; then echo 'Building DLL'; npm run build:dll --silent; fi",
     "prestart": "([ \"$NODE_ENV\" = \"production\" ] || [ -f build/static/dll.js ]) || npm run build:dll --silent",
     "start": "npm run build --silent && if [ \"$NODE_ENV\" = \"production\" ]; then node build/server; else webpack-dashboard -- node build/server; fi",
+    "start:simple": "npm run build --silent && node build/server",
     "storybook": "start-storybook --dont-track -p 8081",
     "pretest": "rm -rf coverage",
     "test": "NODE_ENV=test karma start"
