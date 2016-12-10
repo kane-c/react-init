@@ -23,7 +23,6 @@ const sagaMiddleware = createSagaMiddleware();
  * Get a store instance.
  * @param {Object} [preloadedState] Initial store state
  * @param {Object} [routerMiddleware] React Router middleware instance
- * @param {Object} [devTools] Redux Dev Tools instance
  * @return {Object} Redux store instance
  */
 export function getStore(preloadedState, routerMiddleware) {
