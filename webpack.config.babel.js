@@ -1,6 +1,7 @@
 const path = require('path');
 
 const cssnext = require('postcss-cssnext');
+const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const postcssFocus = require('postcss-focus');
 const postcssReporter = require('postcss-reporter');
 const webpack = require('webpack');
@@ -92,6 +93,7 @@ const config = {
       options: {
         context: '/', // For `css-loader`
         postcss: [
+          postcssFlexbugsFixes,
           postcssFocus(),
           cssnext({
             browsers: ['last 2 versions', 'IE > 8'],
