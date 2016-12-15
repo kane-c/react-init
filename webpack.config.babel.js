@@ -173,13 +173,10 @@ if (process.env.NODE_ENV === 'development') {
 } else if (process.env.NODE_ENV === 'production') {
   // Production performance optimizations
   config.plugins.push(
-    new webpack.optimize.OccurrenceOrderPlugin(true),
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       output: {
         comments: false,
       },
-      sourceMap: false,
     }) // eslint-disable-line comma-dangle
   );
 
