@@ -14,7 +14,7 @@ import { createStructuredSelector } from 'reselect';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import { repos } from './actions';
-import { selectIsLoading, selectRepos } from './selectors';
+import { makeSelectIsLoading, makeSelectRepos } from './selectors';
 import { githubData } from './sagas';
 
 /**
@@ -75,8 +75,8 @@ export class Home extends React.Component { // eslint-disable-line max-len, reac
 }
 
 const mapStateToProps = createStructuredSelector({
-  isLoading: selectIsLoading(),
-  repos: selectRepos(),
+  isLoading: makeSelectIsLoading(),
+  repos: makeSelectRepos(),
 });
 
 /**
