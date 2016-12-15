@@ -7,7 +7,7 @@ import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
 
 import { repos } from './actions';
 import { REPOS } from './constants';
-import { selectUsername } from './selectors';
+import { makeSelectUsername } from './selectors';
 
 /**
  * Github repos request/response handler
@@ -15,7 +15,7 @@ import { selectUsername } from './selectors';
  */
 export function* getRepos() {
   // Select username from store
-  const username = yield select(selectUsername());
+  const username = yield select(makeSelectUsername());
   // const requestURL = `https://api.github.com/users/${username}/repos`;
 
   yield delay(500);
