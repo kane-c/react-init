@@ -34,7 +34,7 @@ export function getStore(preloadedState, routerMiddleware) {
   middleware = applyMiddleware(...middleware);
 
   /* eslint-disable no-underscore-dangle */
-  if (typeof window !== 'undefined' &&
+  if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined' &&
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
     middleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(middleware);
   }
