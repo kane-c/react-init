@@ -45,7 +45,7 @@ export function getStore(preloadedState, routerMiddleware) {
 
   store.runSaga = sagaMiddleware.run;
   store.close = () => store.dispatch(END);
-  sagas.map(sagaMiddleware.run);
+  sagas.forEach(sagaMiddleware.run);
 
   // Make reducers hot reloadable
   /* istanbul ignore next */
