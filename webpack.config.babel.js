@@ -147,7 +147,7 @@ if (process.env.NODE_ENV === 'development') {
   } else {
     config.entry.unshift(
       'eventsource-polyfill', // IE polyfill
-      'webpack-hot-middleware/client' // eslint-disable-line comma-dangle
+      'webpack-hot-middleware/client?reload=true' // eslint-disable-line max-len, comma-dangle
     );
 
     // rules[1] = our app's css
