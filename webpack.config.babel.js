@@ -111,7 +111,7 @@ const config = {
             ],
           }),
           postcssReporter({
-            clearMessages: true,
+            clearAllMessages: true,
           }),
         ],
       },
