@@ -1,0 +1,22 @@
+import React from 'react';
+
+{{#if wantCSS}}
+import styles from './styles.css';
+{{/if}}
+
+export default class {{ properCase name }} extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  render() {
+    return (
+      {{#if wantCSS}}
+      <div className={{curly true}}styles.{{ camelCase name }}{{curly}}>
+      {{else}}
+      <div>
+      {{/if}}
+      </div>
+    );
+  }
+}
+
+{{ properCase name }}.propTypes = {
+
+};
