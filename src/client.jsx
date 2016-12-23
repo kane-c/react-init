@@ -6,7 +6,7 @@ import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
 
 import 'favicons';
 import getRoutes from 'Routes';
-import { getRoot, getStore, sagas } from 'common';
+import { getRoot, getStore } from 'common';
 
 const preloadedState = fromJS(window.PRELOADED_STATE);
 delete window.PRELOADED_STATE;
@@ -33,8 +33,5 @@ const router = (
     {getRoutes()}
   </Router>
 );
-
-// Start ALL the sagas (warning: may cause performance issues?)
-sagas.map(store.runSaga);
 
 render(getRoot(store, router), document.getElementById('root'));

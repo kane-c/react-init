@@ -9,7 +9,7 @@ import createReducer from 'reducers';
 import homeSagas from 'containers/Home/sagas';
 import homeReducer from 'containers/Home/reducer';
 
-export const sagas = [
+const sagas = [
   ...homeSagas,
 ];
 
