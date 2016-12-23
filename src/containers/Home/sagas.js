@@ -1,8 +1,8 @@
 /**
  * Gets the repositories of the user from Github
  */
-import { delay } from 'redux-saga';
-import { take, call, put, select, fork } from 'redux-saga/effects';
+import { delay, takeLatest } from 'redux-saga';
+import { put, select, fork } from 'redux-saga/effects';
 
 import { repos } from './actions';
 import { REPOS } from './constants';
@@ -17,16 +17,14 @@ export function* getRepos() {
   const username = yield select(makeSelectUsername());
   // const requestURL = `https://api.github.com/users/${username}/repos`;
 
-  yield delay(500);
-
-  const result = {
-    data: [username, 'b', 'c'],
-  }; // yield call(request, requestURL);
-
-  if (!result.err) {
+  try {
+    yield delay(500);
+    const result = {
+      data: [username, 'b', 'c'],
+    }; // yield call(request, requestURL);
     yield put(repos.success(result.data, result));
-  } else {
-    yield put(repos.failure(result.err));
+  } catch (err) {
+    yield put(repos.failure(err));
   }
 }
 
@@ -35,9 +33,7 @@ export function* getRepos() {
  * @return {generator} Redux saga
  */
 export function* getReposWatcher() {
-  while (yield take(REPOS.REQUEST)) {
-    yield call(getRepos);
-  }
+  yield fork(takeLatest, REPOS.REQUEST, getRepos);
 }
 
 /**
