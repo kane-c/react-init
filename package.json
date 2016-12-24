@@ -177,7 +177,7 @@
     "redux-saga": "^0.13.0",
     "reselect": "^2.5.4",
     "style-loader": "^0.13.1",
-    "webpack": "2.1.0-beta.25"
+    "webpack": "^2.1.0-beta.28"
   },
   "devDependencies": {
     "@kadira/storybook": "^2.20.1",
