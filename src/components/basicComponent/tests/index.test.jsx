@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
@@ -9,9 +9,9 @@ describe('basicComponent()', () => {
 
   it('should make a simple HTML class component', () => {
     expect(MyComponent.propTypes).to.deep.equal({
-      children: React.PropTypes.node,
-      className: React.PropTypes.string,
-      component: React.PropTypes.string,
+      children: PropTypes.node,
+      className: PropTypes.string,
+      component: PropTypes.string,
     });
 
     const component = shallow(

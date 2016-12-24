@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 /**
  * Function that creates a new component. The tag/component itself is a prop
@@ -28,9 +28,9 @@ export default function basicComponent(fixedClassName,
   };
 
   component.propTypes = {
-    children: React.PropTypes.node,
-    className: React.PropTypes.string,
-    component: React.PropTypes.string,
+    children: PropTypes.node,
+    className: PropTypes.string,
+    component: PropTypes.string,
   };
 
   return component;

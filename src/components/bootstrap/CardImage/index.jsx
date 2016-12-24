@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 /**
  * Bootstrap 4 card image component.
@@ -29,6 +29,6 @@ export default function CardImage(props) {
 }
 
 CardImage.propTypes = {
-  className: React.PropTypes.string,
-  position: React.PropTypes.oneOf(['bottom', 'top']),
+  className: PropTypes.string,
+  position: PropTypes.oneOf(['bottom', 'top']),
 };

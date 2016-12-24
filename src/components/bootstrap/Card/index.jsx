@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import basicComponent from 'components/basicComponent';
 
@@ -44,13 +44,13 @@ export default function Card(props) {
 }
 
 Card.propTypes = {
-  block: React.PropTypes.bool,
-  children: React.PropTypes.node,
-  className: React.PropTypes.string,
-  component: React.PropTypes.string,
-  inverse: React.PropTypes.bool,
-  outline: React.PropTypes.bool,
-  variant: React.PropTypes.oneOf(variants),
+  block: PropTypes.bool,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  component: PropTypes.string,
+  inverse: PropTypes.bool,
+  outline: PropTypes.bool,
+  variant: PropTypes.oneOf(variants),
 };
 
 export const CardBlock = basicComponent('card-block');
@@ -60,7 +60,7 @@ export const CardGroup = basicComponent('card-group');
 export const CardHeader = basicComponent('card-header');
 export const CardImageOverlay = basicComponent('card-img-overlay');
 export const CardLink = basicComponent('card-link', 'a');
-CardLink.propTypes.href = React.PropTypes.string.isRequired;
+CardLink.propTypes.href = PropTypes.string.isRequired;
 export const CardQuote = basicComponent('card-blockquote', 'blockquote');
 export const CardTitle = basicComponent('card-title', 'h3');
 export const CardSubtitle = basicComponent('card-subtitle', 'h6');

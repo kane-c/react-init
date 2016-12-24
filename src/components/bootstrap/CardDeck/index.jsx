@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 /**
  * Bootstrap 4 card deck component.
@@ -28,6 +28,6 @@ export default function CardDeck(props: Object): Object {
 }
 
 CardDeck.propTypes = {
-  children: React.PropTypes.node.isRequired,
-  flexbox: React.PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  flexbox: PropTypes.bool,
 };
