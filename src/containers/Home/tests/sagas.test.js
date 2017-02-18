@@ -1,33 +1,10 @@
-import { expect } from 'chai';
-import { LOCATION_CHANGE } from 'react-router-redux';
-import { delay } from 'redux-saga';
-import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 
-// import { repos } from 'containers/Home/actions';
-import { REPOS } from 'containers/Home/constants';
-import { selectUsername } from 'containers/Home/selectors';
-import { getRepos, getReposWatcher, githubData } from 'containers/Home/sagas';
+// import { repos } from '../actions';
+import { REPOS } from '../constants';
+import { getRepos, githubData } from '../sagas';
 
 const username = 'test';
-
-/**
- * Modify a saga call to be testable.
- * It is difficult to correctly deep compare these because they include
- * functions in their values.
- * @param {Object} descriptor Redux Saga descriptor
- * @return {Object} Modified descriptor
- */
-function testableSaga(descriptor) {
-  /* eslint-disable no-param-reassign */
-  if (descriptor.SELECT && descriptor.SELECT.selector) {
-    descriptor.SELECT.selector = {};
-  } else if (descriptor['@@redux-saga/cancelPromise']) {
-    descriptor['@@redux-saga/cancelPromise'] = {};
-  }
-  /* eslint-enable no-param-reassign */
-
-  return descriptor;
-}
 
 describe('getRepos Saga', () => {
   let getReposGenerator;
@@ -39,78 +16,35 @@ describe('getRepos Saga', () => {
     getReposGenerator = getRepos();
 
     const selectDescriptor = getReposGenerator.next().value;
-    expect(testableSaga(selectDescriptor)).to.deep.equal(
-      testableSaga(select(selectUsername())),
-    );
+    expect(selectDescriptor).toMatchSnapshot();
 
     const callDescriptor = getReposGenerator.next(username).value;
-    // const requestURL = `https://api.github.com/users/${username}/repos`;
-    // expect(callDescriptor).to.deep.equal(call(request, requestURL));
-    expect(testableSaga(callDescriptor)).to.deep.equal(
-      testableSaga(delay(500)),
-    );
+    expect(callDescriptor).toMatchSnapshot();
   });
 
   /*
   TODO reinstate these tests when using a real Ajax call
-  it('should dispatch repos.success if the request succeeds', () => {
+  it('should dispatch repos.success action the request succeeds', () => {
     const response = {
-      data: [
-        'First repo',
-        'Second repo',
-      ],
+      data: [username, 'b', 'c'],
     };
     const putDescriptor = getReposGenerator.next(response).value;
-    const expected = put(repos.success(response.data, username));
-    expect(putDescriptor).to.deep.equal(expected);
+    expect(putDescriptor).toEqual(put(repos.success(response.data, response)));
   });
 
-  it('should call the failure action if the response errors', () => {
-    const response = {
-      err: 'Some error',
-    };
-    const putDescriptor = getReposGenerator.next(response).value;
-    expect(putDescriptor).to.deep.equal(put(repos.failure(response.err)));
+  it('should call the repoLoadingError action if the response errors', () => {
+    const response = new Error('Some error');
+    const putDescriptor = getReposGenerator.throw(response).value;
+    expect(putDescriptor).toEqual(put(repos.failure(response)));
   });
   */
-});
-
-describe('getReposWatcher Saga', () => {
-  const getReposWatcherGenerator = getReposWatcher();
-
-  it('should watch for LOAD_REPOS action', () => {
-    const takeDescriptor = getReposWatcherGenerator.next().value;
-    expect(takeDescriptor).to.deep.equal(take(REPOS.REQUEST));
-  });
-
-  it('should invoke getRepos saga on actions', () => {
-    const callDescriptor = getReposWatcherGenerator.next(
-      put(REPOS.REQUEST),
-    ).value;
-    expect(callDescriptor).to.deep.equal(call(getRepos));
-  });
 });
 
 describe('githubDataSaga saga', () => {
   const githubDataSaga = githubData();
 
-  let forkDescriptor;
-
-  it('should asyncronously fork getReposWatcher saga', () => {
-    forkDescriptor = githubDataSaga.next();
-    expect(forkDescriptor.value).to.deep.equal(fork(getReposWatcher));
+  it('should start task to watch for `REPOS.REQUEST` action', () => {
+    const takeLatestDescriptor = githubDataSaga.next().value;
+    expect(takeLatestDescriptor).toEqual(takeLatest(REPOS.REQUEST, getRepos));
   });
-
-  it('should yield until LOCATION_CHANGE action', () => {
-    const takeDescriptor = githubDataSaga.next();
-    expect(takeDescriptor.value).to.deep.equal(take(LOCATION_CHANGE));
-  });
-
-  it('should finally cancel() the forked getReposWatcher saga',
-    function* githubDataSagaCancellable() { // eslint-disable-line
-      // reuse open fork for more integrated approach
-      forkDescriptor = githubDataSaga.next(put(LOCATION_CHANGE));
-      expect(forkDescriptor.value).to.deep.equal(cancel(forkDescriptor));
-    },
-  );
 });

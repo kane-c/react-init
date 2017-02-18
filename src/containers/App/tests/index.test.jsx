@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import App from 'containers/App';
@@ -12,6 +11,6 @@ describe('<App />', () => {
       </App>,
     );
 
-    expect(component.find('p')).to.include.text('Child here');
+    expect(component.find('p').text().includes('Child here')).toBe(true);
   });
 });

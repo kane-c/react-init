@@ -2,7 +2,7 @@ import React from 'react';
 import createSagaMiddleware, { END } from 'redux-saga';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
-import 'bootstrap/dist/css/bootstrap-flex.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 
 import createReducer from 'reducers';

@@ -1,8 +1,8 @@
 /**
  * Gets the repositories of the user from Github
  */
-import { delay, takeLatest } from 'redux-saga';
-import { put, select, fork } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
+import { put, select, takeLatest } from 'redux-saga/effects';
 
 import { repos } from './actions';
 import { REPOS } from './constants';
@@ -29,20 +29,11 @@ export function* getRepos() {
 }
 
 /**
- * Watch for the action and call the handler
- * @return {generator} Redux saga
- */
-export function* getReposWatcher() {
-  yield fork(takeLatest, REPOS.REQUEST, getRepos);
-}
-
-/**
  * Root saga manages watcher lifecycle
  * @return {generator} Redux saga
  */
 export function* githubData() {
-  // Fork watcher so we can continue execution
-  yield fork(getReposWatcher);
+  yield takeLatest(REPOS.REQUEST, getRepos);
 }
 
 export default [

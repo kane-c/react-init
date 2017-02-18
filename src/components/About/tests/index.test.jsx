@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import About from '..';
@@ -10,6 +9,7 @@ describe('<About />', () => {
       <About />,
     );
 
-    expect(component).to.contain.text('About');
+    // Replace with expect(...).stringContains with Jest 19+
+    expect(component.text().includes('About')).toBe(true);
   });
 });
