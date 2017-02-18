@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import basicComponent from 'components/basicComponent';
@@ -7,8 +6,16 @@ import basicComponent from 'components/basicComponent';
 describe('basicComponent()', () => {
   const MyComponent = basicComponent('my-class');
 
+  it('should use a default component type', () => {
+    const component = shallow(
+      <MyComponent />,
+    );
+
+    expect(component.find('div')).toBeDefined();
+  });
+
   it('should make a simple HTML class component', () => {
-    expect(MyComponent.propTypes).to.deep.equal({
+    expect(MyComponent.propTypes).toEqual({
       children: PropTypes.node,
       className: PropTypes.string,
       component: PropTypes.string,
@@ -20,8 +27,8 @@ describe('basicComponent()', () => {
       </MyComponent>,
     );
 
-    expect(component).to.have.prop('className', 'my-class test');
-    expect(component.find('foo')).to.be.present();
-    expect(component.find('p')).to.have.text('Child here');
+    expect(component.prop('className')).toBe('my-class test');
+    expect(component.find('foo')).toBeDefined();
+    expect(component.find('p').text().includes('Child here')).toBe(true);
   });
 });

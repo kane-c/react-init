@@ -1,8 +1,6 @@
 import React from 'react';
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { fromJS } from 'immutable';
-import { spy } from 'sinon';
 
 import { Home, mapDispatchToProps } from 'containers/Home';
 import { repos } from 'containers/Home/actions';
@@ -14,7 +12,7 @@ describe('<Home />', () => {
       <Home isLoading repos={repos} />,
     );
 
-    expect(component.find('LoadingIndicator')).to.be.present();
+    expect(component.find('LoadingIndicator')).toBeDefined();
   });
 
   it('should show a list of repos', () => {
@@ -24,48 +22,48 @@ describe('<Home />', () => {
       <Home repos={repos} />,
     );
 
-    expect(component.find('li')).to.have.lengthOf(3);
+    expect(component.find('li')).toHaveLength(3);
   });
 
   it('should handle form submission', () => {
     const repos = fromJS(['a']);
-    const onSubmit = spy();
+    const onSubmit = jest.fn();
     const component = shallow(
       <Home onSubmit={onSubmit} repos={repos} />,
     );
 
     component.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.true();
+    expect(onSubmit.mock.calls).toHaveLength(1);
   });
 
   it('should request repos on mount', () => {
     const repos = fromJS([]);
-    const onSubmit = spy();
+    const onSubmit = jest.fn();
 
     shallow(
       <Home onSubmit={onSubmit} repos={repos} />,
     );
 
-    expect(onSubmit.called).to.be.true();
+    expect(onSubmit.mock.calls).toHaveLength(1);
   });
 });
 
 describe('mapDispatchToProps()', () => {
   describe('onSubmit', () => {
     it('should dispatch repos.request()', () => {
-      const dispatch = spy();
+      const dispatch = jest.fn();
       mapDispatchToProps(dispatch).onSubmit();
 
-      expect(dispatch.calledWith(repos.request())).to.be.true();
+      expect(dispatch).toBeCalledWith(repos.request());
     });
 
     it('should handle events', () => {
-      const preventDefault = spy();
+      const preventDefault = jest.fn();
       mapDispatchToProps(() => {}).onSubmit({
         preventDefault,
       });
 
-      expect(preventDefault.called).to.be.true();
+      expect(preventDefault.mock.calls).toHaveLength(1);
     });
   });
 });

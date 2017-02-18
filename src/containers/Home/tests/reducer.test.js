@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { fromJS } from 'immutable';
 
 import { repos } from 'containers/Home/actions';
@@ -15,7 +14,7 @@ import reducer from 'containers/Home/reducer';
 function testReducer(action, expectedState, initialState = {}) {
   const actual = reducer(fromJS(initialState), action).toJS();
 
-  expect(actual).to.deep.equal(expectedState);
+  expect(actual).toEqual(expectedState);
 }
 
 describe('Home reducer', () => {
