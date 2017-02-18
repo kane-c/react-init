@@ -7,7 +7,9 @@ export const select{{ properCase name }}Domain = () => (state) => state.get('{{ 
 
 
 // Default selector used by {{ properCase name }}
-export default const makeSelect{{ properCase name }} = () => createSelector(
-  select{{ properCase name }}Domain(),
-  (substate) => substate.toJS()
-);
+export default function makeSelect{{ properCase name }}() {
+  return createSelector(
+    select{{ properCase name }}Domain(),
+    substate => substate.toJS(),
+  );
+}

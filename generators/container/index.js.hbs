@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 {{#if wantHeaders}}
 import Helmet from 'react-helmet';
 {{/if}}
+import { connect } from 'react-redux';
 {{#if wantActionsAndReducer}}
 import { createStructuredSelector } from 'reselect';
+
 import makeSelect{{properCase name}} from './selectors';
 {{/if}}
 {{#if wantCSS}}
