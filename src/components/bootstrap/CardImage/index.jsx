@@ -32,3 +32,8 @@ CardImage.propTypes = {
   className: PropTypes.string,
   position: PropTypes.oneOf(['bottom', 'top']),
 };
+
+CardImage.defaultProps = {
+  className: null,
+  position: null,
+};
