@@ -88,7 +88,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.LoaderOptionsPlugin({
       options: {
         context: '/', // For `css-loader`
@@ -136,12 +136,12 @@ if (process.env.NODE_ENV === 'development') {
     /* eslint-enable global-require */
 
     config.module.rules[1].loader = ExtractTextPlugin.extract({
-      fallbackLoader: 'style-loader',
-      loader: cssLoader,
+      fallback: 'style-loader',
+      use: cssLoader,
     });
     config.module.rules[2].loader = ExtractTextPlugin.extract({
-      fallbackLoader: 'style-loader',
-      loader: 'css-loader',
+      fallback: 'style-loader',
+      use: 'css-loader',
     });
     config.plugins.push(new ExtractTextPlugin('[name].css'));
   } else {
@@ -174,8 +174,8 @@ if (process.env.NODE_ENV === 'development') {
     'react/lib/ReactContext': 'window',
   };
   // Null CSS loader - we don't need CSS files during tests
-  config.module.rules[1].loader = config.module.rules[2].loader =
-    'null-loader';
+  config.module.rules[1].loader = 'null-loader';
+  config.module.rules[2].loader = config.module.rules[1].loader;
 
   config.node = {
     fs: 'empty',
@@ -200,13 +200,13 @@ if (process.env.NODE_ENV === 'development') {
   /* eslint-enable global-require */
 
   config.module.rules[1].loader = ExtractTextPlugin.extract({
-    fallbackLoader: 'style-loader',
-    loader: 'css-loader?modules&-autoprefixer&importrules=1&' +
+    fallback: 'style-loader',
+    use: 'css-loader?modules&-autoprefixer&importrules=1&' +
       'localIdentName=[sha256:hash:hex:7]!postcss-loader',
   });
   config.module.rules[2].loader = ExtractTextPlugin.extract({
-    fallbackLoader: 'style-loader',
-    loader: `css-loader?${JSON.stringify({
+    fallback: 'style-loader',
+    use: `css-loader?${JSON.stringify({
       discardComments: {
         removeAll: true,
       },

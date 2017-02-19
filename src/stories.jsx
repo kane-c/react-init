@@ -95,13 +95,23 @@ cardStory.add('Complete example', () => (
   </Card>
 ));
 
-addStory('CardColumns', 'Complete example', () => (
-  <CardColumns>
-    {Array(12).fill().map((_, i) => (
-      <Card key={i} style={{ minHeight: 26 * (i + 1) }}>Card {i + 1}</Card>
-    ))}
-  </CardColumns>
-));
+addStory('CardColumns', 'Complete example', () => {
+  let i = 0;
+
+  return (
+    <CardColumns>
+      {Array(12).fill().map(() => {
+        const card = (
+          <Card key={i} style={{ minHeight: 26 * (i + 1) }}>Card {i + 1}</Card>
+        );
+
+        i += 1;
+
+        return card;
+      })}
+    </CardColumns>
+  );
+});
 addStory('CardDeck', 'Complete example', () => (
   <CardDeck>
     <Card>Card 1</Card>

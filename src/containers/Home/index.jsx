@@ -23,8 +23,12 @@ import { githubData } from './sagas';
 export class Home extends React.Component { // eslint-disable-line max-len, react/prefer-stateless-function
   static propTypes = {
     isLoading: React.PropTypes.bool,
-    onSubmit: React.PropTypes.func,
+    onSubmit: React.PropTypes.func.isRequired,
     repos: React.PropTypes.instanceOf(List).isRequired,
+  };
+
+  static defaultProps = {
+    isLoading: false,
   };
 
   static preloadSagas = [
@@ -49,7 +53,7 @@ export class Home extends React.Component { // eslint-disable-line max-len, reac
   render() {
     const result = this.props.isLoading ? <LoadingIndicator /> : (
       <ul>
-        {this.props.repos.map((repo, i) => <li key={i}>{repo}</li>)}
+        {this.props.repos.map(repo => <li key={repo}>{repo}</li>)}
       </ul>
     );
 

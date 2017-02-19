@@ -5,11 +5,13 @@ import { fromJS } from 'immutable';
 import { Home, mapDispatchToProps } from 'containers/Home';
 import { repos } from 'containers/Home/actions';
 
+const noOp = () => {};
+
 describe('<Home />', () => {
   it('should show a loading indicator when loading', () => {
     const repos = fromJS(['a']);
     const component = shallow(
-      <Home isLoading repos={repos} />,
+      <Home isLoading onSubmit={noOp} repos={repos} />,
     );
 
     expect(component.find('LoadingIndicator')).toBeDefined();
@@ -19,7 +21,7 @@ describe('<Home />', () => {
     const repos = fromJS(['a', 'b', 'c']);
 
     const component = shallow(
-      <Home repos={repos} />,
+      <Home onSubmit={noOp} repos={repos} />,
     );
 
     expect(component.find('li')).toHaveLength(3);

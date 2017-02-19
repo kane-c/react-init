@@ -16,7 +16,7 @@ export default function Card(props) {
     block, children, className, component, inverse, outline, variant,
     ...otherProps
   } = props;
-  const Component = component || 'div';
+  const Component = component;
 
   const classNames = ['card'];
 
@@ -51,6 +51,16 @@ Card.propTypes = {
   inverse: PropTypes.bool,
   outline: PropTypes.bool,
   variant: PropTypes.oneOf(variants),
+};
+
+Card.defaultProps = {
+  block: false,
+  children: null,
+  className: null,
+  component: 'div',
+  inverse: false,
+  outline: false,
+  variant: null,
 };
 
 export const CardBlock = basicComponent('card-block');

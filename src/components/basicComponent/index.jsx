@@ -12,7 +12,7 @@ export default function basicComponent(fixedClassName,
   defaultComponent = 'div') {
   const component = function SubComponent(props) {
     const { children, className, component, ...otherProps } = props;
-    const Component = component || defaultComponent;
+    const Component = component;
 
     const classNames = [fixedClassName];
 
@@ -31,6 +31,12 @@ export default function basicComponent(fixedClassName,
     children: PropTypes.node,
     className: PropTypes.string,
     component: PropTypes.string,
+  };
+
+  component.defaultProps = {
+    children: null,
+    className: null,
+    component: defaultComponent,
   };
 
   return component;
