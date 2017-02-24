@@ -68,7 +68,6 @@ It's useful to have these later in a project to be able to know whether dependen
 * `file-loader`: Import static assets in webpack.
 * `font-awesome`: A neat set of icons.
 * `immutable`: Used in the Redux store for fast change comparisons.
-* `json-loader`: Import JSON files in webpack. Required for some dependencies.
 * `postcss-cssnext`: Allow the use of some future CSS features; includes automatic prefixes.
 * `postcss-focus`: Enhancement for CSS `:focus`
 * `postcss-loader`: Use PostCSS when CSS files are imported.
@@ -91,13 +90,9 @@ It's useful to have these later in a project to be able to know whether dependen
 ### Development dependencies
 * `@kadira/storybook`: Shows React components individually; great for testing or getting ones head around a project's components.
 * `babel-eslint`: Allow linting ES2015+ files.
-* `babel-plugin-istanbul`: Show code coverage of pre-transpiled files.
+* `babel-jest`: Support Babel transpiling for Jest.
 * `babel-plugin-react-transform`: Enable React transformations; required for Hot Module Reloading.
 * `babel-preset-react-hmre`: Hot Module Reloading for React.
-* `chai`: Assertions for unit tests.
-* `chai-enzyme`: Allow Enzyme to play nice with Chai.
-* `chai-immutable`: Allow Immutable to play nice with Chai.
-* `dirty-chai`: Change Chai's syntax to be more lint friendly.
 * `enzyme`: Test helper to render React components without a browser.
 * `eslint`: JavaScript linter.
 * `eslint-config-airbnb`: A good preset for JavaScript lint rules.
@@ -108,19 +103,12 @@ It's useful to have these later in a project to be able to know whether dependen
 * `eslint-plugin-react`: As above.
 * `eventsource-polyfill`: Polyfill for old browsers to support hot reloading.
 * `flow-bin`: Type checking for scalable JavaScript.
-* `jsdom`: Fake browser for unit tests.
-* `karma`: Test runner; using this rather than Jest or Ava because it integrates with JetBrains IDEs.
-* `karma-coverage`: Coverage support for Karma.
-* `karma-jsdom-launcher`: JSDom support for Karma.
-* `karma-mocha`: Mocha support for Karma.
-* `karma-mocha-reporter`: Nice output of Mocha messages for Karma.
-* `karma-webpack`: Webpack support for Karma.
 * `lint-staged`: Automatically lint files staged for commit. Used in conjunction with `pre-commit` to enforce lint rules.
-* `minimist`: Interpret command line arguments for Karma.
-* `mocha`: Unit test framework.
 * `npm-check-updates`: Useful utility for updating all dependencies.
 * `null-loader`: Ignore loading CSS files during tests.
 * `pre-commit`: Execute hooks before a git commit; used in conjunction with `lint-staged`.
+* `plop`: Allows for generators to quickly create new components: `npm run generate`.
+* `react-addons-test-utils`: Peer dependency for Jest.
 * `react-transform-hmr`: Hot module reloading for React.
 * `stylelint`: Linter for CSS files.
 * `stylelint-config-standard`: A good preset for CSS lint rules.
