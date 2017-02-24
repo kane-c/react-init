@@ -10,6 +10,26 @@ npm start
 open http://localhost:8080
 ```
 
+### Basing a new project off this one
+```sh
+git clone --depth 1 https://github.com/kane-c/react-init.git your-project-name
+cd your-project-name
+rm -rf .git
+git init
+git add -A
+git commit -m 'Initial commit'
+git remote add boilerplate https://github.com/kane-c/react-init.git
+git remote add origin your-git-repo-url
+git push -u origin master
+```
+
+You can periodically update your project by merging from the `boilerplate` remote.
+
+```sh
+git fetch upstream
+git merge boilerplate/master
+```
+
 ### Running tests
 ```sh
 npm test
