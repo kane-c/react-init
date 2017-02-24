@@ -30,9 +30,6 @@
   "private": true,
   "repository": "kane-c/react-init",
   "babel": {
-    "plugins": [
-      "transform-flow-strip-types"
-    ],
     "presets": [
       [
         "latest",
