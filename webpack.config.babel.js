@@ -69,10 +69,6 @@ const config = {
         test: /\.css$/,
       },
       {
-        test: /\.json$/,
-        loader: 'json-loader',
-      },
-      {
         test: new RegExp('\\.(?:eot|gif|ico|jpe?g|otf|png|svg|ttf|woff2?)' +
                          '(\\?[a-z0-9=#&.]+)?$'),
         loader: 'file-loader?name=[name].[ext]',
@@ -161,29 +157,6 @@ if (process.env.NODE_ENV === 'development') {
   }
 
   config.plugins.unshift(new webpack.HotModuleReplacementPlugin());
-} else if (process.env.NODE_ENV === 'test') {
-  // Get a better traceback
-  config.devtool = 'inline-source-map';
-
-  // We don't need the bundle
-  delete config.entry;
-
-  config.externals = {
-    'react/addons': true,
-    'react/lib/ExecutionEnvironment': true,
-    'react/lib/ReactContext': 'window',
-  };
-  // Null CSS loader - we don't need CSS files during tests
-  config.module.rules[1].loader = 'null-loader';
-  config.module.rules[2].loader = config.module.rules[1].loader;
-
-  config.node = {
-    fs: 'empty',
-    net: 'empty',
-  };
-
-  // `.json` is required for `chai-enzyme`
-  config.resolve.extensions.push('.json');
 } else if (process.env.NODE_ENV === 'production') {
   // Production performance optimizations
   config.plugins.push(
