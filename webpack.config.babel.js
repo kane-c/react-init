@@ -143,7 +143,7 @@ if (process.env.NODE_ENV === 'development') {
   } else {
     config.entry.unshift(
       'eventsource-polyfill', // IE polyfill
-      'webpack-hot-middleware/client?reload=true' // eslint-disable-line max-len, comma-dangle
+      'webpack-hot-middleware/client?reload=true',
     );
 
     // rules[1] = our app's css
@@ -167,7 +167,7 @@ if (process.env.NODE_ENV === 'development') {
       output: {
         comments: false,
       },
-    }) // eslint-disable-line comma-dangle
+    }),
   );
 
   // CSS
@@ -191,7 +191,7 @@ if (process.env.NODE_ENV === 'development') {
   config.module.rules[4].loader =
     'file-loader?name=[name].[sha256:hash:hex:7].[ext]';
   config.plugins.push(
-    new ExtractTextPlugin('[name].[sha256:contenthash:hex:7].css') // eslint-disable-line max-len, comma-dangle
+    new ExtractTextPlugin('[name].[sha256:contenthash:hex:7].css'),
   );
 
   config.output.filename = 'client.[chunkhash:7].js';
