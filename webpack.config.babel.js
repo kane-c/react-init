@@ -156,7 +156,10 @@ if (process.env.NODE_ENV === 'development') {
     }));
   }
 
-  config.plugins.unshift(new webpack.HotModuleReplacementPlugin());
+  config.plugins.unshift(
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
+  );
 } else if (process.env.NODE_ENV === 'production') {
   // Production performance optimizations
   config.plugins.push(
