@@ -83,7 +83,8 @@ cardStory.add('Complete example', () => (
       <CardQuote>
         Card quote
         <footer>
-          <cite>Michael Scott</cite>, Regional Manager
+          <cite>Michael Scott</cite>
+          , Regional Manager
         </footer>
       </CardQuote>
     </CardBlock>
