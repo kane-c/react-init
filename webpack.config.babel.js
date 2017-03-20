@@ -94,11 +94,12 @@ const config = {
           cssnext({
             browsers: [
               // As per Bootstrap 4's browser support policy
-              // https://github.com/twbs/bootstrap/blob/v4-dev/grunt/postcss.js
+              // https://github.com/twbs/bootstrap/blob/v4-dev/grunt/
+              // postcss.config.js
               'Chrome >= 35',
               'Firefox >= 38',
               'Edge >= 12',
-              'Explorer >= 9',
+              'Explorer >= 10',
               'iOS >= 8',
               'Safari >= 8',
               'Android 2.3',
