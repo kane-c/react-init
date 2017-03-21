@@ -1,11 +1,12 @@
+import createHistory from 'history/createBrowserHistory';
 import React from 'react';
 import { fromJS } from 'immutable';
 import { render } from 'react-dom';
-import { browserHistory, Router } from 'react-router';
-import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
+import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
+
+import App from 'containers/App';
 
 import 'favicons';
-import getRoutes from 'Routes';
 import { getRoot, getStore } from 'common';
 
 const preloadedState = fromJS(window.PRELOADED_STATE);
@@ -20,18 +21,14 @@ if (process.env.NODE_ENV === 'development') {
   devTools = window.devToolsExtension && window.devToolsExtension();
 }
 
-const store = getStore(preloadedState, routerMiddleware(browserHistory),
+const history = createHistory();
+const store = getStore(preloadedState, routerMiddleware(history),
   devTools);
-const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState(state) {
-    return state.get('routing').toJS();
-  },
-});
 
 const router = (
-  <Router history={history}>
-    {getRoutes()}
-  </Router>
+  <ConnectedRouter history={history}>
+    <App />
+  </ConnectedRouter>
 );
 
 render(getRoot(store, router), document.getElementById('root'));

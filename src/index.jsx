@@ -2,10 +2,13 @@ import express from 'express';
 import Helmet from 'react-helmet';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
+import { StaticRouter } from 'react-router';
+import { matchPath } from 'react-router-dom';
+
+import routes from 'routes';
+import App from 'containers/App';
 
 import { browserConfig, getFaviconHtml, manifest } from 'favicons';
-import getRoutes from 'Routes';
 import { getRoot, getStore } from 'common';
 
 const app = express();
@@ -155,8 +158,6 @@ function renderFullPage(html, preloadedState, head) {
 `;
 }
 
-const routes = getRoutes();
-
 /**
  * Render a response.
  * @param {Object} req Request
@@ -165,46 +166,55 @@ const routes = getRoutes();
  */
 function handleRender(req, res) {
   const store = getStore();
+  const promises = [];
 
-  match({
-    location: req.url,
-    routes,
-  }, (error, redirectLocation, renderProps) => {
-    if (error) {
-      res.status(500).send(error.message);
-    } else if (redirectLocation) {
-      res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-    } else if (renderProps) {
-      // You can also check renderProps.components or renderProps.routes for
-      // your "not found" component or route respectively, and send a 404 as
-      // below, if you're using a catch-all route.
-      const routerContext = <RouterContext {...renderProps} />;
+  // Find the component that matches the route. Check if it requires any sagas
+  // to preload and execute them
+  routes.some((route) => {
+    const match = matchPath(req.url, route);
 
-      // Find all the sagas required by the pages's components and run them,
-      // rendering the result after they all complete
-      Promise.all(renderProps.components.reduce((sagas, component) => (
-        component.preloadSagas || []
-      ).concat(sagas), []).map(saga => store.runSaga(saga).done))
-        .then(() => {
-          const html = renderToString(getRoot(store, routerContext));
-          const head = Helmet.rewind();
-          const preloadedState = store.getState();
+    if (match && route.component.preloadSagas) {
+      const sagas = route.component.preloadSagas.map(saga =>
+        store.runSaga(saga).done);
+      promises.push(...sagas);
+    }
 
-          // TODO Find a way to 404 if an Ajax call hits a 404
-          res.status(200).send(renderFullPage(html, preloadedState, head));
-        })
-        .catch((exception) => {
-          res.status(500).send(exception.message);
-          throw exception;
-        });
+    return match;
+  });
 
-      // Need to render once so that the Saga actions get dispatched
-      renderToString(getRoot(store, routerContext));
-      store.close();
+  const router = (
+    <StaticRouter context={{}} location={req.url}>
+      <App />
+    </StaticRouter>
+  );
+
+  Promise.all(promises).then(() => {
+    const context = {};
+
+    const router = (
+      <StaticRouter context={context} location={req.url}>
+        <App />
+      </StaticRouter>
+    );
+
+    const html = renderToString(getRoot(store, router));
+
+    if (context.url) {
+      res.writeHead(301, {
+        Location: context.url,
+      });
+      res.end();
     } else {
-      res.status(404).send('Not found');
+      const head = Helmet.rewind();
+      const preloadedState = store.getState();
+      res.status(context.status || 200)
+        .send(renderFullPage(html, preloadedState, head));
+      res.end();
     }
   });
+
+  renderToString(getRoot(store, router));
+  store.close();
 }
 
 app.use(handleRender);

@@ -18,6 +18,7 @@ config.entry = [
   'react-proxy', // Not used directly but keeps the bundle lean
   'react-redux',
   'react-router',
+  'react-router-dom',
   'react-router-redux',
   'redux',
   'redux-immutable',
