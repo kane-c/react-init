@@ -1,4 +1,3 @@
-import OfflinePluginRuntime from 'offline-plugin/runtime';
 import React from 'react';
 import { fromJS } from 'immutable';
 import { render } from 'react-dom';
@@ -40,6 +39,10 @@ render(getRoot(store, router), document.getElementById('root'));
 // Install ServiceWorker and AppCache at the end since it's not the most
 // important operation and if the main code fails, we do not want it installed
 if (process.env.NODE_ENV === 'production') {
+  /* eslint-disable global-require */
+  const OfflinePluginRuntime = require('offline-plugin/runtime');
+  /* eslint-enable global-require */
+
   // Enable any updated cache to take effect immediately, otherwise it won't
   // happen until the user closes all instances of the page/
   OfflinePluginRuntime.install({
