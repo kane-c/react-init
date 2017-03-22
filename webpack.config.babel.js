@@ -123,9 +123,8 @@ const config = {
 if (process.env.NODE_ENV === 'development') {
   config.devtool = 'eval-source-map';
 
-  const cssLoader = 'css-loader?modules&importrules=1&sourceMap&' +
-    'localIdentName=[local]--[path][name]--[sha256:hash:hex:7]' +
-    '!postcss-loader';
+  const cssLoader = 'css-loader?modules&sourceMap&importLoaders=1' +
+    '&localIdentName=[local]--[sha256:hash:hex:7]!postcss-loader';
 
   if (process.env.APP_ENV === 'server') {
     /* eslint-disable global-require */
@@ -178,8 +177,8 @@ if (process.env.NODE_ENV === 'development') {
 
   config.module.rules[1].loader = ExtractTextPlugin.extract({
     fallback: 'style-loader',
-    use: 'css-loader?modules&-autoprefixer&importrules=1&' +
-      'localIdentName=[sha256:hash:hex:7]!postcss-loader',
+    use: 'css-loader?modules&importLoaders=1' +
+      '&localIdentName=[sha256:hash:hex:7]!postcss-loader',
   });
   config.module.rules[2].loader = ExtractTextPlugin.extract({
     fallback: 'style-loader',
