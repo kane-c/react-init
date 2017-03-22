@@ -80,7 +80,7 @@ It's useful to have these later in a project to be able to know whether dependen
 * `babel-plugin-transform-react-inline-elements`: As above.
 * `babel-plugin-transform-react-remove-prop-types`: As above.
 * `babel-polyfill`: Browser compatibility for ES2015+ stuff.
-* `babel-preset-latest`: Allow the use of ES2015 and beyond.
+* `babel-preset-env`: Allow the use of ES2015 and beyond.
 * `babel-preset-react`: Allow JSX and Flow.
 * `babel-preset-stage-0`: Allow the use of unfinished future ES features.
 * `bootstrap`: Baseline design and CSS with some neat JS plugins.
@@ -100,6 +100,7 @@ It's useful to have these later in a project to be able to know whether dependen
 * `react-dom`: Use React in a browser.
 * `react-fontawesome`: Nice React interface to Font Awesome icons.
 * `react-helmet`: Manage `<head>` tags via React, such as `<title>`.
+* `react-hot-loader`: Hot Module Reloading for React.
 * `react-redux`: Allow Redux and React to play nicely.
 * `react-router`: Handle URLs and routing in React.
 * `react-router-redux`: Allow Redux and React Router to play nicely.
@@ -115,7 +116,6 @@ It's useful to have these later in a project to be able to know whether dependen
 * `babel-eslint`: Allow linting ES2015+ files.
 * `babel-jest`: Support Babel transpiling for Jest.
 * `babel-plugin-react-transform`: Enable React transformations; required for Hot Module Reloading.
-* `babel-preset-react-hmre`: Hot Module Reloading for React.
 * `enzyme`: Test helper to render React components without a browser.
 * `eslint`: JavaScript linter.
 * `eslint-config-airbnb`: A good preset for JavaScript lint rules.
@@ -132,9 +132,9 @@ It's useful to have these later in a project to be able to know whether dependen
 * `pre-commit`: Execute hooks before a git commit; used in conjunction with `lint-staged`.
 * `plop`: Allows for generators to quickly create new components: `npm run generate`.
 * `react-addons-test-utils`: Peer dependency for Jest.
-* `react-transform-hmr`: Hot module reloading for React.
 * `stylelint`: Linter for CSS files.
 * `stylelint-config-standard`: A good preset for CSS lint rules.
+* `stylelint-order`: CSS property order lint rules.
 * `webpack-dashboard`: Neat interface to webpack during development.
 * `webpack-dev-middleware`: Serve webpack bundles from memory during development.
 * `webpack-hot-middleware`: Allow hot module reloading.
