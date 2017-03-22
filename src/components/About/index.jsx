@@ -8,7 +8,9 @@ import React from 'react';
 export default function About() {
   return (
     <div>
-      <Helmet title="About" />
+      <Helmet>
+        <title>About</title>
+      </Helmet>
       <h1>About</h1>
     </div>
   );

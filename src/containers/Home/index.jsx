@@ -61,7 +61,9 @@ export class Home extends React.Component { // eslint-disable-line max-len, reac
 
     return (
       <form onSubmit={this.props.onSubmit}>
-        <Helmet title="Home" />
+        <Helmet>
+          <title>Home</title>
+        </Helmet>
         <h1>Home</h1>
         <FormGroup controlId="username">
           <ControlLabel>Username</ControlLabel>

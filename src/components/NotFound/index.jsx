@@ -11,8 +11,9 @@ export default function NotFound() {
   return (
     <Status code={404}>
       <h1>
-        <Helmet title="Not found" />
-        Not found
+        <Helmet>
+          <title>Not found</title>
+        </Helmet>
       </h1>
     </Status>
   );
