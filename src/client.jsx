@@ -2,6 +2,7 @@ import createHistory from 'history/createBrowserHistory';
 import React from 'react';
 import { fromJS } from 'immutable';
 import { render } from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 
 import App from 'containers/App';
@@ -32,6 +33,25 @@ const router = (
 );
 
 render(getRoot(store, router), document.getElementById('root'));
+
+if (module.hot) {
+  module.hot.accept('./containers/App', () => {
+    // Even though Webpack 2 supports native ES2015 modules, we need to import
+    // again for hot reloading to work correctly
+    /* eslint-disable global-require */
+    const NewApp = require('./containers/App').default;
+    /* eslint-enable global-require */
+
+    render(
+      <AppContainer>
+        {getRoot(store, <ConnectedRouter history={history}>
+          <NewApp />
+        </ConnectedRouter>)}
+      </AppContainer>,
+      document.getElementById('root'),
+    );
+  });
+}
 
 // Install ServiceWorker and AppCache at the end since it's not the most
 // important operation and if the main code fails, we do not want it installed

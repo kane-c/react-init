@@ -1,6 +1,6 @@
 const config = require('./webpack.config.babel');
 
-config.entry[1] = './src/index.jsx';
+config.entry[config.entry.length - 1] = './src/index.jsx';
 config.output.filename = '../server.js';
 config.target = 'node';
 

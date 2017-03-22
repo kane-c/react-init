@@ -35,28 +35,6 @@ const config = {
         loader: 'babel-loader',
         options: {
           cacheDirectory: process.env.NODE_ENV === 'development',
-          env: {
-            development: {
-              presets: [
-                'react-hmre',
-              ],
-              plugins: [
-                [
-                  'react-transform', {
-                    transforms: [{
-                      transform: 'react-transform-hmr',
-                      imports: [
-                        'react',
-                      ],
-                      locals: [
-                        'module',
-                      ],
-                    }],
-                  },
-                ],
-              ],
-            },
-          },
         },
         test: /\.jsx?$/,
       },
@@ -141,8 +119,9 @@ if (process.env.NODE_ENV === 'development') {
     });
     config.plugins.push(new ExtractTextPlugin('[name].css'));
   } else {
-    config.entry.unshift(
+    config.entry.splice(1, 0,
       'eventsource-polyfill', // IE polyfill
+      'react-hot-loader/patch',
       'webpack-hot-middleware/client?reload=true',
     );
 

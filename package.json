@@ -30,6 +30,9 @@
   "private": true,
   "repository": "kane-c/react-init",
   "babel": {
+    "plugins": [
+      "react-hot-loader/babel"
+    ],
     "presets": [
       [
         "env",
@@ -192,6 +195,7 @@
     "react-dom": "^15.4.2",
     "react-fontawesome": "^1.5.0",
     "react-helmet": "^4.0.0",
+    "react-hot-loader": "^3.0.0-beta.6",
     "react-redux": "^5.0.3",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
@@ -208,7 +212,6 @@
     "babel-eslint": "^7.1.1",
     "babel-jest": "^19.0.0",
     "babel-plugin-react-transform": "^2.0.2",
-    "babel-preset-react-hmre": "^1.1.1",
     "enzyme": "^2.7.1",
     "eslint": "^3.18.0",
     "eslint-config-airbnb": "^14.1.0",
@@ -226,7 +229,6 @@
     "plop": "^1.7.4",
     "pre-commit": "^1.2.2",
     "react-addons-test-utils": "^15.4.2",
-    "react-transform-hmr": "^1.0.4",
     "stylelint": "~7.9.0",
     "stylelint-config-standard": "^16.0.0",
     "stylelint-order": "^0.4.1",
