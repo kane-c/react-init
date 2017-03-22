@@ -90,9 +90,12 @@ It's useful to have these later in a project to be able to know whether dependen
 * `express`: Node.js server framework.
 * `extract-text-webpack-plugin`: Export webpack's imported CSS into a standalone file.
 * `file-loader`: Import static assets in webpack.
+* `history`: Required for React Router.
 * `font-awesome`: A neat set of icons.
 * `immutable`: Used in the Redux store for fast change comparisons.
+* `offline-plugin`: Easy offline/service worker support.
 * `postcss-cssnext`: Allow the use of some future CSS features; includes automatic prefixes.
+* `postcss-flexbugs-fixees`: Fixes for Flexbox bugs, recommended as part of Bootstrap 4.
 * `postcss-focus`: Enhancement for CSS `:focus`
 * `postcss-loader`: Use PostCSS when CSS files are imported.
 * `postcss-reporter`: Output PostCSS data during webpack build.
@@ -104,6 +107,7 @@ It's useful to have these later in a project to be able to know whether dependen
 * `react-hot-loader`: Hot Module Reloading for React.
 * `react-redux`: Allow Redux and React to play nicely.
 * `react-router`: Handle URLs and routing in React.
+* `react-router-dom`: As above.
 * `react-router-redux`: Allow Redux and React Router to play nicely.
 * `redux`: Functional data storage library.
 * `redux-immutable`: Allow Redux and Immutable to play nicely.
@@ -127,9 +131,9 @@ It's useful to have these later in a project to be able to know whether dependen
 * `eslint-plugin-react`: As above.
 * `eventsource-polyfill`: Polyfill for old browsers to support hot reloading.
 * `flow-bin`: Type checking for scalable JavaScript.
+* `identity-obj-proxy`: Used for mocking CSS imports in Jest.
 * `lint-staged`: Automatically lint files staged for commit. Used in conjunction with `pre-commit` to enforce lint rules.
 * `npm-check-updates`: Useful utility for updating all dependencies.
-* `null-loader`: Ignore loading CSS files during tests.
 * `pre-commit`: Execute hooks before a git commit; used in conjunction with `lint-staged`.
 * `plop`: Allows for generators to quickly create new components: `npm run generate`.
 * `react-addons-test-utils`: Peer dependency for Jest.
