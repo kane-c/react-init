@@ -1,4 +1,5 @@
 import React from 'react';
+import { StaticRouter } from 'react-router-dom';
 import { storiesOf } from '@kadira/storybook';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -22,6 +23,7 @@ import Card, {
   variants,
 } from 'components/bootstrap/Card';
 import LoadingIndicator from 'components/LoadingIndicator';
+import NotFound from 'components/NotFound';
 
 /**
  * Shortcut to add a story.
@@ -148,3 +150,8 @@ addStory('CardImageOverlay', 'Complete example', () => (
 ));
 
 addSimpleStory('LoadingIndicator', LoadingIndicator);
+addStory('NotFound', undefined, () => (
+  <StaticRouter>
+    <NotFound />
+  </StaticRouter>
+));
