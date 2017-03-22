@@ -1,6 +1,8 @@
 # react-init
 Minimal setup for a universal React app.
 
+[![Build status](https://img.shields.io/travis/kane-c/react-init.svg)](https://travis-ci.org/kane-c/react-init)
+
 ## Setup
 ```sh
 git clone https://github.com/kane-c/react-init.git
