@@ -3,6 +3,7 @@ Minimal setup for a universal React app.
 
 [![Build status](https://img.shields.io/travis/kane-c/react-init.svg)](https://travis-ci.org/kane-c/react-init)
 [![Dependencies](https://img.shields.io/gemnasium/kane-c/react-init.svg)](https://gemnasium.com/github.com/kane-c/react-init)
+[![Code coverage](https://img.shields.io/coveralls/kane-c/react-init.svg)](https://coveralls.io/github/kane-c/react-init)
 
 ## Setup
 ```sh
