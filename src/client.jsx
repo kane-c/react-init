@@ -15,6 +15,7 @@ delete window.PRELOADED_STATE;
 
 let devTools;
 
+/* istanbul ignore next */
 if (process.env.NODE_ENV === 'development') {
   // Prefer using JS generated CSS during development
   document.getElementById('main-css').remove();
@@ -34,6 +35,7 @@ const router = (
 
 render(getRoot(store, router), document.getElementById('root'));
 
+/* istanbul ignore next */
 if (module.hot) {
   module.hot.accept('./containers/App', () => {
     // Even though Webpack 2 supports native ES2015 modules, we need to import
@@ -55,6 +57,7 @@ if (module.hot) {
 
 // Install ServiceWorker and AppCache at the end since it's not the most
 // important operation and if the main code fails, we do not want it installed
+/* istanbul ignore next */
 if (process.env.NODE_ENV === 'production') {
   /* eslint-disable global-require */
   const OfflinePluginRuntime = require('offline-plugin/runtime');

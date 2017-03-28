@@ -125,7 +125,7 @@ export function manifest(assets) {
  */
 export function getFaviconHtml(assets) {
   const appleIcons = appleIconSizes.map(size =>
-    `    <link rel="apple-touch-icon" sizes="${size}x${size}"` +
+    `<link rel="apple-touch-icon" sizes="${size}x${size}"` +
     ` href="${assets.get(`/apple-touch-icon-${size}x${size}.png`)}">`,
   ).join('\n    ');
 

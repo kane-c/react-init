@@ -129,13 +129,22 @@
     }
   },
   "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/src/client.jsx",
+      "/src/index.jsx",
+      "/src/stories.jsx",
+      "/node_modules/"
+    ],
     "moduleDirectories": [
       "node_modules",
       "src"
     ],
     "moduleNameMapper": {
       "\\.css$": "identity-obj-proxy",
-      "\\.(gif|ttf|eot|svg)$": "<rootDir>/src/tests/file-mock.js"
+      "\\.(?:eot|gif|ico|jpe?g|otf|png|svg|ttf|woff2?)$": "<rootDir>/src/tests/file-mock.js"
     }
   },
   "lint-staged": {

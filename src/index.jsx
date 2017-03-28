@@ -17,6 +17,7 @@ const app = express();
 app.disable('x-powered-by');
 
 // Don't listen in test, otherwise the process will never finish
+/* istanbul ignore next */
 if (process.env.NODE_ENV !== 'test') {
   // 8080 is officially assigned as an alternative HTTP port
   // https://www.iana.org/assignments/service-names-port-numbers/
@@ -28,6 +29,7 @@ if (process.env.NODE_ENV !== 'test') {
   });
 }
 
+/* istanbul ignore next */
 if (process.env.NODE_ENV === 'development') {
   /* eslint-disable global-require */
   const DashboardPlugin = require('webpack-dashboard/plugin');
@@ -58,6 +60,7 @@ if (process.env.NODE_ENV === 'development') {
 
 let assets;
 
+/* istanbul ignore if */
 if (process.env.NODE_ENV === 'production') {
   const fs = require('fs'); // eslint-disable-line global-require
   // Can't simply use `require` here, as we need the file to not be bundled by
@@ -158,13 +161,7 @@ function renderFullPage(html, preloadedState, head) {
 `;
 }
 
-/**
- * Render a response.
- * @param {Object} req Request
- * @param {Object} res Response
- * @return {void}
- */
-function handleRender(req, res) {
+app.use((req, res) => {
   const store = getStore();
   const promises = [];
 
@@ -215,8 +212,4 @@ function handleRender(req, res) {
 
   renderToString(getRoot(store, router));
   store.close();
-}
-
-app.use(handleRender);
-
-export default app;
+});
