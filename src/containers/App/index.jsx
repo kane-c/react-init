@@ -1,10 +1,9 @@
 import Helmet from 'react-helmet';
 import React from 'react';
-import { Grid } from 'react-bootstrap';
+import Grid from 'react-bootstrap/lib/Grid';
 import { Link, Route, Switch } from 'react-router-dom';
 
 import NotFound from 'components/NotFound';
-
 import routes from 'routes';
 
 import styles from './styles.css';

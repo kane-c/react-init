@@ -1,12 +1,10 @@
 import Helmet from 'react-helmet';
 import Icon from 'react-fontawesome';
 import React from 'react';
-import {
-  ControlLabel,
-  FormControl,
-  FormGroup,
-  InputGroup,
-} from 'react-bootstrap';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import InputGroup from 'react-bootstrap/lib/InputGroup';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { createStructuredSelector } from 'reselect';
