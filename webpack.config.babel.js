@@ -167,7 +167,7 @@ if (process.env.NODE_ENV === 'development') {
       },
     })}`,
   });
-  config.module.rules[4].loader =
+  config.module.rules[3].loader =
     'file-loader?name=[name].[sha256:hash:hex:7].[ext]';
   config.plugins.push(
     new ExtractTextPlugin('[name].[sha256:contenthash:hex:7].css'),
