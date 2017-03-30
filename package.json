@@ -138,6 +138,14 @@
       "/src/stories.jsx",
       "/node_modules/"
     ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 95,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
     "moduleDirectories": [
       "node_modules",
       "src"

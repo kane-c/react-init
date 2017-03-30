@@ -27,13 +27,27 @@ const history = createHistory();
 const store = getStore(preloadedState, routerMiddleware(history),
   devTools);
 
-const router = (
-  <ConnectedRouter history={history}>
-    <App />
-  </ConnectedRouter>
-);
+/**
+ * Render the app and its containing root components.
+ * @param {Object} AppComponent React component.
+ * @return {void}
+ */
+function renderApp(AppComponent) {
+  const router = (
+    <ConnectedRouter history={history}>
+      <AppComponent />
+    </ConnectedRouter>
+  );
 
-render(getRoot(store, router), document.getElementById('root'));
+  render(
+    <AppContainer>
+      {getRoot(store, router)}
+    </AppContainer>,
+    document.getElementById('root'),
+  );
+}
+
+renderApp(App);
 
 /* istanbul ignore next */
 if (module.hot) {
@@ -44,14 +58,7 @@ if (module.hot) {
     const NewApp = require('./containers/App').default;
     /* eslint-enable global-require */
 
-    render(
-      <AppContainer>
-        {getRoot(store, <ConnectedRouter history={history}>
-          <NewApp />
-        </ConnectedRouter>)}
-      </AppContainer>,
-      document.getElementById('root'),
-    );
+    renderApp(NewApp);
   });
 }
 
