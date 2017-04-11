@@ -246,6 +246,7 @@
     "npm-check-updates": "^2.10.5",
     "plop": "^1.7.4",
     "pre-commit": "^1.2.2",
+    "react-addons-perf": "^15.4.2",
     "react-addons-test-utils": "^15.5.1",
     "stylelint": "^7.10.1",
     "stylelint-config-standard": "^16.0.0",

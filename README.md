@@ -137,6 +137,7 @@ It's useful to have these later in a project to be able to know whether dependen
 * `npm-check-updates`: Useful utility for updating all dependencies.
 * `pre-commit`: Execute hooks before a git commit; used in conjunction with `lint-staged`.
 * `plop`: Allows for generators to quickly create new components: `npm run generate`.
+* `react-addons-perf`: Performance testing for React.
 * `react-addons-test-utils`: Peer dependency for Enzyme.
 * `stylelint`: Linter for CSS files.
 * `stylelint-config-standard`: A good preset for CSS lint rules.
