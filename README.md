@@ -99,6 +99,7 @@ It's useful to have these later in a project to be able to know whether dependen
 * `postcss-focus`: Enhancement for CSS `:focus`
 * `postcss-loader`: Use PostCSS when CSS files are imported.
 * `postcss-reporter`: Output PostCSS data during webpack build.
+* `prop-types`: React prop type validation.
 * `react`: No explanation needed.
 * `react-bootstrap`: Nice React interface to Bootstrap.
 * `react-dom`: Use React in a browser.
@@ -136,7 +137,7 @@ It's useful to have these later in a project to be able to know whether dependen
 * `npm-check-updates`: Useful utility for updating all dependencies.
 * `pre-commit`: Execute hooks before a git commit; used in conjunction with `lint-staged`.
 * `plop`: Allows for generators to quickly create new components: `npm run generate`.
-* `react-addons-test-utils`: Peer dependency for Jest.
+* `react-addons-test-utils`: Peer dependency for Enzyme.
 * `stylelint`: Linter for CSS files.
 * `stylelint-config-standard`: A good preset for CSS lint rules.
 * `stylelint-order`: CSS property order lint rules.
