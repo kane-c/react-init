@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import Icon from 'react-fontawesome';
 import React from 'react';
@@ -18,11 +19,11 @@ import { githubData } from './sagas';
 /**
  * Home page component.
  */
-export class Home extends React.Component { // eslint-disable-line max-len, react/prefer-stateless-function
+export class Home extends React.Component {
   static propTypes = {
-    isLoading: React.PropTypes.bool,
-    onSubmit: React.PropTypes.func.isRequired,
-    repos: React.PropTypes.instanceOf(List).isRequired,
+    isLoading: PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired,
+    repos: PropTypes.instanceOf(List).isRequired,
   };
 
   static defaultProps = {
