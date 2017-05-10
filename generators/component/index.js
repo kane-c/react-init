@@ -36,20 +36,12 @@ module.exports = {
     let componentTemplate;
 
     switch (data.type) {
-      case 'ES6 Class': {
-        componentTemplate = './component/es6.js.hbs';
-        break;
-      }
-      case 'ES6 Class (Pure)': {
-        componentTemplate = './component/es6.pure.js.hbs';
-        break;
-      }
       case 'Stateless Function': {
-        componentTemplate = './component/stateless.js.hbs';
+        componentTemplate = './component/stateless.jsx.hbs';
         break;
       }
       default: {
-        componentTemplate = './component/es6.js.hbs';
+        componentTemplate = './component/class.jsx.hbs';
       }
     }
 
@@ -61,7 +53,7 @@ module.exports = {
     }, {
       type: 'add',
       path: '../src/components/{{properCase name}}/tests/index.test.jsx',
-      templateFile: './component/test.js.hbs',
+      templateFile: './component/test.jsx.hbs',
       abortOnFail: true,
     }];
 
