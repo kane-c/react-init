@@ -49,7 +49,12 @@ const config = {
       {
         test: new RegExp('\\.(?:eot|gif|ico|jpe?g|otf|png|svg|ttf|woff2?)' +
                          '(\\?[a-z0-9=#&.]+)?$'),
-        loader: 'file-loader?name=[name].[ext]',
+        loader: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+          },
+        },
       },
     ],
   },
@@ -63,19 +68,6 @@ const config = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        context: '/', // For `css-loader`
-        postcss: [
-          postcssFlexbugsFixes,
-          postcssFocus(),
-          cssnext(),
-          postcssReporter({
-            clearAllMessages: true,
-          }),
-        ],
-      },
-    }),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -83,20 +75,49 @@ const config = {
   },
 };
 
+const cssLoaders = [
+  {
+    loader: 'css-loader',
+    options: {
+      modules: true,
+      importLoaders: 1,
+      localIdentName: '[sha256:hash:hex:7]',
+    },
+  },
+  {
+    loader: 'postcss-loader',
+    options: {
+      plugins: [
+        postcssFlexbugsFixes,
+        postcssFocus(),
+        cssnext(),
+        postcssReporter({
+          clearAllMessages: true,
+        }),
+      ],
+    },
+  },
+];
+
 if (process.env.NODE_ENV === 'development') {
   config.devtool = 'eval-source-map';
 
-  const cssLoader = 'css-loader?modules&sourceMap&importLoaders=1' +
-    '&localIdentName=[local]--[sha256:hash:hex:7]!postcss-loader';
+  // css-loader
+  cssLoaders[0].options.localIdentName =
+    `[local]--${cssLoaders[0].options.localIdentName}`;
+  cssLoaders[0].options.sourceMap = true;
+  // postcss-loader
+  cssLoaders[1].options.sourceMap = 'inline';
 
   if (process.env.APP_ENV === 'server') {
     /* eslint-disable global-require */
     const ExtractTextPlugin = require('extract-text-webpack-plugin');
     /* eslint-enable global-require */
 
+    // rules[1] = our app's CSS, rules[2] = vendor's CSS
     config.module.rules[1].loader = ExtractTextPlugin.extract({
       fallback: 'style-loader',
-      use: cssLoader,
+      use: cssLoaders,
     });
     config.module.rules[2].loader = ExtractTextPlugin.extract({
       fallback: 'style-loader',
@@ -110,9 +131,17 @@ if (process.env.NODE_ENV === 'development') {
       'webpack-hot-middleware/client?reload=true',
     );
 
-    // rules[1] = our app's css
-    config.module.rules[1].loader = `style-loader!${cssLoader}`;
-    config.module.rules[2].loader = 'style-loader!css-loader';
+    // rules[1] = our app's CSS, rules[2] = vendor's CSS
+    config.module.rules[1].loader = [
+      {
+        loader: 'style-loader',
+        options: {
+          sourceMap: true,
+        },
+      },
+      ...cssLoaders,
+    ];
+    config.module.rules[2].loader = ['style-loader', 'css-loader'];
 
     config.plugins.push(new webpack.DllReferencePlugin({
       context: '.',
@@ -141,19 +170,25 @@ if (process.env.NODE_ENV === 'development') {
 
   config.module.rules[1].loader = ExtractTextPlugin.extract({
     fallback: 'style-loader',
-    use: 'css-loader?modules&importLoaders=1' +
-      '&localIdentName=[sha256:hash:hex:7]!postcss-loader',
+    use: cssLoaders,
   });
   config.module.rules[2].loader = ExtractTextPlugin.extract({
     fallback: 'style-loader',
-    use: `css-loader?${JSON.stringify({
-      discardComments: {
-        removeAll: true,
+    use: {
+      loader: 'css-loader',
+      options: {
+        discardComments: {
+          removeAll: true,
+        },
       },
-    })}`,
+    },
   });
-  config.module.rules[3].loader =
-    'file-loader?name=[name].[sha256:hash:hex:7].[ext]';
+  config.module.rules[3].loader = {
+    loader: 'file-loader',
+    options: {
+      name: '[name].[sha256:hash:hex:7].[ext]',
+    },
+  };
   config.plugins.push(
     new ExtractTextPlugin('[name].[sha256:contenthash:hex:7].css'),
   );
