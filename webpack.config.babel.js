@@ -69,22 +69,7 @@ const config = {
         postcss: [
           postcssFlexbugsFixes,
           postcssFocus(),
-          cssnext({
-            browsers: [
-              // As per Bootstrap 4's browser support policy
-              // https://github.com/twbs/bootstrap/blob/v4-dev/grunt/
-              // postcss.config.js
-              'Chrome >= 35',
-              'Firefox >= 38',
-              'Edge >= 12',
-              'Explorer >= 10',
-              'iOS >= 8',
-              'Safari >= 8',
-              'Android 2.3',
-              'Android >= 4',
-              'Opera >= 12',
-            ],
-          }),
+          cssnext(),
           postcssReporter({
             clearAllMessages: true,
           }),
