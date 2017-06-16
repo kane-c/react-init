@@ -8,7 +8,7 @@ config.target = 'node';
 // build. This prevents writing the assets twice.
 // Unless in development mode, where the client build is only made in memory
 if (process.env.NODE_ENV === 'production') {
-  config.module.rules[4].loader += '&emitFile=false';
+  config.module.rules[3].loader.options.emitFile = false;
 }
 
 if (process.env.NODE_ENV === 'development') {
