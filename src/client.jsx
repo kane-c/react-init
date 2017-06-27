@@ -13,19 +13,18 @@ import { getRoot, getStore } from 'common';
 const preloadedState = fromJS(window.PRELOADED_STATE);
 delete window.PRELOADED_STATE;
 
-let devTools;
-
 /* istanbul ignore next */
 if (process.env.NODE_ENV === 'development') {
   // Prefer using JS generated CSS during development
-  document.getElementById('main-css').remove();
+  const cssElement = document.getElementById('main-css');
 
-  devTools = window.devToolsExtension && window.devToolsExtension();
+  if (cssElement) {
+    cssElement.remove();
+  }
 }
 
 const history = createHistory();
-const store = getStore(preloadedState, routerMiddleware(history),
-  devTools);
+const store = getStore(preloadedState, routerMiddleware(history));
 
 /**
  * Render the app and its containing root components.
