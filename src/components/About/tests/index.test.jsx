@@ -9,7 +9,6 @@ describe('<About />', () => {
       <About />,
     );
 
-    // Replace with expect(...).stringContains with Jest 19+
-    expect(component.text().includes('About')).toBe(true);
+    expect(component.text()).toEqual(expect.stringContaining('About'));
   });
 });

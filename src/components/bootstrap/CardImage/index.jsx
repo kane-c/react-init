@@ -10,7 +10,7 @@ import React from 'react';
  * @return {Object} React node.
  */
 export default function CardImage(props) {
-  const { className, position, ...otherProps } = props;
+  const { alt, className, position, ...otherProps } = props;
 
   const classNames = [];
 
@@ -26,15 +26,17 @@ export default function CardImage(props) {
     classNames.push(className);
   }
 
-  return <img className={classNames.join(' ')} {...otherProps} />; // eslint-disable-line max-len, jsx-a11y/img-has-alt
+  return <img alt={alt} className={classNames.join(' ')} {...otherProps} />;
 }
 
 CardImage.propTypes = {
+  alt: PropTypes.string,
   className: PropTypes.string,
   position: PropTypes.oneOf(['bottom', 'top']),
 };
 
 CardImage.defaultProps = {
+  alt: '',
   className: null,
   position: null,
 };

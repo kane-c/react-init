@@ -9,29 +9,29 @@ const noOp = () => {};
 
 describe('<Home />', () => {
   it('should show a loading indicator when loading', () => {
-    const repos = fromJS(['a']);
+    const data = fromJS(['a']);
     const component = shallow(
-      <Home isLoading onSubmit={noOp} repos={repos} />,
+      <Home isLoading onSubmit={noOp} repos={data} />,
     );
 
     expect(component.find('LoadingIndicator')).toBeDefined();
   });
 
   it('should show a list of repos', () => {
-    const repos = fromJS(['a', 'b', 'c']);
+    const data = fromJS(['a', 'b', 'c']);
 
     const component = shallow(
-      <Home onSubmit={noOp} repos={repos} />,
+      <Home onSubmit={noOp} repos={data} />,
     );
 
     expect(component.find('li')).toHaveLength(3);
   });
 
   it('should handle form submission', () => {
-    const repos = fromJS(['a']);
+    const data = fromJS(['a']);
     const onSubmit = jest.fn();
     const component = shallow(
-      <Home onSubmit={onSubmit} repos={repos} />,
+      <Home onSubmit={onSubmit} repos={data} />,
     );
 
     component.find('form').simulate('submit');
@@ -39,11 +39,11 @@ describe('<Home />', () => {
   });
 
   it('should request repos on mount', () => {
-    const repos = fromJS([]);
+    const data = fromJS([]);
     const onSubmit = jest.fn();
 
     shallow(
-      <Home onSubmit={onSubmit} repos={repos} />,
+      <Home onSubmit={onSubmit} repos={data} />,
     );
 
     expect(onSubmit.mock.calls).toHaveLength(1);
@@ -56,7 +56,7 @@ describe('mapDispatchToProps()', () => {
       const dispatch = jest.fn();
       mapDispatchToProps(dispatch).onSubmit();
 
-      expect(dispatch).toBeCalledWith(repos.request());
+      expect(dispatch).toBeCalledWith(repos.request('test'));
     });
 
     it('should handle events', () => {

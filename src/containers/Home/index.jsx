@@ -91,12 +91,12 @@ const mapStateToProps = createStructuredSelector({
  */
 export function mapDispatchToProps(dispatch) {
   return {
-    onSubmit: (evt) => {
-      if (evt !== undefined && evt.preventDefault) {
-        evt.preventDefault();
+    onSubmit: (event) => {
+      if (event !== undefined && event.preventDefault) {
+        event.preventDefault();
       }
 
-      dispatch(repos.request());
+      dispatch(repos.request('test'));
     },
   };
 }

@@ -12,8 +12,7 @@ import React from 'react';
 export default function basicComponent(fixedClassName,
   defaultComponent = 'div') {
   const component = function SubComponent(props) {
-    const { children, className, component, ...otherProps } = props;
-    const Component = component;
+    const { children, className, component: Component, ...otherProps } = props;
 
     const classNames = [fixedClassName];
 

@@ -37,8 +37,8 @@ describe('Home reducer', () => {
   });
 
   it('should handle repo success', () => {
-    testReducer(repos.success([1, 2, 3]), {
-      repos: [1, 2, 3],
+    testReducer(repos.success(['a', 'b', 'c']), {
+      repos: ['a', 'b', 'c'],
       isLoading: false,
     });
   });
