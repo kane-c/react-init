@@ -1,14 +1,15 @@
 import express from 'express';
 import Helmet from 'react-helmet';
 import React from 'react';
-import { renderToString } from 'react-dom/server';
+import { renderToStaticMarkup, renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 
 import routes from 'routes';
+import Html from 'components/Html';
 import App from 'containers/App';
 
-import { browserConfig, getFaviconHtml, manifest } from 'favicons';
+import { browserConfig, manifest } from 'favicons';
 import { getRoot, getStore } from 'common';
 
 const app = express();
@@ -51,9 +52,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(webpackHotMiddlware(compiler));
 } else {
   // Gzip in production
-  /* eslint-disable global-require */
+  // eslint-disable-next-line global-require
   const compression = require('compression');
-  /* eslint-enable global-require */
 
   app.use(compression());
 }
@@ -63,8 +63,7 @@ let assets;
 /* istanbul ignore if */
 if (process.env.NODE_ENV === 'production') {
   const fs = require('fs'); // eslint-disable-line global-require
-  // Can't simply use `require` here, as we need the file to not be bundled by
-  // webpack
+  // Can't simply use `require` here, as we don't want to bundle this file
   assets = JSON.parse(fs.readFileSync('build/assets.json', 'utf8'));
 } else {
   assets = {
@@ -75,91 +74,9 @@ if (process.env.NODE_ENV === 'production') {
   };
 }
 
-/**
- * Escape a string for use in a regular expression.
- *
- * @param {String} str String to escape.
- * @return {String} Escaped string.
- */
-function escapeRegExp(str) {
-  return str.replace(/[.?*+^$[\]\\(){}|-]/g, '\\$&');
-}
-
-/**
- * Generate a regexp to test for a cache busted version of a given file name.
- * The expression is `^basename.hash.ext$`
- *
- * @param {String} name File name.
- * @return {RegExp} Regular expression instance.
- */
-function getCacheBustRegex(name) {
-  let ext = name.split('.').pop();
-  const baseName = escapeRegExp(name.substr(0, name.length - ext.length));
-  ext = escapeRegExp(ext);
-
-  return new RegExp(`^${baseName}[a-f0-9]{7}\\.${ext}$`);
-}
-
-/**
- * Loop through the assets array to find a match for the given name.
- * Names in the manifest are hashed; this function encapsulates that. If no
- * cache busted file is found, the given path is returned.
- *
- * @param {String} name Asset file name/path.
- * @return {String} Path to cache busted asset.
- */
-assets.get = (name) => {
-  const asset = assets.assets.find(
-    asset => asset.path === name || getCacheBustRegex(name).test(asset.path),
-  );
-
-  return asset ? asset.path : name;
-};
-
 app.use(express.static('build/static'));
-app.use('/browserconfig.xml', browserConfig(assets));
-app.use('/manifest.json', manifest(assets));
-
-/**
- * Render the full HTML for a page, initialising the Redux state.
- * @param {string} html Inner HTML rendered by React
- * @param {Object} preloadedState Initial Redux store state
- * @param {Object} head Helmet instance
- * @return {string} Full page HTML
- */
-function renderFullPage(html, preloadedState, head) {
-  const cssUrl = assets.entries.main.css || '/main.css';
-  const jsUrl = assets.entries.main.js || '/client.js';
-  // Add an ID attribute in development mode so it can be deleted on page load.
-  // The ensures CSS is present on the page for users without JS, but allows
-  // reloading and dynamic styles for those with JS enabled
-  const css = `<link href="${cssUrl}" rel="stylesheet"${
-    process.env.NODE_ENV === 'development' ? ' id="main-css"' : ''} />`;
-
-  const dll = process.env.NODE_ENV === 'development' ?
-    '<script src="/dll.js"></script>' : '';
-
-  return `<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta content="ie=edge" http-equiv="x-ua-compatible" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    ${head.title.toString()}
-    ${head.meta.toString()}
-    ${css}
-    ${head.link.toString()}
-    ${getFaviconHtml(assets)}
-  </head>
-  <body>
-    <div id="root">${html}</div>
-    <script>window.PRELOADED_STATE=${JSON.stringify(preloadedState)}</script>
-    ${dll}
-    <script src="${jsUrl}"></script>
-  </body>
-</html>
-`;
-}
+app.use('/browserconfig.xml', browserConfig());
+app.use('/manifest.json', manifest());
 
 app.use((req, res) => {
   const store = getStore();
@@ -188,13 +105,13 @@ app.use((req, res) => {
   Promise.all(promises).then(() => {
     const context = {};
 
-    const router = (
+    const staticRouter = (
       <StaticRouter context={context} location={req.url}>
         <App />
       </StaticRouter>
     );
 
-    const html = renderToString(getRoot(store, router));
+    const bodyHtml = renderToString(getRoot(store, staticRouter));
 
     if (context.url) {
       res.writeHead(301, {
@@ -202,10 +119,21 @@ app.use((req, res) => {
       });
       res.end();
     } else {
-      const head = Helmet.rewind();
+      const head = Helmet.renderStatic();
       const preloadedState = store.getState();
-      res.status(context.status || 200)
-        .send(renderFullPage(html, preloadedState, head));
+      const cssUrl = assets.entries.main.css || '/main.css';
+      const jsUrl = assets.entries.main.js || '/client.js';
+      const root = (
+        <Html
+          bodyHtml={bodyHtml}
+          cssUrl={cssUrl}
+          head={head}
+          jsUrl={jsUrl}
+          preloadedState={preloadedState}
+        />
+      );
+      const html = `<!doctype html>${renderToStaticMarkup(root)}`;
+      res.status(context.status || 200).send(html);
       res.end();
     }
   });

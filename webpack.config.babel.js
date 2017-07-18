@@ -9,10 +9,11 @@ const webpack = require('webpack');
 let manifest;
 
 if (process.env.BUILDING_DLL || process.env.NODE_ENV !== 'development') {
-  manifest = [];
+  manifest = {};
 } else {
   try {
-    manifest = require('./build/manifest.json'); // eslint-disable-line max-len, global-require, import/no-unresolved
+    // eslint-disable-next-line global-require, import/no-unresolved
+    manifest = require('./build/manifest.json');
   } catch (ex) {
     process.stderr.write('Could not load DLL manifest. ' +
                          'Did you `npm run build:dll`?\n');
@@ -49,6 +50,15 @@ const config = {
       {
         test: new RegExp('\\.(?:eot|gif|ico|jpe?g|otf|png|svg|ttf|woff2?)' +
                          '(\\?[a-z0-9=#&.]+)?$'),
+        loader: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+          },
+        },
+      },
+      {
+        test: /\.ico$/,
         loader: {
           loader: 'file-loader',
           options: {
@@ -110,9 +120,8 @@ if (process.env.NODE_ENV === 'development') {
   cssLoaders[1].options.sourceMap = 'inline';
 
   if (process.env.APP_ENV === 'server') {
-    /* eslint-disable global-require */
+    // eslint-disable-next-line global-require
     const ExtractTextPlugin = require('extract-text-webpack-plugin');
-    /* eslint-enable global-require */
 
     // rules[1] = our app's CSS, rules[2] = vendor's CSS
     config.module.rules[1].loader = ExtractTextPlugin.extract({
@@ -164,9 +173,8 @@ if (process.env.NODE_ENV === 'development') {
   );
 
   // CSS
-  /* eslint-disable global-require */
+  // eslint-disable-next-line global-require
   const ExtractTextPlugin = require('extract-text-webpack-plugin');
-  /* eslint-enable global-require */
 
   config.module.rules[1].loader = ExtractTextPlugin.extract({
     fallback: 'style-loader',

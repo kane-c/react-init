@@ -1,12 +1,8 @@
 import {
   browserConfig,
   manifest,
-  getFaviconHtml,
+  getMetaTags,
 } from '..';
-
-const assets = {
-  get: path => path,
-}; // TODO
 
 /**
  * Create a mock response with `set` and `send` properties.
@@ -22,7 +18,7 @@ function createMockResponse() {
 describe('browserConfig()', () => {
   it('should return valid XML', () => {
     const res = createMockResponse();
-    browserConfig(assets)(undefined, res);
+    browserConfig()({}, res);
 
     expect(res.set.mock.calls[0]).toEqual([
       'Content-Type',
@@ -48,11 +44,12 @@ describe('browserConfig()', () => {
 describe('manifest()', () => {
   it('should generate valid JSON', () => {
     const res = createMockResponse();
-    manifest(assets)(undefined, res);
+    manifest()({}, res);
     const [json] = res.send.mock.calls[0];
     expect(typeof json.background_color).toBe('string');
     expect(typeof json.display).toBe('string');
     expect(typeof json.name).toBe('string');
+    expect(typeof json.short_name).toBe('string');
     expect(typeof json.theme_color).toBe('string');
     expect(typeof json.start_url).toBe('string');
     expect(json.icons[0]).toEqual({
@@ -65,9 +62,9 @@ describe('manifest()', () => {
   });
 });
 
-describe('getFaviconHtml()', () => {
-  it('should generate valid HTML', () => {
-    const html = getFaviconHtml(assets);
-    expect(typeof html).toBe('string');
+describe('getMetaTags()', () => {
+  it('should generate valid React elements', () => {
+    const html = getMetaTags();
+    expect(html).toHaveLength(21);
   });
 });

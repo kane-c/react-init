@@ -108,7 +108,6 @@
         "error",
         79
       ],
-      "no-shadow": 0,
       "require-jsdoc": [
         "error",
         {
@@ -131,6 +130,12 @@
         }
       ],
       "react/jsx-sort-props": "error",
+      "react/prefer-stateless-function": [
+        "error",
+        {
+          "ignorePureComponents": true
+        }
+      ],
       "react/sort-prop-types": "error",
       "import/no-extraneous-dependencies": [
         "error",
