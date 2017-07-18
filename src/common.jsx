@@ -52,7 +52,7 @@ export function getStore(preloadedState, routerMiddleware) {
   /* istanbul ignore next */
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      System.import('./reducers').then((reducerModule) => {
+      import('./reducers').then((reducerModule) => {
         const createReducers = reducerModule.default;
         const nextReducers = createReducers(reducers);
 
