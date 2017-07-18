@@ -126,12 +126,10 @@ It's useful to have these later in a project to be able to know whether dependen
 * `eslint`: JavaScript linter.
 * `eslint-config-airbnb`: A good preset for JavaScript lint rules.
 * `eslint-import-resolver-webpack`: Make ESLint import like webpack to allow importing `components/foo` to resolve properly.
-* `eslint-plugin-flowtype`: Lint rules for Flow.
 * `eslint-plugin-import`: Required for Airbnb's rules.
 * `eslint-plugin-jsx-a11y`: As above.
 * `eslint-plugin-react`: As above.
 * `eventsource-polyfill`: Polyfill for old browsers to support hot reloading.
-* `flow-bin`: Type checking for scalable JavaScript.
 * `identity-obj-proxy`: Used for mocking CSS imports in Jest.
 * `lint-staged`: Automatically lint files staged for commit. Used in conjunction with `pre-commit` to enforce lint rules.
 * `npm-check-updates`: Useful utility for updating all dependencies.
