@@ -1,4 +1,4 @@
-FROM node:7-slim
+FROM node:8-alpine
 
 CMD ["npm", "start"]
 EXPOSE 8080
@@ -11,9 +11,7 @@ ENV \
   PATH="/app/node_modules/.bin:${PATH}"
 
 # git is required for the pre-commit hook
-RUN set -ex \
-  && apt-get update && apt-get install -y --no-install-recommends git \
-  && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache git
 
 # Need to run as non-root to be able to `npm install` without error with
 # mounted volumes

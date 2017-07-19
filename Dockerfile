@@ -1,4 +1,4 @@
-FROM node:7-slim
+FROM node:8-alpine
 
 CMD ["npm", "start"]
 EXPOSE 8080
@@ -11,7 +11,7 @@ ENV \
   NPM_CONFIG_LOGLEVEL=warn \
   NODE_ENV=production
 
-# TODO npm-shrinkwrap.json or yarn.lock
+# TODO package-lock.json/npm-shrinkwrap.json or yarn.lock
 ADD package.json .
 RUN npm install --unsafe-perm && rm -rf ~/.node ~/.node-gyp ~/.npm /tmp/*
 ADD . .
