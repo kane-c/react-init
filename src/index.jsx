@@ -23,7 +23,7 @@ if (process.env.NODE_ENV !== 'test') {
   // 8080 is officially assigned as an alternative HTTP port
   // https://www.iana.org/assignments/service-names-port-numbers/
   // service-names-port-numbers.xhtml
-  app.listen(8080);
+  app.listen(8080, '0.0.0.0');
 }
 
 /* istanbul ignore next */
