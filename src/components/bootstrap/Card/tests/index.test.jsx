@@ -47,6 +47,8 @@ describe('<Card />', () => {
       </Card>,
     );
 
-    expect(component.find('p').text().includes('Child here')).toBe(true);
+    expect(component.find('p').text()).toEqual(
+      expect.stringContaining('Child here'),
+    );
   });
 });

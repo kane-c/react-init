@@ -30,6 +30,8 @@ describe('basicComponent()', () => {
 
     expect(component.prop('className')).toBe('my-class test');
     expect(component.find('foo')).toBeDefined();
-    expect(component.find('p').text().includes('Child here')).toBe(true);
+    expect(component.find('p').text()).toEqual(
+      expect.stringContaining('Child here'),
+    );
   });
 });
