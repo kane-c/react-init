@@ -279,6 +279,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^20.0.4",
     "lint-staged": "^4.0.1",
+    "moxios": "^0.4.0",
     "npm-check-updates": "^2.12.1",
     "plop": "^1.8.0",
     "pre-commit": "^1.2.2",

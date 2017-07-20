@@ -19,6 +19,12 @@ const reducers = {
 
 const sagaMiddleware = createSagaMiddleware();
 
+// Install mocks in development/test
+/* istanbul ignore next */
+if (process.env.NODE_ENV !== 'production') {
+  require('./mocks'); // eslint-disable-line global-require
+}
+
 /**
  * Get a store instance.
  * @param {Object} [preloadedState] Initial store state
