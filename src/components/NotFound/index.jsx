@@ -14,6 +14,7 @@ export default function NotFound() {
         <Helmet>
           <title>Not found</title>
         </Helmet>
+        Not found
       </h1>
     </Status>
   );
